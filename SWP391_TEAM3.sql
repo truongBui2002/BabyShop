@@ -1,17 +1,11 @@
--- create database swp391_team3;
-CREATE TABLE `logo_website` (
-  `logo_website_id` int AUTO_INCREMENT,
-  `logo` int,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(logo_website_id)
-);
+create database swp391_team3;
 
+use swp391_team3;
 CREATE TABLE `slide` (
   `slide_id` int AUTO_INCREMENT,
   `sub_website_id` int,
   `title` varchar(255),
-  `upload_link` varchar(255),
+  `image_id` int,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(slide_id)
@@ -172,7 +166,6 @@ CREATE TABLE `image` (
    PRIMARY KEY(image_id)
 );
 
-ALTER TABLE `slide` ADD FOREIGN KEY (`sub_website_id`) REFERENCES `logo_website` (`logo_website_id`);
 
 ALTER TABLE `user` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
 
@@ -205,3 +198,5 @@ ALTER TABLE `feedback` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ALTER TABLE `feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `tip_page` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+AlTER TABLE `slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
