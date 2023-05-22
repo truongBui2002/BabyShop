@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,9 @@ public class Brands {
 	
 	@Column(name = "update_at")
 	private Date updateAt;
+	
+	@Transient
+	private String imageName;
 	
 	public Brands(String name, int imageId, String desciption, Date createdAt, Date updateAt) {
 		this.name = name;

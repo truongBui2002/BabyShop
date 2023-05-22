@@ -60,7 +60,7 @@ CREATE TABLE `brands` (
   `brands_id` int AUTO_INCREMENT,
   `name` varchar(255) UNIQUE,
   `image_id` int,
-  `description` varchar(255),
+  `description` longtext,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(brands_id)
@@ -232,7 +232,7 @@ ALTER TABLE `image_slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`imag
 ALTER TABLE `categories` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 -- INSERT 6 PRODUCT
-INSERT image(image_name) VALUES ("Absorba");
+INSERT image(image_name) VALUES ("Absorba.jpg");
 
 INSERT brands(name, image_id, description) VALUES ("Absorba", 1, "");
 INSERT product(name, price, description, specification, brands_id, discount) VALUES (
@@ -333,6 +333,20 @@ INSERT image(image_name) VALUES ("PrintedFooted BabyBodyCream1.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(6, 16);
 INSERT image_product(product_id, image_id) VALUES(6, 17);
+
+INSERT image(image_name) VALUES ("Kuling.jpg");
+INSERT image(image_name) VALUES ("MiniRodini.jpg");
+INSERT image(image_name) VALUES ("Wheat.jpg");
+INSERT image(image_name) VALUES ("Molo.jpg");
+INSERT image(image_name) VALUES ("Stokke.jpg");
+INSERT image(image_name) VALUES ("BeSafe.jpg");
+
+INSERT brands(name, image_id, description) VALUES ("Kuling", 18, "Designed for active and adventurous kids, Swedish brand Kuling designs long-lasting apparel with signature Scandinavian style. Discover their colorful collection of kids’ and babies’ fashion such as UV clothing, ski jackets, footwear and rain gear. Check out the lates items from Kuling here!");
+INSERT brands(name, image_id, description) VALUES ("MiniRodini", 19, "Established in Sweden in 2006, Mini Rodini is an eco-conscious brand devoted to the playful personalities of children. Mini Rodini encourages kids to stand out from the crowd with fun prints, bright colors and bold characters.");
+INSERT brands(name, image_id, description) VALUES ("Wheat", 20, "Danish brand Wheat started in 2002 and has as its focus to reinterpret classic kids and baby clothes to put its own spin on the items. The brand does everything from coats and accessories to tops and dresses. Wheat has as part of its core to focus on sustainability and natural fibers in their products.");
+INSERT brands(name, image_id, description) VALUES ("Molo", 21, "Kidswear brand Molo started in Copenhagen in 2003 with the aim to bring color and vibrancy to clothes for kids and babies. The clothes are designed for real life and for kids to fully be themselves. Everything from dresses to sweaters feature the brand’s unique prints, vibrant colors, and its nod to Scandinavian design.");
+INSERT brands(name, image_id, description) VALUES ("Stokke", 22, "Stokke® is a Norwegian brand recognized worldwide for premium solutions for babies and children. All the products have a common purpose: to encourage child development and to strengthen bonding between parants and their children. Stokke® is focusing on timeless design, durable materials and functionality in the categories: high chairs, nursery, strollers, travel and more. Here we grow™");
+INSERT brands(name, image_id, description) VALUES ("BeSafe", 23, "");
 
 
 

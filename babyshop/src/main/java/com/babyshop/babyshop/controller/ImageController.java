@@ -30,9 +30,23 @@ public class ImageController {
 	public ImageStorageService storageService;
 	
 	@GetMapping("/product/{imgName:.+}")
-	public ResponseEntity<byte[]> readDetailFile(@PathVariable String imgName){
+	public ResponseEntity<byte[]> readDetailFileProduct(@PathVariable String imgName){
 		try {
-			byte[] bytes = storageService.readFileContent(imgName);
+			byte[] bytes = storageService.readFileContentProduct(imgName);
+			return ResponseEntity
+					.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+		
+	}
+	
+	@GetMapping("/brand/{brandName:.+}")
+	public ResponseEntity<byte[]> readDetailFileBrand(@PathVariable String brandName){
+		try {
+			byte[] bytes = storageService.readFileContentBrand(brandName);
 			return ResponseEntity
 					.ok()
 					.contentType(MediaType.IMAGE_JPEG)

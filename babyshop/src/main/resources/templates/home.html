@@ -277,35 +277,8 @@
 					<h2 class="slider_title">Brands</h2>
 				</a>
 				<ul class="slider-items">
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
-					</a></li>
-					<li><a class=" campaign-slider__item" href="#"> <img
-							src="../image/product-image/slider_medium.jpg" alt="#">
+					<li  th:each = "brand : ${listBrands}"><a class=" campaign-slider__item" href="#"> <img
+							th:src="${brand.imageName}" alt="#">
 					</a></li>
 				</ul>
 			</div>

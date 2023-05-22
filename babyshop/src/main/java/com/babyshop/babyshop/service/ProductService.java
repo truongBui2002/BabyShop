@@ -46,7 +46,7 @@ public class ProductService {
 					Image image = imageService.getImageById(img.getImageId());
 					String fileName = image.getImageName();
 					String uriImage = MvcUriComponentsBuilder.fromMethodName(ImageController.class,
-                            "readDetailFile", fileName).build().toUri().toString();
+                            "readDetailFileProduct", fileName).build().toUri().toString();
 					image.setImageName(uriImage);
 					images.add(image);
 				}
