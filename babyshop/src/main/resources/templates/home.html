@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- cdn boostrap-->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<!-- cdn fown awe some-->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Baby Shop</title>
+</head>
+
+<body>
+	<!-- nav - bar -->
+
+	<div class="pt-3 header">
+		<div class="container mx-auto">
+			<div class="d-flex">
+				<a href="/"><img class="header-logo flex-fill"
+					src="../image/logo.svg" alt="Logo"></a>
+				<form action="#" class="search-form flex-fill">
+					<div class="search-group">
+						<label style="display: none;" for="search-input">Search</label> <input
+							type="search" id="search-input" class="input-search-field"
+							placeholder="Search" autocomplete="off">
+						<button class="btn-search" type="submit" title="btn-search">
+							<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+						</button>
+
+					</div>
+				</form>
+				<!-- header link-->
+				<div class="header-links flex-fill align-items-center">
+					<a
+						class="header__links header_link header_lang flex-fill color-hover "
+						href="#">VN/EN</a> <a
+						class="header__links header_link header_help flex-fill color-hover "
+						href="#">Help</a> <a
+						class="header__links header_link header_account flex-fill color-hover "
+						href="#">Account</a> <a
+						class="header__links header_link header_favorites flex-fill color-hover "
+						href="#">Favorites</a> <a
+						class="header__links header_link header_cart flex-fill color-hover "
+						href="#">Shopping Bag</a>
+				</div>
+			</div>
+			<div class="navigation d-flex">
+				<div class=" text-center flex-fill">
+					<!--hover it-->
+					<a class=" color-hover nav__links" href="#">Brands</a>
+
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">New In</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Clothing</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Footwear</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Accessories</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Strollers</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Car Seats</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Baby Gear</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Home</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Toys</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Green Page</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill">
+					<a class="color-hover nav__links" href="#">Magazine</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="discount">
+		<div class="d-flex">
+			<a class="flex-fill banner-top" href="#">20-50% off selected
+				Everyday wear <span>SHOP HERE</span>
+			</a> <a class="flex-fill banner-top" href="#">Splash into summer - Up
+				to 50%<span>SHOP HERE</span>
+			</a>
+		</div>
+	</div>
+	<!--page content-->
+	<div id="content" class="content container">
+		<div class="slideshow mb-5">
+			<div class="slides">
+				<a href="#"><img src="../image/1.png" alt="Slide 1"></a> <a
+					href="#"><img src="../image/2.png" alt="Slide 2"></a> <a
+					href="#"><img src="../image/3.png" alt="Slide 3"></a>
+				<!-- Add more slides as needed -->
+			</div>
+		</div>
+		<div class="slider product-slider js-product-list">
+			<a href="#" class="slider_tilte_links">
+				<h2 class="slider_title">Selected Everyday Wear - UP TO 50%</h2>
+			</a>
+			<div
+				class="slider_items row justify-content-center align-items-center g-2">
+				<div class="col" th:each="product : ${listSale}">
+					<div class="card-content">
+						<div class="card-image">
+							<img class="image1" th:src="${product.getImages().get(0).imageName}" alt="">
+						</div>
+						<h3 class="card__title" th:each="brand : ${listBrands}"
+							th:if="${brand.brandId == product.brandId}">
+							<a href="#" class="card_link"> <span class="card_brand"
+								th:text="${brand.name}">Kuling</span> <strong class="card_name"
+								th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
+							</a>
+						</h3>
+						<div class="card-price">
+							<div class="ribbon ribbon--discount">
+								<span class="ribbon__text" th:text="${product.discount + '%'}">40%</span>
+							</div>
+							<div class="price_text" th:text = "${product.price + '.000VNĐ'}">100.000</div>
+						</div>
+						<div class="product-labels">UP TO 50%</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/teaser_large (1).jpg" alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">New In</h2>
+							<p class="campaign__description">Discover the lastest item</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/teaser_large (1).jpg" alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">New In</h2>
+							<p class="campaign__description">Discover the lastest item</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="campaigns home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<!-- brands -->
+			<div class="slider product-slider js-product-list mb-5">
+				<a href="#" class="slider_tilte_links">
+					<h2 class="slider_title">Brands</h2>
+				</a>
+				<ul class="slider-items">
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+					<li><a class=" campaign-slider__item" href="#"> <img
+							src="../image/product-image/slider_medium.jpg" alt="#">
+					</a></li>
+				</ul>
+			</div>
+			<!--new born essentials-->
+			<div class="home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/new_member.jpg" alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">Newborn Essentials</h2>
+							<p class="campaign__description">for the youngest family
+								member</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/cozy.jpg" alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">Voski</h2>
+							<p class="campaign__description">Cozy & Comfy</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<!--dress-->
+			<div class="slider product-slider js-product-list mb-5">
+				<a href="#" class="slider_tilte_links">
+					<h2 class="slider_title">Dress</h2>
+				</a>
+				<div
+					class="slider_items row justify-content-center align-items-center g-2">
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="campaigns home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img
+						src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<!--jacket and coats-->
+			<div class="slider product-slider js-product-list mb-5">
+				<a href="#" class="slider_tilte_links">
+					<h2 class="slider_title">Coats & Jackets</h2>
+				</a>
+				<div
+					class="slider_items row justify-content-center align-items-center g-2">
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--recommend for u-->
+			<div class="slider product-slider js-product-list mb-5">
+				<a href="#" class="slider_tilte_links">
+					<h2 class="slider_title">Recommended for you</h2>
+				</a>
+				<div
+					class="slider_items row justify-content-center align-items-center g-2">
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-content">
+							<div class="card-image">
+								<img class="image1"
+									src="../image/product-image/card_large (1).jpg" alt=""> <img
+									class="image2" src="../image/product-image/card_large (2).jpg"
+									alt="">
+							</div>
+							<h3 class="card__title">
+								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
+									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+								</a>
+							</h3>
+							<div class="card-price">
+								<div class="ribbon ribbon--discount">
+									<span class="ribbon__text">40%</span>
+								</div>
+								<div class="price_text">100.000</div>
+							</div>
+							<div class="product-labels">UP TO 50%</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--footer-->
+		<footer>
+			<section class="footer_container footer_container_pink">
+				<div class="container row footer__content mx-auto pt-5">
+					<div class="footer__right col-3">
+						<h3 class="footer__heading">Babyshop - for premium children's
+							clothes</h3>
+						<p class="footer__footer-text read-more">
+							Babyshop was founded in 2006 with vision of building the best
+							online store in the Nordics for children clothing. We want to
+							inspire by offering an exclusive shopping experience and
+							excellent customer service with the best mixture of high-quality
+							brands. Here you'll find baby and children's clothes, shoes,
+							toys, strollers, car seats, maternity clothes, accessories and
+							more for children 0-10 years. <a href="#">Read more</a>.
+						</p>
+						<h3 class="footer__heading" style="margin-top: 0.5rem;">Language</h3>
+						<a style="font-size: 12px; text-decoration: underline" href="#">VN</a>
+						| <a style="font-size: 12px; text-decoration: underline;" href="#">EN</a>
+						<p></p>
+					</div>
+					<div class="footer__left col-9">
+						<nav class="footer__campaign">
+							<h3 class="footer-campaign-list__heading">Information</h3>
+							<div class="footer-campaign-list__list">
+								<ul>
+									<li><a href="#" target="_blank">About Babyshop</a></li>
+									<li><a href="#" target="_blank">Sustainability</a></li>
+									<li><a href="#" target="_blank">Career</a></li>
+									<li><a href="#" target="_blank">Delivery Terms</a></li>
+									<li><a href="#" target="_blank">Register Return Online</a></li>
+									<li><a href="#" target="_blank">Cookies</a></li>
+									<li><a href="#" target="_blank">Integrity Policy</a></li>
+									<li><a href="#" target="_blank">Terms
+											&amp;&nbsp;Conditions</a></li>
+								</ul>
+							</div>
+						</nav>
+						<nav class="footer__campaign">
+							<h3 class="footer-campaign-list__heading">Customer Service</h3>
+							<div class="footer-campaign-list__list">
+								<ul>
+									<li><a href="#" target="_blank">Returns &amp; Exchange</a></li>
+									<li><a href="#" target="_blank">FAQ</a></li>
+									<li><a href="#" target="_blank">Payment Methods</a></li>
+									<li><a href="#" target="_blank">Contact Us</a></li>
+								</ul>
+							</div>
+							<address class="footer__address">Customer service: + 46
+								(10) 7502423</address>
+						</nav>
+						<div class="footer__newsletter">
+							<form method="post" class="emarsys js-emarsys " action="#"
+								novalidate="true" data-validation="true">
+								<h3 id="emarsys-description-footer" class="emarsys__heading">Enter
+									your email to get info on new arrivals and 10% off your first
+									order from Babyshop.com (T&amp;C's apply)</h3>
+								<p class="emarsys__unregister-description">
+									You can unsubscribe at any time. By signing up to our
+									newsletter you are agreeing to our <a href="#" target="_blank">privacy
+										policy</a>.
+								</p>
+								<input type="hidden" name="data[country]" value="VN"> <input
+									type="hidden" name="data[language]" value="EN"> <input
+									type="hidden" name="data[optinEmail]" value="true">
+								<div class="emarsys__field-group field-group">
+									<div class="emarsys__field field">
+										<input type="email" id="emarsys-email-footer"
+											name="emailAddress" class="emarsys__input field__input"
+											value="" aria-describedby="emarsys-description-footer"
+											placeholder="example@email.com" required="">
+										<button type="submit" class="emarsys__button">
+											<span>Ok</span>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="col footer__social"></div>
+					<div class="col footer__credit"></div>
+				</div>
+			</section>
+			<section class="footer_container"></section>
+		</footer>
+</body>
+<script src="../js/script.js"></script>
+
+</html>
