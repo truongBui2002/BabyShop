@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- cdn boostrap-->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<!--login css-->
+
+<link rel="stylesheet" type="text/css" href="../css/login.css">
+<!-- cdn fown awe some-->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Baby Shop</title>
+</head>
+
+<body>
+	<!-- nav - bar -->
+	<div class="pt-3 header">
+		<div class="container mx-auto">
+			<div class="d-flex">
+				<a href="/"><img class="header-logo flex-fill"
+					src="../image/logo.svg" alt="Logo"></a>
+				<form action="#" class="search-form flex-fill">
+					<div class="search-group">
+						<label style="display: none;" for="search-input">Search</label> <input
+							type="search" id="search-input" class="input-search-field"
+							placeholder="Search" autocomplete="off">
+						<button class="btn-search" type="submit" title="btn-search">
+							<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+						</button>
+
+					</div>
+				</form>
+				<!-- header link-->
+				<div class="header-links flex-fill align-items-center">
+					<a
+						class="header__links header_link header_lang flex-fill color-hover "
+						href="#">VN/EN</a> <a
+						class="header__links header_link header_help flex-fill color-hover "
+						href="#">Help</a> <a
+						class="header__links header_link header_account flex-fill color-hover "
+						href="login">Account</a> <a
+						class="header__links header_link header_favorites flex-fill color-hover "
+						href="#">Favorites</a> <a
+						class="header__links header_link header_cart flex-fill color-hover "
+						href="#">Shopping Bag</a>
+				</div>
+			</div>
+			<div class="navigation d-flex">
+				<div class=" text-center flex-fill">
+					<!--hover it-->
+					<a class=" color-hover nav__links" href="#">Brands</a>
+
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">New In</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Clothing</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Footwear</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Accessories</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Strollers</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Car Seats</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Baby Gear</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Home</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Toys</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill hover-nav">
+					<a class="color-hover nav__links" href="#">Green Page</a>
+					<div class="hidden-nav">
+						<div class="hidden-element">
+							<a href="#">Category: New In<!--name category(use loop)--></a> <a
+								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center flex-fill">
+					<a class="color-hover nav__links" href="#">Magazine</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="discount">
+		<div class="d-flex">
+			<a class="flex-fill banner-top" href="#">20-50% off selected
+				Everyday wear <span>SHOP HERE</span>
+			</a> <a class="flex-fill banner-top" href="#">Splash into summer - Up
+				to 50%<span>SHOP HERE</span>
+			</a>
+		</div>
+	</div>
+	<!-- login form-->
+	<!--notification -->
+	<div id="notice-container"></div>
+	<div class="container mx-auto login-form">
+		<main class="auth">
+			<div class="tabs">
+				<ul class="tabs__list" role="tablist">
+					<li role="presentation"><a href="#1" id="1-tab"
+						class="tabs__tab is-selected" role="tab" aria-selected="true"
+						onclick="showTab(event, '1')">Login</a></li>
+					<li role="presentation"><a href="#2" id="2-tab"
+						class="tabs__tab " role="tab" aria-selected="false"
+						onclick="showTab(event, '2')">Register</a></li>
+				</ul>
+				<section id="1" class="tabs__panel">
+					<!--login form -->
+					<main class="auth-login">
+						<form action="/login/submit" method="post"
+							class="auth_form js-auth-form">
+							<div class="field">
+								<label for="email-login" class="field__label">Email
+									address</label> <input type="email" id="email-login" name="email"
+									class="field__input" placeholder="Email" required>
+							</div>
+							<div class="field">
+								<label for="password-login" class="field__label">Password</label>
+								<input type="password" id="password-login" name="password"
+									class="field__input" placeholder="Password" required>
+							</div>
+							<div class="field">
+								<button class="btn-login" type="submit">
+									<span>Login</span>
+								</button>
+							</div>
+						</form>
+						<div class="auth__links">
+							<a href="forgotpassword" class="auth__link"
+								style="text-decoration: underline;">Forgot password?</a>
+						</div>
+					</main>
+				</section>
+				<section id="2" class="tabs__panel hidden-tab">
+					<!-- register form-->
+					<main class="auth-register">
+						<form action="" class="auth_form password-form">
+							<!--full name-->
+							<div class="field">
+								<label for="firstName" class="field__label">Full name</label> <input
+									type="text" id="firstName" name="firstName"
+									class="field__input" required="" placeholder="Enter your name">
+							</div>
+							<div class="field">
+								<label for="email" class="field__label">Email address</label> <input
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" type="email"
+									id="email" name="email" class="field__input" required=""
+									placeholder="Enter your email">
+							</div>
+							<!--email-->
+							<div class="field phoneNumber">
+								<label for="phoneNumber" class="field__label">Phone
+									number</label> <input type="text" id="phoneNumber" maxlength="12"
+									name="phoneNumber" class="field__input" required=""
+									placeholder="(+84) Enter your phone number">
+								<div id="recaptcha-container"></div>
+								<span class="sendOTP" onclick="phoneAuth()">Send OTP</span>
+							</div>
+							<!--phone number-->
+							<div class="field">
+								<label for="otpValue" class="field__label">OTP
+									verification code</label> <input type="text" id="otpValue"
+									name="otpValue" class="field__input" placeholder="Enter OTP"
+									maxlength="6">
+							</div>
+							<!--otp-->
+							<div class="field">
+								<label for="password" class="field__label">Password</label> <input
+									type="password" id="password" name="password"
+									class="field__input" required="" placeholder="Enter password">
+								<p class="error-message" hidden="true">The new passwords you
+									entered do not match.</p>
+							</div>
+							<!--password-->
+							<div class="field">
+								<label for="passwordRepeat" class="field__label">Repeat
+									password</label> <input type="password" id="passwordRepeat"
+									name="passwordRepeat" class="field__input" required=""
+									placeholder="Enter repeat password">
+								<p class="error-message" hidden="true">The new passwords you
+									entered do not match.</p>
+							</div>
+							<!--password-->
+							<div class="field">
+								<button class="btn-login" type="submit">
+									<span>Register account</span>
+								</button>
+							</div>
+
+							<!-- register with google-->
+						</form>
+					</main>
+				</section>
+			</div>
+		</main>
+	</div>
+	<footer>
+		<section class="footer_container footer_container_pink">
+			<div class="container row footer__content mx-auto pt-5">
+				<div class="footer__right col-3">
+					<h3 class="footer__heading">Babyshop - for premium children's
+						clothes</h3>
+					<p class="footer__footer-text read-more">
+						Babyshop was founded in 2006 with vision of building the best
+						online store in the Nordics for children clothing. We want to
+						inspire by offering an exclusive shopping experience and excellent
+						customer service with the best mixture of high-quality brands.
+						Here you'll find baby and children's clothes, shoes, toys,
+						strollers, car seats, maternity clothes, accessories and more for
+						children 0-10 years. <a href="#">Read more</a>.
+					</p>
+					<h3 class="footer__heading" style="margin-top: 0.5rem;">Language</h3>
+					<a style="font-size: 12px; text-decoration: underline" href="#">VN</a>
+					| <a style="font-size: 12px; text-decoration: underline;" href="#">EN</a>
+					<p></p>
+				</div>
+				<div class="footer__left col-9">
+					<nav class="footer__campaign">
+						<h3 class="footer-campaign-list__heading">Information</h3>
+						<div class="footer-campaign-list__list">
+							<ul>
+								<li><a href="#" target="_blank">About Babyshop</a></li>
+								<li><a href="#" target="_blank">Sustainability</a></li>
+								<li><a href="#" target="_blank">Career</a></li>
+								<li><a href="#" target="_blank">Delivery Terms</a></li>
+								<li><a href="#" target="_blank">Register Return Online</a></li>
+								<li><a href="#" target="_blank">Cookies</a></li>
+								<li><a href="#" target="_blank">Integrity Policy</a></li>
+								<li><a href="#" target="_blank">Terms
+										&amp;&nbsp;Conditions</a></li>
+							</ul>
+						</div>
+					</nav>
+					<nav class="footer__campaign">
+						<h3 class="footer-campaign-list__heading">Customer Service</h3>
+						<div class="footer-campaign-list__list">
+							<ul>
+								<li><a href="#" target="_blank">Returns &amp; Exchange</a></li>
+								<li><a href="#" target="_blank">FAQ</a></li>
+								<li><a href="#" target="_blank">Payment Methods</a></li>
+								<li><a href="#" target="_blank">Contact Us</a></li>
+							</ul>
+						</div>
+						<address class="footer__address">Customer service: + 46
+							(10) 7502423</address>
+					</nav>
+					<div class="footer__newsletter">
+						<form method="post" class="emarsys js-emarsys " action="#"
+							novalidate="true" data-validation="true">
+							<h3 id="emarsys-description-footer" class="emarsys__heading">Enter
+								your email to get info on new arrivals and 10% off your first
+								order from Babyshop.com (T&amp;C's apply)</h3>
+							<p class="emarsys__unregister-description">
+								You can unsubscribe at any time. By signing up to our newsletter
+								you are agreeing to our <a href="#" target="_blank">privacy
+									policy</a>.
+							</p>
+							<input type="hidden" name="data[country]" value="VN"> <input
+								type="hidden" name="data[language]" value="EN"> <input
+								type="hidden" name="data[optinEmail]" value="true">
+							<div class="emarsys__field-group field-group">
+								<div class="emarsys__field field">
+									<input type="email" id="emarsys-email-footer"
+										name="emailAddress" class="emarsys__input field__input"
+										value="" aria-describedby="emarsys-description-footer"
+										placeholder="example@email.com" required="">
+									<button type="submit" class="emarsys__button">
+										<span>Ok</span>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col footer__social"></div>
+				<div class="col footer__credit"></div>
+			</div>
+		</section> 
+		<section class="footer_container"></section>
+	</footer>
+	<script
+		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+	<script
+		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+	<script>
+		const firebaseConfig = {
+  			apiKey: "AIzaSyCubAptrIpSGag82YCFcYgbYs2-hTbPE1Q",
+  			authDomain: "sendotp-18f7d.firebaseapp.com",
+  			projectId: "sendotp-18f7d",
+  			storageBucket: "sendotp-18f7d.appspot.com",
+  			messagingSenderId: "664648866150",
+  			appId: "1:664648866150:web:7c84100db11ec3dd6bd0a7",
+  			measurementId: "G-89ZSXKRG6R"
+		};
+        firebase.initializeApp(firebaseConfig);
+        render();
+        //captcha
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+        // function for send message
+        function phoneAuth() {
+            console.log("yeu em");
+            var number = document.getElementById('phoneNumber');
+            const phoneNumber = number.value;
+            console.log(phoneNumber);
+            firebase.auth().signInWithPhoneNumber(phoneNumber,
+                window.recaptchaVerifier).then(function (confirmationResult) {
+                    window.confirmationResult = confirmationResult;
+                    coderesult = confirmationResult;
+                    document.getElementById('sender').style.display = 'none';
+                    document.getElementById('verifier').style.display = 'block';
+                }).catch(function (error) {
+                    alert(error.message);
+                });
+        }
+        function codeverify() {
+            var code = document.getElementById('verificationcode').value;
+            coderesult.confirm(code).then(function () {
+                document.getElementsByClassName('p-conf')[0].style.display = 'block';
+                document.getElementsByClassName('n-conf')[0].style.display = 'none';
+            }).catch(function () {
+                document.getElementsByClassName('p-conf')[0].style.display = 'none';
+                document.getElementsByClassName('n-conf')[0].style.display = 'block';
+            });
+        }
+
+    </script>
+	<script src="../js/login.js"></script>
+</body>
+
+</html>

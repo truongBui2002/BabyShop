@@ -1,0 +1,140 @@
+body {
+    font-size: 16px;
+    color: #222;
+    letter-spacing: .01rem;
+}
+/* .hehe {
+    display: non;
+} */
+
+.btn-login {
+    display: block;
+    padding: 1rem 2.5rem;
+    border: 0;
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+    font-size: .875rem;
+    color: #222;
+    background: 0 0;
+    cursor: pointer;
+}
+
+.login-form {
+    line-height: 1.375rem;
+    max-width: 30%;
+    padding-top: 50px;
+}
+
+.auth {
+    border: 1px solid #ededed;
+    border-radius: 2px;
+    margin: 2rem 0;
+}
+
+.tabs__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: flex-end;
+}
+
+.auth .tabs__panel {
+    outline: none;
+    padding-top: 2rem;
+
+}
+
+.auth_form,
+.auth__links {
+    padding: 0 2.5rem;
+}
+
+.field {
+    margin: 0 0 1rem;
+    padding: 0;
+}
+
+.field__label {
+    font-size: .875rem;
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: .25rem;
+    line-height: 1.125rem;
+    font-weight: 500;
+}
+
+.field__input,
+.field__select {
+    width: 100%;
+    display: block;
+}
+
+.auth__form .field__input {
+    font-size: .875rem;
+    line-height: 1.125rem;
+    padding: .875rem 1rem;
+}
+
+.field__input {
+    font-weight: 400;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    background-repeat: no-repeat;
+}
+
+.auth__links {
+    font-size: .75rem;
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+
+.auth .tabs__list li {
+    width: 50%;
+}
+.auth .tabs__list .tabs__tab[aria-selected=true] {
+    background: #fff;
+}
+.auth .tabs__list .tabs__tab {
+    font-family: GT Walsheim Pro,Arial,Helvetica,sans-serif;
+    font-weight: 700;
+    display: block;
+    background: #f7efef;
+    text-align: center;
+    text-decoration: none;
+    outline: 0;
+    color: #222;
+    padding: 1.25rem;
+    font-size: 1.25rem;
+    
+}
+.btn-login:hover {
+    background-color: #97d5c9;
+}
+
+.btn-login {
+    background-color: #b4e1d8;
+    width: 100%;
+}
+.phoneNumber {
+    position: relative;
+}
+.sendOTP {
+    display: block;
+    position: absolute;
+    top: 38px;
+    right: 11px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.sendOTP:hover {
+    color: #97d5c9;
+}
+.hidden-tab {
+    visibility: hidden;
+    display: none;
+}
