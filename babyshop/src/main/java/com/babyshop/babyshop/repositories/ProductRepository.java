@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.babyshop.babyshop.models.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>{
-	@Query("SELECT p FROM Product p WHERE p.discount < 1")
+	@Query("SELECT p FROM Product p WHERE p.discount < 1 order by p.updateAt desc")
 	List<Product> findProductsByDiscount();
 	
 //	@Query("SELECT p.productId, i.imageName " +

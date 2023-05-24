@@ -35,7 +35,6 @@
 						<button class="btn-search" type="submit" title="btn-search">
 							<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
 						</button>
-
 					</div>
 				</form>
 				<!-- header link-->
@@ -46,7 +45,7 @@
 						class="header__links header_link header_help flex-fill color-hover "
 						href="#">Help</a> <a
 						class="header__links header_link header_account flex-fill color-hover "
-						href="#">Account</a> <a
+						href="/login">Account</a> <a
 						class="header__links header_link header_favorites flex-fill color-hover "
 						href="#">Favorites</a> <a
 						class="header__links header_link header_cart flex-fill color-hover "
@@ -190,12 +189,13 @@
 			</a>
 			<div
 				class="slider_items row justify-content-center align-items-center g-2">
-				<div class="col" th:each="product : ${listSale}">
+				<div class="col" th:each="product : ${productsSale}">
 					<div class="card-content">
 						<div class="card-image">
-							<img class="image1" th:src="${product.getImages().get(0).imageName}" alt="">
+							<img class="image1"
+								th:src="${product.getImages().get(0).imageName}" alt="">
 						</div>
-						<h3 class="card__title" th:each="brand : ${listBrands}"
+						<h3 class="card__title" th:each="brand : ${brands}"
 							th:if="${brand.brandId == product.brandId}">
 							<a href="#" class="card_link"> <span class="card_brand"
 								th:text="${brand.name}">Kuling</span> <strong class="card_name"
@@ -206,7 +206,7 @@
 							<div class="ribbon ribbon--discount">
 								<span class="ribbon__text" th:text="${product.discount + '%'}">40%</span>
 							</div>
-							<div class="price_text" th:text = "${product.price + '.000VNĐ'}">100.000</div>
+							<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 						</div>
 						<div class="product-labels">UP TO 50%</div>
 
@@ -216,7 +216,7 @@
 			<div class="home-teaser row mb-5">
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/teaser_large (1).jpg" alt="Campaign 1">
+						src="../image/product-image/newinproduct.jpg" alt="Campaign 1">
 						<div class="campaign__content">
 							<h2 class="campaign_title">New In</h2>
 							<p class="campaign__description">Discover the lastest item</p>
@@ -225,14 +225,16 @@
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/teaser_large (1).jpg" alt="Campaign 1">
+						src="../image/product-image/outdoorfun.webp" alt="Campaign 1">
 						<div class="campaign__content">
-							<h2 class="campaign_title">New In</h2>
+							<h2 class="campaign_title">Outdoor Fun</h2>
 							<p class="campaign__description">Discover the lastest item</p>
 						</div>
 					</a>
 				</div>
 			</div>
+
+
 			<div class="campaigns home-teaser row mb-5">
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
@@ -245,28 +247,28 @@
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/blurb_medium1.webp" alt="">
 						<div class="campaign__content teaser__content">
-							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
-							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+							<h2 class="campaign_title">Upgrade Kid's Room - Up to 50%</h2>
+							<p class="campaign__description">TOYS, INTERIOR & MORE</p>
 						</div>
 					</a>
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/blurb_medium2.webp" alt="">
 						<div class="campaign__content teaser__content">
-							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
-							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+							<h2 class="campaign_title">Liewood</h2>
+							<p class="campaign__description">LONGING FOR SUMMER</p>
 						</div>
 					</a>
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/blurb_medium3.webp" alt="">
 						<div class="campaign__content teaser__content">
-							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
-							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+							<h2 class="campaign_title">Konges Slojd</h2>
+							<p class="campaign__description">DREAMY DANISH DESIGN</p>
 						</div>
 					</a>
 				</div>
@@ -277,7 +279,8 @@
 					<h2 class="slider_title">Brands</h2>
 				</a>
 				<ul class="slider-items">
-					<li  th:each = "brand : ${listBrands}"><a class=" campaign-slider__item" href="#"> <img
+					<li th:each="brand : ${brands}"><a
+						class=" campaign-slider__item" href="#"> <img
 							th:src="${brand.imageName}" alt="#">
 					</a></li>
 				</ul>
@@ -307,143 +310,31 @@
 			<!--dress-->
 			<div class="slider product-slider js-product-list mb-5">
 				<a href="#" class="slider_tilte_links">
-					<h2 class="slider_title">Dress</h2>
+					<h2 class="slider_title">Dresses</h2>
 				</a>
 				<div
 					class="slider_items row justify-content-center align-items-center g-2">
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
 
-						</div>
-					</div>
-					<div class="col">
+					<div class="col" th:each="product : ${productsCategoryR1}">
 						<div class="card-content">
 							<div class="card-image">
 								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
+									th:src="${product.getImages().get(0).imageName}" alt="">
+								<img class="image2"
+									src="../image/product-image/card_large (2).jpg" alt="">
 							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+							<h3 class="card__title" th:each="brand : ${brands}"
+								th:if="${brand.brandId == product.brandId}" )>
+								<a href="#" class="card_link"> <span class="card_brand"
+									th:text="${brand.name}">Kuling</span> <strong class="card_name"
+									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
 								</a>
 							</h3>
 							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
+								<div class="ribbon ribbon--discount" th:if = "${product.discount != 100}">
+									<span class="ribbon__text" th:text="${product.discount + '%'}">40%</span>
 								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
+								<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 							</div>
 							<div class="product-labels">UP TO 50%</div>
 
@@ -454,7 +345,7 @@
 			<div class="campaigns home-teaser row mb-5">
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/blurb_medium1.webp" alt="">
 						<div class="campaign__content teaser__content">
 							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
 							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
@@ -463,7 +354,7 @@
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/stylesandtrends.jpg" alt="">
 						<div class="campaign__content teaser__content">
 							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
 							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
@@ -472,7 +363,7 @@
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/lateststyle.jpg" alt="">
 						<div class="campaign__content teaser__content">
 							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
 							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
@@ -481,7 +372,7 @@
 				</div>
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
-						src="../image/product-image/blurb_medium.jpg" alt="">
+						src="../image/product-image/inspirations.jpg" alt="">
 						<div class="campaign__content teaser__content">
 							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
 							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
@@ -489,6 +380,9 @@
 					</a>
 				</div>
 			</div>
+			
+			
+			
 			<!--jacket and coats-->
 			<div class="slider product-slider js-product-list mb-5">
 				<a href="#" class="slider_tilte_links">
@@ -496,144 +390,33 @@
 				</a>
 				<div
 					class="slider_items row justify-content-center align-items-center g-2">
-					<div class="col">
+					<div class="col" th:each="product : ${productsCategoryR2}">
 						<div class="card-content">
 							<div class="card-image">
 								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
+									th:src="${product.getImages().get(0).imageName}" alt="">
+								<img class="image2"
+									src="../image/product-image/card_large (2).jpg" alt="">
 							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
+							<h3 class="card__title" th:each="brand : ${brands}"
+								th:if="${brand.brandId == product.brandId}" )>
+								<a href="#" class="card_link"> <span class="card_brand"
+									th:text="${brand.name}">Kuling</span> <strong class="card_name"
+									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
 								</a>
 							</h3>
 							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
+								<div class="ribbon ribbon--discount" th:if = "${product.discount != 100}">
+									<span class="ribbon__text" th:text="${product.discount + '%'}">40%</span>
 								</div>
-								<div class="price_text">100.000</div>
+								<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 							</div>
 							<div class="product-labels">UP TO 50%</div>
-
 						</div>
 					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
+					
+					
+					
 				</div>
 			</div>
 			<!--recommend for u-->

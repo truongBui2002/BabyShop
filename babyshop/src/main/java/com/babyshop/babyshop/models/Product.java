@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,6 +55,9 @@ public class Product {
 	
 	@Transient
 	private List<Image> images;
+	
+	@Transient
+	private String categoryName;
 	
 	public Product(String name, double price, String description, String specification, int brandId, Date createdAt,
 			Date updateAt) {

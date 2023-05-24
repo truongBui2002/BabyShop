@@ -13,20 +13,6 @@ import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.repositories.ProductRepository;
 
 @Controller
-@RequestMapping("/home12345")
 public class ProductController {
-//	@Autowired
-//	ProductRepository repository;
-//	
-//	@GetMapping("/all")
-//	public List<Product> getAllProduct() {
-////		Product p = new Product("ao", 20.0, "Ao dep", "Ao xau", 12, 12);
-////		repository.save(p); 
-//		return repository.findAll();
-//	}
-//	
-//	@GetMapping("")
-//	public String home() {
-//		return "home";
-//	} 
+	
 }

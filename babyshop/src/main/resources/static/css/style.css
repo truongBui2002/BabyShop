@@ -6,8 +6,14 @@
     box-sizing: border-box;
 }
 
+body {
+    font-size: 16px;
+    color: #222;
+    letter-spacing: .01rem;
+}
+
 *:focus {
-    outline: none;
+    outline: none
 }
 
 ul,
@@ -467,18 +473,25 @@ img[loading=lazy] {
     justify-content: space-between;
     margin: 0 0 2rem;
 }
-.footer__campaign, .footer__newsletter {
+
+.footer__campaign,
+.footer__newsletter {
     width: calc(33.3333% - 1.333333rem);
 }
-@media only screen and (max-width: 768px){
-    .footer__campaign, .footer__newsletter {
+
+@media only screen and (max-width: 768px) {
+
+    .footer__campaign,
+    .footer__newsletter {
         width: 50%;
     }
-} 
+}
+
 .footer-campaign-list__heading {
     margin: 0 0 .5rem;
     font-size: .875rem;
 }
+
 .footer-campaign-list__list {
     font-size: .75rem;
     line-height: 1.5rem;
@@ -490,9 +503,11 @@ img[loading=lazy] {
     padding: 0;
     list-style: none;
 }
+
 .emarsys {
     position: relative;
 }
+
 .footer__newsletter .emarsys__heading {
     margin-bottom: .5rem;
     font-size: .875rem;
@@ -504,11 +519,13 @@ img[loading=lazy] {
     line-height: 1.125rem;
     margin-block-end: 1rem;
 }
+
 /* form*/
 .field-group {
     display: flex;
     align-items: center;
 }
+
 .emarsys__field {
     position: relative;
     background: 0 0;
@@ -528,10 +545,12 @@ img[loading=lazy] {
     min-height: 4rem;
 
 }
+
 .field {
     margin: 0 0 1rem;
     padding: 0;
 }
+
 .emarsys .field__input {
     font-weight: 400;
     height: 3rem;
@@ -543,19 +562,32 @@ img[loading=lazy] {
     font-size: .875rem;
     line-height: 1.125rem;
 }
+
+.field__input,
+.field__select {
+    width: 100%;
+    display: block;
+}
+
 .field__input {
     font-weight: 400;
     padding: 1rem;
     border: 1px solid #ddd;
     background-repeat: no-repeat;
 }
+
 .emarsys__button {
     position: absolute;
     top: .25rem;
-    right: 70px;
+    right: 4px;
     bottom: .25rem;
     height: 2.5rem;
     padding: 0 .7rem;
     background: #222;
     color: #fff;
+}
+.auth__title {
+    font-size: 1.25rem;
+    text-align: center;
+    margin: 2rem 0;
 }

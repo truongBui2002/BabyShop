@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.babyshop.babyshop.models.Brands;
-import com.babyshop.babyshop.models.Image;
-import com.babyshop.babyshop.models.ImageProduct;
 import com.babyshop.babyshop.models.Product;
-import com.babyshop.babyshop.repositories.ImageProductRepository;
-import com.babyshop.babyshop.repositories.ImageRepository;
 import com.babyshop.babyshop.service.BrandsService;
 import com.babyshop.babyshop.service.ImageProductService;
 import com.babyshop.babyshop.service.ProductService;
@@ -32,10 +28,15 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home(ModelMap modelMap) {
-		List<Product> listSale = productService.getProductBySale();
-		List<Brands> listBrands = brandsService.getAll();
-		modelMap.addAttribute("listSale", listSale);
-		modelMap.addAttribute("listBrands", listBrands);
+		List<Product> productsSale = productService.getProductBySale();
+		List<Brands> brands = brandsService.getAll();
+		List<Product> productsCategoryR1 = productService.getProductByCategory("Dresses");
+		List<Product> productsCategoryR2 = productService.getProductByCategory("Coat & Jacket");
+		
+		modelMap.addAttribute("productsCategoryR1", productsCategoryR1);
+		modelMap.addAttribute("productsCategoryR2", productsCategoryR2);
+		modelMap.addAttribute("productsSale", productsSale);
+		modelMap.addAttribute("brands", brands);
 		return "home";
 	}
 }
