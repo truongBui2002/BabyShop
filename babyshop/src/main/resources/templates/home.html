@@ -184,17 +184,22 @@
 			</div>
 		</div>
 		<div class="slider product-slider js-product-list">
-			<a href="#" class="slider_tilte_links">
+			<a href="#" class="slider_tilte_links"> <!--selected everyday-->
 				<h2 class="slider_title">Selected Everyday Wear - UP TO 50%</h2>
 			</a>
+            <div class="slider_nav">
+                <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
 			<div
-				class="slider_items row justify-content-center align-items-center g-2">
-				<div class="col" th:each="product : ${productsSale}">
+                class="slider___items">
+				<div th:each="product : ${productsSale}" class="slider-items-list"> 
 					<div class="card-content">
 						<div class="card-image">
 							<img class="image1"
 								th:src="${product.getImages().get(0).imageName}" alt="">
 						</div>
+
 						<h3 class="card__title" th:each="brand : ${brands}"
 							th:if="${brand.brandId == product.brandId}">
 							<a href="#" class="card_link"> <span class="card_brand"
@@ -208,7 +213,6 @@
 							</div>
 							<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 						</div>
-						<div class="product-labels">UP TO 50%</div>
 
 					</div>
 				</div>
@@ -277,9 +281,14 @@
 			<div class="slider product-slider js-product-list mb-5">
 				<a href="#" class="slider_tilte_links">
 					<h2 class="slider_title">Brands</h2>
+                    
 				</a>
-				<ul class="slider-items">
-					<li th:each="brand : ${brands}"><a
+                <div class="slider_nav">
+                    <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                    <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
+				<ul id="brands"class="slider___items">
+					<li class="slider-items-list" th:each="brand : ${brands}"><a
 						class=" campaign-slider__item" href="#"> <img
 							th:src="${brand.imageName}" alt="#">
 					</a></li>
@@ -311,11 +320,15 @@
 			<div class="slider product-slider js-product-list mb-5">
 				<a href="#" class="slider_tilte_links">
 					<h2 class="slider_title">Dresses</h2>
+                    <div class="slider_nav">
+                        <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                    </div>
 				</a>
 				<div
-					class="slider_items row justify-content-center align-items-center g-2">
+					class="slider___items">
 
-					<div class="col" th:each="product : ${productsCategoryR1}">
+					<div class="slider-items-list" th:each="product : ${productsCategoryR1}">
 						<div class="card-content">
 							<div class="card-image">
 								<img class="image1"
@@ -324,7 +337,7 @@
 									src="../image/product-image/card_large (2).jpg" alt="">
 							</div>
 							<h3 class="card__title" th:each="brand : ${brands}"
-								th:if="${brand.brandId == product.brandId}" )>
+								th:if="${brand.brandId == product.brandId}">
 								<a href="#" class="card_link"> <span class="card_brand"
 									th:text="${brand.name}">Kuling</span> <strong class="card_name"
 									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
@@ -388,9 +401,13 @@
 				<a href="#" class="slider_tilte_links">
 					<h2 class="slider_title">Coats & Jackets</h2>
 				</a>
+                <div class="slider_nav">
+                    <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                    <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
 				<div
-					class="slider_items row justify-content-center align-items-center g-2">
-					<div class="col" th:each="product : ${productsCategoryR2}">
+					class="slider___items">
+					<div class="slider-items-list" th:each="product : ${productsCategoryR2}">
 						<div class="card-content">
 							<div class="card-image">
 								<img class="image1"
@@ -399,7 +416,7 @@
 									src="../image/product-image/card_large (2).jpg" alt="">
 							</div>
 							<h3 class="card__title" th:each="brand : ${brands}"
-								th:if="${brand.brandId == product.brandId}" )>
+								th:if="${brand.brandId == product.brandId}" >
 								<a href="#" class="card_link"> <span class="card_brand"
 									th:text="${brand.name}">Kuling</span> <strong class="card_name"
 									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
@@ -424,6 +441,10 @@
 				<a href="#" class="slider_tilte_links">
 					<h2 class="slider_title">Recommended for you</h2>
 				</a>
+                <div class="slider_nav">
+                    <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                    <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
 				<div
 					class="slider_items row justify-content-center align-items-center g-2">
 					<div class="col">

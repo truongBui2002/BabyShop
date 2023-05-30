@@ -138,3 +138,9 @@ body {
     visibility: hidden;
     display: none;
 }
+.auth {
+    margin-bottom: 60px;
+}
+.recaptcha-container {
+    margin-top: 50px;
+}

@@ -35,6 +35,9 @@ a:focus {
 img[loading=lazy] {
     transition: opacity var(--image--transition, .3s);
 }
+img {
+    object-fit: cover;
+}
 
 .color-hover:hover {
     color: #b4e1d8;
@@ -160,7 +163,7 @@ img[loading=lazy] {
     background-color: #f7ded7;
     padding: 20px;
     line-height: 20px;
-    border-right: 1px solid #ffe9e3;
+    border-right: 2px solid #ffe9e3;
 
 }
 
@@ -173,7 +176,7 @@ img[loading=lazy] {
 }
 
 .discount {
-    margin-top: 40px;
+    margin: 2rem 0;
 }
 
 /* hidden nav*/
@@ -283,7 +286,10 @@ img[loading=lazy] {
 .card-image {
     position: relative;
 }
-
+.card-price {
+    font-size: 0.875rem;
+    color: #f06060;
+}
 .image2 {
     display: none;
 }
@@ -293,10 +299,29 @@ img[loading=lazy] {
     height: 156px;
 }
 
-.slider-items .card-content .card__title {
+.slider___items .card-content .card__title {
     margin-bottom: .5rem;
 }
+.slider___items {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+    cursor: grab;
+    scroll-behavior: auto;
+    scroll-snap-type: x mandatory;
+    list-style-type: none;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.slider___items > div {
+    padding-right: 2rem;
 
+}
+.slider___items > li {
+    padding-right: 2rem;
+
+}
 .card__title {
     margin-top: 20px;
     line-height: 1rem;
@@ -411,17 +436,6 @@ img[loading=lazy] {
 
 }
 
-.slider-items {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    cursor: grab;
-    scroll-behavior: auto;
-    scroll-snap-type: x mandatory;
-    list-style-type: none;
-}
 
 .campaign-slider__item {
     max-width: 35vw;
@@ -590,4 +604,38 @@ img[loading=lazy] {
     font-size: 1.25rem;
     text-align: center;
     margin: 2rem 0;
+}
+
+/*button pre, next*/
+
+.product-slider  {
+    position: relative;
+}
+.slider_nav > button {
+    position: absolute;
+    display: inline-block;
+    top: 110px;
+    z-index: 2;
+    border: 0;
+    border-radius: 50%;
+    background-color: #f7efef;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+    font-size: .875rem;
+    color: #222;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+
+}
+.slider_nav > button:first-child {
+    left: 0;
+}
+.slider_nav > button:last-child {
+    right: 0;
+}
+
+#brands {
+    padding-top: 2rem;
 }

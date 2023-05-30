@@ -15,5 +15,9 @@ public class LoginController {
 	public String forgotPass() {
 		return "forgotpass";
 	}
+	@GetMapping("/viewprofile")
+	public String viewProfile() {
+		return "viewprofile";
+	}
 	
 }
