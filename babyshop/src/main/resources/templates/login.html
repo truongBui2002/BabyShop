@@ -221,24 +221,13 @@
 					<!-- register form-->
 					<main class="auth-register">
 						<form action="" class="auth_form password-form">
-							<!--full name-->
-							<div class="field">
-								<label for="firstName" class="field__label">Full name</label> <input
-									type="text" id="firstName" name="firstName"
-									class="field__input" required="" placeholder="Enter your name">
-							</div>
-							<div class="field">
-								<label for="email" class="field__label">Email address</label> <input
-									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" type="email"
-									id="email" name="email" class="field__input" required=""
-									placeholder="Enter your email">
-							</div>
+						
 							<!--email-->
 							<div class="field phoneNumber">
 								<label for="phoneNumber" class="field__label">Phone
-									number</label> <input type="text" id="phoneNumber" maxlength="12"
+									number or Email</label> <input type="text" id="phoneNumber" maxlength="12"
 									name="phoneNumber" class="field__input" required=""
-									placeholder="(+84) Enter your phone number">
+									placeholder="Phone Number or Email ">
 								<div id="recaptcha-container"></div>
 								<span class="sendOTP" onclick="phoneAuth()">Send OTP</span>
 							</div>
@@ -382,9 +371,10 @@
         render();
         //captcha
         function render() {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
             recaptchaVerifier.render();
-        }
+			
+		}
         // function for send message
         function phoneAuth() {
             console.log("yeu em");
