@@ -1,0 +1,10 @@
+@media (min-width: 768px) {
+    .field__span {
+        position: static;
+        font-size: 1rem;
+        text-decoration: none;
+        text-align: start;
+        margin: 1rem;
+        display: none;
+    }
+}

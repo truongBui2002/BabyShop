@@ -221,25 +221,25 @@
 					<!-- register form-->
 					<main class="auth-register">
 						<form action="" class="auth_form password-form">
-						
+
 							<!--email-->
 							<div class="field phoneNumber">
 								<label for="phoneNumber" class="field__label">Phone
-									number or Email</label> <input type="text" id="phoneNumber" maxlength="12"
-									name="phoneNumber" class="field__input" required=""
-									placeholder="Phone Number or Email ">
+									number or Email</label> <input type="text" id="phoneNumber"
+									maxlength="12" name="phoneNumber" class="field__input"
+									required="" placeholder="Phone Number or Email ">
 								<div id="recaptcha-container"></div>
 								<span class="sendOTP" onclick="phoneAuth()">Send OTP</span>
 							</div>
 							<!--phone number-->
-							<div class="field">
+							<div class="field field_otp" style="display: none;">
 								<label for="otpValue" class="field__label">OTP
 									verification code</label> <input type="text" id="otpValue"
 									name="otpValue" class="field__input" placeholder="Enter OTP"
 									maxlength="6">
 							</div>
 							<!--otp-->
-							<div class="field">
+							<div class="field field_pass" style="display: none;">
 								<label for="password" class="field__label">Password</label> <input
 									type="password" id="password" name="password"
 									class="field__input" required="" placeholder="Enter password">
@@ -247,7 +247,7 @@
 									entered do not match.</p>
 							</div>
 							<!--password-->
-							<div class="field">
+							<div class="field field_pass" style="display: none;">
 								<label for="passwordRepeat" class="field__label">Repeat
 									password</label> <input type="password" id="passwordRepeat"
 									name="passwordRepeat" class="field__input" required=""
@@ -256,7 +256,7 @@
 									entered do not match.</p>
 							</div>
 							<!--password-->
-							<div class="field">
+							<div class="field field_register" style="display: none;">
 								<button class="btn-login" type="submit">
 									<span>Register account</span>
 								</button>
@@ -350,59 +350,13 @@
 				<div class="col footer__social"></div>
 				<div class="col footer__credit"></div>
 			</div>
-		</section> 
+		</section>
 		<section class="footer_container"></section>
 	</footer>
 	<script
 		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
 	<script
 		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
-	<script>
-		const firebaseConfig = {
-  			apiKey: "AIzaSyCubAptrIpSGag82YCFcYgbYs2-hTbPE1Q",
-  			authDomain: "sendotp-18f7d.firebaseapp.com",
-  			projectId: "sendotp-18f7d",
-  			storageBucket: "sendotp-18f7d.appspot.com",
-  			messagingSenderId: "664648866150",
-  			appId: "1:664648866150:web:7c84100db11ec3dd6bd0a7",
-  			measurementId: "G-89ZSXKRG6R"
-		};
-        firebase.initializeApp(firebaseConfig);
-        render();
-        //captcha
-        function render() {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
-            recaptchaVerifier.render();
-			
-		}
-        // function for send message
-        function phoneAuth() {
-            console.log("yeu em");
-            var number = document.getElementById('phoneNumber');
-            const phoneNumber = number.value;
-            console.log(phoneNumber);
-            firebase.auth().signInWithPhoneNumber(phoneNumber,
-                window.recaptchaVerifier).then(function (confirmationResult) {
-                    window.confirmationResult = confirmationResult;
-                    coderesult = confirmationResult;
-                    document.getElementById('sender').style.display = 'none';
-                    document.getElementById('verifier').style.display = 'block';
-                }).catch(function (error) {
-                    alert(error.message);
-                });
-        }
-        function codeverify() {
-            var code = document.getElementById('verificationcode').value;
-            coderesult.confirm(code).then(function () {
-                document.getElementsByClassName('p-conf')[0].style.display = 'block';
-                document.getElementsByClassName('n-conf')[0].style.display = 'none';
-            }).catch(function () {
-                document.getElementsByClassName('p-conf')[0].style.display = 'none';
-                document.getElementsByClassName('n-conf')[0].style.display = 'block';
-            });
-        }
-
-    </script>
 	<script src="../js/login.js"></script>
 </body>
 

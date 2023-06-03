@@ -169,82 +169,126 @@
 	<!--view profile-->
 	<div class="container">
 		<div class="row align-items-start gap-5">
-			<nav class="profile-nav col-md-2">
-				<ul class="profile-nav__items">
-					<li class="profile-nav__item is-selected">
-						<a href="#" class="profile-nav__link">My Account</a>
-					</li>
-					<li class="profile-nav__item">
-						<a href="#" class="profile-nav__link">Order History</a>
-					</li>
-					<li class="profile-nav__item">
-						<a href="#" class="profile-nav__link">Return & Exchange</a>
-					</li>
-					<li class="profile-nav__item">
-						<a href="#" class="profile-nav__link">Reset password</a>
-					</li>
-					<li class="profile-nav__item">
-						<a href="#" class="profile-nav__link">Newsletter</a>
-					</li>
-					<li class="profile-nav__item">
-						<a href="#" class="profile-nav__link">Logout</a>
-					</li>
-				</ul>
-			</nav>
+			<div class="sidebar_profile col-md-2">
+				<!--add image information-->
+				<div class="avatar">
+					<a href="viewprofile" class="avatar_user">
+						<div class="img__user">
+							<div class="avatar__placeholder"><i class="fa-solid fa-user"></i></div>
+							<img src="../image/1bocchi20122002.png" alt="User Avatar">
+						</div>
+					</a>
+					<div class="avt_description">
+						<div class="avt_name">Đào Duy</div> <!--Customer Name-->
+						<a href="viewprofile">
+
+							<div class="edit__profile"><i class="fa-solid fa-pen"></i> Edit profile</div>
+						</a>
+					</div>
+				</div>
+
+				<nav class="profile-nav">
+					<ul class=" profile-nav__items">
+						<li class="profile-nav__item is-selected">
+							<a href="#" class="profile-nav__link">My Account</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Order History</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Return & Exchange</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Reset password</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Newsletter</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Logout</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 			<main class="view-profile col-md-6">
 				<div class="view-profile__infor">
-					<h1 class="view-profile__heading d-md-block fs-1 lh-lg fw-bold">My Account</h1>
+					<h1 class="view-profile__heading d-md-block">My Account</h1>
 					<div class="view-profile__content">
 						<form action="" class="profile-info" method="post">
 							<h2 class="form__section-heading">Customer Details</h2>
-							<div class="field">
+							<!-- disable information-->
+							<div class="field rel__span">
 								<label for="email" class="field__label">Email address</label>
-								<input type="email" id="email" name="email" class="field__input field__input--email"
-									value="duy@gmail.com" disabled>
+								<input type="email" id="email" name="email"
+									class="field__input field__input--email disable__input" value="duy@gmail.com"
+									disabled>
+								<span id="email_span" class="field__span"><a href="email">Change Email</a></span>
 							</div>
-							<div class="field">
+							<!-- change phone number-->
+							<div class="field phoneNumber">
 								<label for="phoneNumber" class="field__label">Phone Number</label>
-								<input type="number" id="phoneNumber" name="phoneNumber" class="field__input"
-									value="0829853338" disabled>
+								<input type="text" id="phoneNumber" name="phoneNumber"
+									class="field__input disable__input" value="0829853338" disabled>
+								<span id="phoneNumber_span" class="field__span"><a href="phone">Change Phone
+										Number</a></span>
 							</div>
-							<div class="field">
-								<label for="first-name" class="field__label">Name</label>
-								<input type="text" id="first-name" name="firstName" class="field__input" value="12">
-							</div>
-							<div class="field">
-								<label for="address" class="field__label">Address</label>
-								<input type="text" id="address" name="address" class="field__input">
-							</div>
-							<div class="gender-option js-gender-option">
-								<label class="gender-option__label gender-option-trigger">
-									Female
-									<input name="gender" type="radio" class="gender-option__input" data-gender-value="f"
-										value="f">
-									<span class="gender-option__checkmark"></span>
-								</label>
-								<label class="gender-option__label gender-option-trigger">
-									Male
-									<input name="gender" type="radio" class="gender-option__input" data-gender-value="m"
-										value="m" checked="true">
-									<span class="gender-option__checkmark"></span>
-								</label>
-							</div>
-							<div class="field">
-								<button type="submit" class="btn-login">
-									<span>Update profile</span>
-								</button>
-							</div>
-						</form>
 					</div>
+					<div class="field">
+						<label for="first-name" class="field__label">Your Name</label>
+						<input type="text" id="first-name" name="firstName" class="field__input mb__input" value="Duy">
+					</div>
+					<div class="field">
+						<label for="address" class="field__label">Your Address</label>
+						<input type="text" id="address" name="address" class="field__input mb__input">
+					</div>
+					<!-- add date of birth-->
+					<div class="field">
+						<label>Date of Birth</label>
+						<div class="dob_fields d-flex justify-content-between">
+							<div class="dob__inputs">
+								<select id="day" class="dropdown__entry"></select>
+							</div>
+							<div class="dob__inputs">
+								<select id="month" class="dropdown__entry"></select>
+							</div>
+							<div class="dob__inputs">
+								<select id="year" class="dropdown__entry"></select>
+							</div>
+
+						</div>
+					</div>
+					<div class="gender-option js-gender-option">
+						<label class="gender-option__label gender-option-trigger">
+							Female
+							<input name="gender" type="radio" class="gender-option__input" id="female" value="0">
+							<span class="gender-option__checkmark"></span>
+						</label>
+						<label class="gender-option__label gender-option-trigger">
+							Male
+							<input name="gender" type="radio" class="gender-option__input" id="male" value="1">
+							<span class="gender-option__checkmark"></span>
+						</label>
+					</div>
+					<div class="field">
+						<button type="submit" class="btn-login btn-viewprofile">
+							<span>Update profile</span>
+						</button>
+					</div>
+					</form>
 				</div>
 			</main>
-			<div class="view-profile__image col-md-2">
-				<div class="image__link">a</div>
-				<input type="text" title="typeImage" class="type__image">
-				<button class="btn">Chọn ảnh</button>
-				<div class="image__description">
-					<p>Định lượng file tối đa 1 MB</p>
-					<p>Định dạng: .JPEG, .PNG</p>
+			<!-- change user avatar-->
+			<div class="view-profile_image col-md-2">
+				<div class="view-profile__image">
+					<div class="image__placehoder">
+						<div class="image__link"></div> <!-- avatar co r thi lay tu database r hien vao day-->
+					</div>
+					<input type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					<button class="btn_avatar">Chọn ảnh</button>
+					<div class="avt__description">
+						<p>Định lượng file tối đa 1 MB</p>
+						<p>Định dạng: .JPEG, .PNG</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -333,6 +377,7 @@
 		</section>
 		<section class="footer_container"></section>
 	</footer>
-	</script>
-	<script src="../js/login.js"></script>
+	<script src="../js/viewprofile.js"></script>
 </body>
+
+</html>

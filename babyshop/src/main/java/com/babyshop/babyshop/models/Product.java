@@ -6,18 +6,51 @@ import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 
+import com.babyshop.babyshop.util.Status;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.context.annotation.Scope;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "product")
@@ -38,37 +71,46 @@ public class Product {
 	@Column(name = "specification")
 	private String specification;
 
-	@Column(name = "brands_id")
-	private int brandId;
-
 	@Column(name = "discount")
 	private double discount;
+	
+	@Column(name = "status")
+	private String status = Status.UNLOCK;
 
 	@Column(name = "created_at")
 	private Date createdAt;
 
 	@Column(name = "update_at")
 	private Date updateAt;
-	
+
 	@Transient
 	private double salePrice;
-	
-	@Transient
+	// fetch = FetchType.EAGER
+	// trong quá trình truy vấn thực thể "product" nó cũng sẽ tải các thực thể liên
+	// quan(Eager Loading)
+
+	// cascade = CascadeType.ALL
+	// cho phép tự động lưu các thay đổi ở mức độ liên kết giữa các thực thể
+	// (sửa xóa sẽ ảnh hướng tới thực thể liên quan)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinTable(
+            name = "image_product",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            //join với cột ở một bảng khác
+            inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "image_id")}
+    )
 	private List<Image> images;
 	
-	@Transient
-	private String categoryName;
+	//fetch = FetchType.LAZY: được truy vấn khi gọi tới
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
 	
-	public Product(String name, double price, String description, String specification, int brandId, Date createdAt,
-			Date updateAt) {
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.specification = specification;
-		this.brandId = brandId;
-		this.createdAt = createdAt;
-		this.updateAt = updateAt;
-	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subcategory_id")
+	private Subcategory subcategory;
+	
+	
 
 	public double getSalePrice() {
 		return price - price*discount;
@@ -78,9 +120,5 @@ public class Product {
 	}
 	public int getPrice() {
 		return (int)price;
-	}
-	public List<Image> getImages(){
-		if(images==null) images = new ArrayList<>();
-		return images;
 	}
 }
