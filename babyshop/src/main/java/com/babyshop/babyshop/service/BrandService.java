@@ -13,6 +13,9 @@ import com.babyshop.babyshop.models.Brand;
 import com.babyshop.babyshop.models.Image;
 //import com.babyshop.babyshop.repositories.BrandRepository;
 import com.babyshop.babyshop.repositories.BrandRepository;
+import com.babyshop.babyshop.repositories.ImageRepository;
+
+import jakarta.persistence.EntityManager;
 
 @Service
 public class BrandService {
@@ -20,9 +23,13 @@ public class BrandService {
 	@Autowired 
 	BrandRepository brandsRepository;
 	
+	@Autowired
+	EntityManager entityManager;
+	
+	@Autowired
+	ImageRepository imageRepository;
 	//lấy ra toàn bộ thương hiệu
 	public List<Brand> getAll() {
-		//lấy ra những sản phẩm giảm giá
 		List<Brand> brands = brandsRepository.findAll();
 		for (Brand brand : brands) {
 			brand = addLinkImage(brand);
@@ -32,8 +39,10 @@ public class BrandService {
 	
 	public Brand addLinkImage(Brand brand) {
 		Image image = brand.getImage();
+		entityManager.detach(image);
+		Image img = imageRepository.findById(image.getImageId()).get();
 		String imageName = MvcUriComponentsBuilder.fromMethodName(ImageController.class,
-                "readDetailFileBrand", image.getName()).build().toUri().toString();
+                "readDetailFileBrand", img.getName()).build().toUri().toString();
 		image.setName(imageName);
 		return brand;
 	}

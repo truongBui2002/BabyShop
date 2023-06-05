@@ -24,9 +24,19 @@ public class HomeController {
 	@Autowired
 	private LoadDataController loadDataController;
 	
+	@Autowired
+	BrandService brandService;
 	@GetMapping("/")
 	public String home(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
 		return "home";
 	}
+	@GetMapping("/brand")
+	public String login(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		List<Brand> brands = brandService.getAll();
+		modelMap.addAttribute("brands", brands);
+ 		return "brand";
+	}
+	
 }

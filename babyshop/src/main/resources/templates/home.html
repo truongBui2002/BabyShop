@@ -45,7 +45,9 @@
 						class="header__links header_link header_help flex-fill color-hover "
 						href="#">Help</a> <a
 						class="header__links header_link header_account flex-fill color-hover "
-						href="/login">Account</a> <a
+						th:if="${session.user==null}" href="/login">Account</a><a
+						class="header__links header_link header_account flex-fill color-hover "
+						th:if="${session.user!=null}" href="/viewprofile">Account</a> <a
 						class="header__links header_link header_favorites flex-fill color-hover "
 						href="#">Favorites</a> <a
 						class="header__links header_link header_cart flex-fill color-hover "
@@ -55,7 +57,7 @@
 			<div class="navigation d-flex">
 				<div class=" text-center flex-fill">
 					<!--hover it-->
-					<a class=" color-hover nav__links" href="#">Brands</a>
+					<a class=" color-hover nav__links" href="/brand">Brands</a>
 
 				</div>
 				<div class="text-center flex-fill hover-nav">

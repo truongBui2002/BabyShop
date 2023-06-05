@@ -64,7 +64,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 			if (userRepo.findByEmail(email) == null) {
 				User user = new User();
 				user.setEmail(email);
-				user.setFullName(customOidcUser.getName());
+				user.setFullName(customOidcUser.getFullName());
 				user.setPassword(randomKey.getString(32));
 				UrlResource urlResource = new UrlResource(customOidcUser.getPicture());
 				String avatar = imageService.storeAvatar(urlResource);

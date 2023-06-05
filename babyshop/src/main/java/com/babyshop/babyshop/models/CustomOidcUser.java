@@ -62,4 +62,8 @@ public class CustomOidcUser implements OidcUser {
     public String getAvatar() {
     	return oidcUser.getAttribute("picture");
     }
+    
+    public String getFullName() {
+    	return oidcUser.getAttribute("name");
+    }
 }
