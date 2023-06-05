@@ -44,4 +44,16 @@ public class ImageController {
 			return ResponseEntity.noContent().build();
 		}
 	}
+	@GetMapping("/viewprofile/{avatar:.+}")
+	public ResponseEntity<byte[]> readDetailFileAvatar(@PathVariable String avatar){
+		try {
+			byte[] bytes = imageService.readFileContentAvatar(avatar);
+			return ResponseEntity
+					.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+	}
 }

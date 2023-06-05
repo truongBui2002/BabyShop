@@ -1,8 +1,9 @@
  package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.Date;
+
+import org.springframework.context.annotation.Scope;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +14,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+@Scope("protoype")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -24,6 +24,7 @@ CREATE TABLE `user` (
   `phone_number` varchar(255),
   `password` varchar(255),
   `full_name` varchar(255), 
+  `image_id` int,
   `dob` date,
   `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -194,7 +195,7 @@ CREATE TABLE `image_slide` (
   PRIMARY KEY(image_slide_id)
 );
 
-
+ALTER TABLE `user` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
 
@@ -242,8 +243,10 @@ ALTER TABLE `image_slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`imag
 
 
 -- INSERT USER
-
-
+-- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
+INSERT role(name) VALUES("ROLE_CUSTOMER");
+INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608");
+INSERT user_role(user_id, role_id) VALUES(1, 1);
 
 -- INSERT category
 INSERT category(name) VALUES ("Clothing");

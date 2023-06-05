@@ -1,4 +1,68 @@
 
+
+var inputKey = document.getElementById('phoneNumber');
+var passField = document.getElementsByClassName('field_pass');
+var otp = document.getElementById('otpValue');
+var registerField = document.getElementsByClassName('field_register')[0];
+async function sendOtp() {
+	var phoneOrMail = inputKey.value;
+	if (isPhoneNumber(phoneOrMail)) {
+		var url = "/login/checkexits";
+		var value = await sendata(url, phoneOrMail);
+		console.log(value);
+		if (value !=='exists') {
+			var phone = phoneOrMail.replace(/^0/, "+84");
+			phoneAuth(phone);
+		} else {
+			document.getElementById("phoneOrMaiExists").style.display = 'block';
+		}
+
+	} else if (isGmail(phoneOrMail)) {
+		const url = "/login/sendcode/email"
+		const email = phoneOrMail;
+		
+		var value = await sendata(url, email);
+		console.log(value);
+		if (value !=='exists') {
+			inputKey.readonly = true;
+			otpField.style.display = 'block';
+			passField[0].style.display = 'block';
+			registerField.style.display = 'block';
+		} else {
+			document.getElementById("phoneOrMaiExists").style.display = 'block';
+		}
+	} else {
+		document.getElementById('syntax_error').style.display = 'block';
+	}
+
+
+}
+function isPhoneNumber(input) {
+	const phoneRegex = /^0\d{9,10}$/;
+	return phoneRegex.test(input);
+}
+function isGmail(email) {
+	const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+	return gmailRegex.test(email);
+}
+// fetch là hàm bất đồng bộ nên cần phải thêm await
+async function sendata(url, data) {
+  var value;
+  await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => {
+    return res.text();
+  }).then(text => {
+    value = text;
+  });
+  return value;
+}
+
+
 const firebaseConfig = {
 	apiKey: "AIzaSyDbLvnQAtTUqLAYLE3F2x0du-ua_xAD4ko",
 	authDomain: "sendotp-d3598.firebaseapp.com",
@@ -10,23 +74,23 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-	size: 'invisible' // Ẩn reCAPTCHA
-});
+var otpField = document.getElementsByClassName('field_otp')[0];
 
-function phoneAuth() {
-	var phoneNumber = document.getElementById('phoneNumber').value;
+function phoneAuth(phoneNumber) {
+	const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+		size: 'invisible' // Ẩn reCAPTCHA
+	});
 	var capcha = document.getElementById('recaptcha-container');
 	console.log(phoneNumber);
-	var otpField = document.getElementsByClassName('field_otp')[0];
 	otpField.style.display = 'block';
-	
-	var passField = document.getElementsByClassName('field_pass');
-	var otp = document.getElementById('otpValue');
+
+
+
 	firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
-		.then(function(confirmationResult) {
+		.then(function (confirmationResult) {
 			otp.oninput = () => {
 				var inputValue = otp.value;
+				inputKey.readonly = true;
 				if (inputValue.length === 6) {
 					confirmationResult.confirm(inputValue)
 						.then((result) => {
@@ -35,31 +99,31 @@ function phoneAuth() {
 								console.log('TOKEN: ' + token);
 							});
 							passField[0].style.display = 'block';
-							passField[1].style.display = 'block';
+							// passField[1].style.display = 'block';
+							otpField.style.display = 'none';
+							registerField.style.display = 'block';
 						})
 						.catch((err) => {
-							otp.value = "";
-							alert('Bạn đã nhập sai OTP, xin vui lòng gửi lại mã xác thực');
+				 			alert('Bạn đã nhập sai OTP, xin vui lòng gửi lại mã xác thực');
 						});
 				}
 			};
-
-		}).catch(function(error) {
+		}).catch(function (error) {
 			alert(error.message);
 		});
-	otpField.style.display = 'none';
+
 }
 
 
 function showTab(event, tabNumber) {
 	event.preventDefault();
 	var tabPanels = document.querySelectorAll('.tabs__panel');
-	tabPanels.forEach(function(panel) {
+	tabPanels.forEach(function (panel) {
 		panel.style.display = 'none';
 	});
 
 	var tabLinks = document.querySelectorAll('.tabs__tab');
-	tabLinks.forEach(function(link) {
+	tabLinks.forEach(function (link) {
 		link.classList.remove('is-selected');
 	});
 

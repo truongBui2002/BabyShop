@@ -1,8 +1,11 @@
 package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.context.annotation.Scope;
 
 import com.babyshop.babyshop.util.Status;
 
@@ -21,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Scope("protoype")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

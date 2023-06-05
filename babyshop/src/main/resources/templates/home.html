@@ -22,7 +22,7 @@
 <body>
 	<!-- nav - bar -->
 
-	<div class="pt-3 header">
+	<div class="pt-3 header" th:fragment ="navbar">
 		<div class="container mx-auto">
 			<div class="d-flex">
 				<a href="/"><img class="header-logo flex-fill"
@@ -345,7 +345,7 @@
 			</div>
 
 		<!--footer-->
-		<footer>
+		<footer th:fragment = "footer">
 			<section class="footer_container footer_container_pink">
 				<div class="container row footer__content mx-auto pt-5">
 					<div class="footer__right col-3">

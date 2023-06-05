@@ -48,6 +48,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+@Scope("protoype")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -55,8 +55,8 @@ public class SubcategoryService {
 		List<Image> images = new ArrayList<>();
 		for (Image image : product.getImages()) {
 			//Loại bỏ những image đã được JPA tạo ra
-			entityManager.detach(image);
-			Image img = imageRepository.findById(image.getImageId()).get();
+//			entityManager.detach(image);
+//			Image img = imageRepository.findById(image.getImageId()).get();
 			String imageName = MvcUriComponentsBuilder.fromMethodName(ImageController.class,
                     "readDetailFileProduct", image.getName()).build().toUri().toString();
 			
