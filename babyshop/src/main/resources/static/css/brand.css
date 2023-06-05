@@ -1,0 +1,128 @@
+.before_brand {
+    opacity: 0.5;
+}
+
+.before_brand::before {
+    font-size: inherit;
+    color: #000;
+    content: ">";
+    padding: 8px 6px;
+
+}
+
+@media (min-width: 768px) {
+    #breadcrumb-container {
+        width: 100%;
+        margin: 0 auto 16px auto;
+        display: block;
+    }
+}
+
+ul.breadcrumb {
+    font-size: 10px;
+    font-weight: 400;
+}
+
+ul.breadcrumb li:first-child {
+    font-weight: 700;
+}
+
+/* heading*/
+.search-list_header {
+    margin: 2rem 0;
+}
+
+.search-list__heading {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 3rem;
+}
+
+@media (min-width: 768px) {
+    @supports (grid-area:auto) {
+        #brands-letter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(3.7037%, 1fr));
+            grid-column-gap: 0;
+            grid-row-gap: 1rem;
+            justify-items: center;
+            padding: .5rem 0 0;
+            margin: 0 0 2rem;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #brands-letter {
+        border-top: 1px solid #ededed;
+        border-bottom: 1px solid #ededed;
+    }
+}
+
+.is-selected {
+    border-bottom: 3px solid #000;
+}
+
+.brands-letter_link {
+    display: inline-block;
+    text-align: center;
+    padding: 0 0 8px 6px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+}
+
+/** list brands */
+@media (min-width: 768px) {
+    .brands-list {
+        margin: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .brands-list__heading {
+        font-size: 2rem;
+        line-height: 3rem;
+        margin: 0 0 1rem;
+
+    }
+}
+
+@media (min-width: 768px) {
+    .brands-list__items {
+        -webkit-column-count: 4;
+        -moz-column-count: 4;
+        column-count: 4;
+        padding: 1rem 0 0;
+    }
+}
+
+.brands-list_group {
+    margin-bottom: 2rem;
+
+}
+
+.brands-list__items {
+    border-top: 1px solid #ededed;
+}
+
+.brands-list__item {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+
+    color: #000;
+}
+
+@media (min-width: 768px) {
+    .brands-list__item_link {
+        margin-bottom: .5rem;
+        padding: .5rem 0;
+        border-bottom: none;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 2.5rem;
+    }
+}

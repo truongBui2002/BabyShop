@@ -22,7 +22,7 @@
 <body>
 	<!-- nav - bar -->
 
-	<div class="pt-3 header">
+	<div class="pt-3 header" th:fragment ="navbar">
 		<div class="container mx-auto">
 			<div class="d-flex">
 				<a href="/"><img class="header-logo flex-fill"
@@ -45,7 +45,9 @@
 						class="header__links header_link header_help flex-fill color-hover "
 						href="#">Help</a> <a
 						class="header__links header_link header_account flex-fill color-hover "
-						href="/login">Account</a> <a
+						th:if="${session.user==null}" href="/login">Account</a><a
+						class="header__links header_link header_account flex-fill color-hover "
+						th:if="${session.user!=null}" href="/viewprofile">Account</a> <a
 						class="header__links header_link header_favorites flex-fill color-hover "
 						href="#">Favorites</a> <a
 						class="header__links header_link header_cart flex-fill color-hover "
@@ -55,111 +57,28 @@
 			<div class="navigation d-flex">
 				<div class=" text-center flex-fill">
 					<!--hover it-->
-					<a class=" color-hover nav__links" href="#">Brands</a>
+					<a class=" color-hover nav__links" href="/brand">Brands</a>
 
 				</div>
 				<div class="text-center flex-fill hover-nav">
 					<a class="color-hover nav__links" href="#">New In</a>
 					<div class="hidden-nav">
 						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
+							<a href="#">Category: New In</a> <a
+								href="#" th:each = "category : ${categories}" th:text = "${category.name}"></a>
 						</div>
 					</div>
 				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Clothing</a>
-					<div class="hidden-nav">
+				
+				<div class="text-center flex-fill hover-nav" th:each = "category : ${categories}">
+					<a class="color-hover nav__links" href="#" th:text = "${category.name}">Clothing</a>
+					<div class="hidden-nav" th:if = "${category.subcategories.size() != 0}">
 						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
+							<a href="#" th:text = "'Category: ' + ${category.name}"> </a> <a
+								href="#" th:each = "subcategory: ${category.subcategories}" th:text = "${subcategory.name}">Clothing</a>
 						</div>
 					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Footwear</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Accessories</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Strollers</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Car Seats</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Baby Gear</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Home</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Toys</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill hover-nav">
-					<a class="color-hover nav__links" href="#">Green Page</a>
-					<div class="hidden-nav">
-						<div class="hidden-element">
-							<a href="#">Category: New In<!--name category(use loop)--></a> <a
-								href="#">Clothing</a> <a href="#">Clothing</a> <a href="#">Clothing</a>
-
-						</div>
-					</div>
-				</div>
-				<div class="text-center flex-fill">
-					<a class="color-hover nav__links" href="#">Magazine</a>
-				</div>
+				</div>	
 			</div>
 		</div>
 
@@ -174,31 +93,34 @@
 		</div>
 	</div>
 	<!--page content-->
-	<div id="content" class="content container">
+ 	<div id="content" class="content container">
 		<div class="slideshow mb-5">
 			<div class="slides">
 				<a href="#"><img src="../image/1.png" alt="Slide 1"></a> <a
 					href="#"><img src="../image/2.png" alt="Slide 2"></a> <a
 					href="#"><img src="../image/3.png" alt="Slide 3"></a>
-				<!-- Add more slides as needed -->
 			</div>
 		</div>
 		<div class="slider product-slider js-product-list">
 			<a href="#" class="slider_tilte_links">
 				<h2 class="slider_title">Selected Everyday Wear - UP TO 50%</h2>
 			</a>
+            <div class="slider_nav">
+                <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
 			<div
-				class="slider_items row justify-content-center align-items-center g-2">
-				<div class="col" th:each="product : ${productsSale}">
+                class="slider___items">
+				 <div th:each="product : ${productsSale}" class="slider-items-list"> 
 					<div class="card-content">
 						<div class="card-image">
 							<img class="image1"
-								th:src="${product.getImages().get(0).imageName}" alt="">
+								th:src="${product.images.get(0).name}" alt="">
 						</div>
-						<h3 class="card__title" th:each="brand : ${brands}"
-							th:if="${brand.brandId == product.brandId}">
+
+						<h3 class="card__title">
 							<a href="#" class="card_link"> <span class="card_brand"
-								th:text="${brand.name}">Kuling</span> <strong class="card_name"
+								th:text="${product.brand.name}">Kuling</span> <strong class="card_name"
 								th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
 							</a>
 						</h3>
@@ -208,7 +130,6 @@
 							</div>
 							<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 						</div>
-						<div class="product-labels">UP TO 50%</div>
 
 					</div>
 				</div>
@@ -273,19 +194,22 @@
 					</a>
 				</div>
 			</div>
-			<!-- brands -->
 			<div class="slider product-slider js-product-list mb-5">
 				<a href="#" class="slider_tilte_links">
 					<h2 class="slider_title">Brands</h2>
+                    
 				</a>
-				<ul class="slider-items">
-					<li th:each="brand : ${brands}"><a
+                <div class="slider_nav">
+                    <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                    <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
+				<ul id="brands"class="slider___items">
+					<li class="slider-items-list" th:each="brand : ${brands}"><a
 						class=" campaign-slider__item" href="#"> <img
-							th:src="${brand.imageName}" alt="#">
+							th:src="${brand.image.name}" alt="#">
 					</a></li>
 				</ul>
 			</div>
-			<!--new born essentials-->
 			<div class="home-teaser row mb-5">
 				<div class="campaign col">
 					<a class="campaign__link" href="#"> <img
@@ -307,24 +231,26 @@
 					</a>
 				</div>
 			</div>
-			<!--dress-->
-			<div class="slider product-slider js-product-list mb-5">
+			<div class="slider product-slider js-product-list mb-5" th:with = "dress = ${subcategoryR1}">
 				<a href="#" class="slider_tilte_links">
-					<h2 class="slider_title">Dresses</h2>
+					<h2 class="slider_title" th:text = "${dress.name}">Dresses</h2>
+                    <div class="slider_nav">
+                        <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                    </div>
 				</a>
-				<div
-					class="slider_items row justify-content-center align-items-center g-2">
+				 <div
+					class="slider___items">
 
-					<div class="col" th:each="product : ${productsCategoryR1}">
-						<div class="card-content">
+					<div class="slider-items-list"th:each="product : ${dress.products}">
+						  <div class="card-content"  >
 							<div class="card-image">
 								<img class="image1"
-									th:src="${product.getImages().get(0).imageName}" alt="">
-								<img class="image2"
-									src="../image/product-image/card_large (2).jpg" alt="">
+									th:src="${product.images.get(0).name}" alt="">
+								<img class="image2"  th:if = "${product.images.size()>1}"
+									th:src="${product.images.get(1).name}" alt="">
 							</div>
-							<h3 class="card__title" th:each="brand : ${brands}"
-								th:if="${brand.brandId == product.brandId}" )>
+							<h3 class="card__title" th:with = "brand = ${product.brand}">
 								<a href="#" class="card_link"> <span class="card_brand"
 									th:text="${brand.name}">Kuling</span> <strong class="card_name"
 									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
@@ -340,7 +266,7 @@
 
 						</div>
 					</div>
-				</div>
+				</div> 
 			</div>
 			<div class="campaigns home-teaser row mb-5">
 				<div class="campaign col">
@@ -382,24 +308,26 @@
 			</div>
 			
 			
-			
-			<!--jacket and coats-->
-			<div class="slider product-slider js-product-list mb-5">
+			<div class="slider product-slider js-product-list mb-5" th:with = "dress = ${subcategoryR2}">
 				<a href="#" class="slider_tilte_links">
-					<h2 class="slider_title">Coats & Jackets</h2>
+					<h2 class="slider_title" th:text = "${dress.name}">Dresses</h2>
+                    <div class="slider_nav">
+                        <button type="button" class="left" title="prev"><i class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="right" title="next"><i class="fa-solid fa-angle-right"></i></button>
+                    </div>
 				</a>
-				<div
-					class="slider_items row justify-content-center align-items-center g-2">
-					<div class="col" th:each="product : ${productsCategoryR2}">
-						<div class="card-content">
+				 <div
+					class="slider___items">
+
+					<div class="slider-items-list"th:each="product : ${dress.products}">
+						  <div class="card-content"  >
 							<div class="card-image">
 								<img class="image1"
-									th:src="${product.getImages().get(0).imageName}" alt="">
-								<img class="image2"
-									src="../image/product-image/card_large (2).jpg" alt="">
+									th:src="${product.images.get(0).name}" alt="">
+								<img class="image2"  th:if = "${product.images.size()>1}"
+									th:src="${product.images.get(1).name}" alt="">
 							</div>
-							<h3 class="card__title" th:each="brand : ${brands}"
-								th:if="${brand.brandId == product.brandId}" )>
+							<h3 class="card__title" th:with = "brand = ${product.brand}">
 								<a href="#" class="card_link"> <span class="card_brand"
 									th:text="${brand.name}">Kuling</span> <strong class="card_name"
 									th:text="${product.name}">Seattle Sneakers Woody Rose</strong>
@@ -412,165 +340,14 @@
 								<div class="price_text" th:text="${product.price + '.000VNĐ'}">100.000</div>
 							</div>
 							<div class="product-labels">UP TO 50%</div>
+
 						</div>
 					</div>
-					
-					
-					
-				</div>
+				</div> 
 			</div>
-			<!--recommend for u-->
-			<div class="slider product-slider js-product-list mb-5">
-				<a href="#" class="slider_tilte_links">
-					<h2 class="slider_title">Recommended for you</h2>
-				</a>
-				<div
-					class="slider_items row justify-content-center align-items-center g-2">
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card-content">
-							<div class="card-image">
-								<img class="image1"
-									src="../image/product-image/card_large (1).jpg" alt=""> <img
-									class="image2" src="../image/product-image/card_large (2).jpg"
-									alt="">
-							</div>
-							<h3 class="card__title">
-								<a href="#" class="card_link"> <span class="card_brand">Kuling</span>
-									<strong class="card_name">Seattle Sneakers Woody Rose</strong>
-								</a>
-							</h3>
-							<div class="card-price">
-								<div class="ribbon ribbon--discount">
-									<span class="ribbon__text">40%</span>
-								</div>
-								<div class="price_text">100.000</div>
-							</div>
-							<div class="product-labels">UP TO 50%</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 
 		<!--footer-->
-		<footer>
+		<footer th:fragment = "footer">
 			<section class="footer_container footer_container_pink">
 				<div class="container row footer__content mx-auto pt-5">
 					<div class="footer__right col-3">

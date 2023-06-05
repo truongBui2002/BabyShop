@@ -10,34 +10,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.babyshop.babyshop.service.ImageStorageService;
+import com.babyshop.babyshop.service.ImageService;
 
 @RestController
 @RequestMapping(path = "/img")
 public class ImageController {
 	
 	@Autowired
-	public ImageStorageService storageService;
+	public ImageService imageService;
 	
 	@GetMapping("/product/{imgName:.+}")
 	public ResponseEntity<byte[]> readDetailFileProduct(@PathVariable String imgName){
 		try {
-			byte[] bytes = storageService.readFileContentProduct(imgName);
+			byte[] bytes = imageService.readFileContentProduct(imgName);
 			return ResponseEntity
 					.ok()
 					.contentType(MediaType.IMAGE_JPEG)
 					.body(bytes);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			return ResponseEntity.noContent().build();
 		}
-		
 	}
 	
 	@GetMapping("/brand/{brandName:.+}")
 	public ResponseEntity<byte[]> readDetailFileBrand(@PathVariable String brandName){
 		try {
-			byte[] bytes = storageService.readFileContentBrand(brandName);
+			byte[] bytes = imageService.readFileContentBrand(brandName);
 			return ResponseEntity
 					.ok()
 					.contentType(MediaType.IMAGE_JPEG)
@@ -45,12 +43,17 @@ public class ImageController {
 		} catch (Exception e) {
 			return ResponseEntity.noContent().build();
 		}
-		
 	}
-	@GetMapping("")
-	public String getURL() {
-//		List<String> uris = storageService.getURIImage(url);
-//		System.out.print("URIS la: " + uris.get(0));
-		return "";
+	@GetMapping("/viewprofile/{avatar:.+}")
+	public ResponseEntity<byte[]> readDetailFileAvatar(@PathVariable String avatar){
+		try {
+			byte[] bytes = imageService.readFileContentAvatar(avatar);
+			return ResponseEntity
+					.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
 	}
 }

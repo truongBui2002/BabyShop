@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Date of Birth Select Dropdown</title>
+    <style>
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Date of Birth</h1>
+    <label for="day">Day:</label>
+    <select id="day"></select>
+    <label for="month">Month:</label>
+    <select id="month"></select>
+    <label for="year">Year:</label>
+    <select id="year"></select>
+
+    <script>
+        // Populate the day dropdown
+        var dayDropdown = document.getElementById("day");
+        for (var i = 1; i <= 31; i++) {
+            var option = document.createElement("option");
+            option.text = i;
+            dayDropdown.add(option);
+        }
+
+        // Populate the month dropdown
+        var monthDropdown = document.getElementById("month");
+        var months = [
+            "January", "February", "March", "April",
+            "May", "June", "July", "August",
+            "September", "October", "November", "December"
+        ];
+        for (var j = 0; j < months.length; j++) {
+            var option = document.createElement("option");
+            option.text = months[j];
+            monthDropdown.add(option);
+        }
+
+        // Populate the year dropdown
+        var yearDropdown = document.getElementById("year");
+        var currentYear = new Date().getFullYear();
+        for (var k = currentYear; k >= 1900; k--) {
+            var option = document.createElement("option");
+            option.text = k;
+            yearDropdown.add(option);
+        }
+
+    </script>
+</body>
+
+</html>

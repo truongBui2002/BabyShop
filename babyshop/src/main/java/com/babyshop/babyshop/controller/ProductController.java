@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.babyshop.babyshop.models.Product;
-import com.babyshop.babyshop.repositories.ProductRepository;
+//import com.babyshop.babyshop.repositories.ProductRepository;
 
 @Controller
 public class ProductController {

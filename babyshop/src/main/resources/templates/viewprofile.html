@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- cdn boostrap-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<!--login css-->
+
+	<link rel="stylesheet" type="text/css" href="../css/login.css">
+	<link rel="stylesheet" type="text/css" href="../css/viewprofile.css">
+	<!-- cdn fown awe some-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>Baby Shop</title>
+</head>
+
+<body>
+	<!-- nav - bar -->
+	<div th:insert="home :: navbar"></div>
+	<div class="discount">
+		<div class="d-flex">
+			<a class="flex-fill banner-top" href="#">20-50% off selected
+				Everyday wear <span>SHOP HERE</span>
+			</a> <a class="flex-fill banner-top" href="#">Splash into summer - Up
+				to 50%<span>SHOP HERE</span>
+			</a>
+		</div>
+	</div>
+	<!--view profile-->
+	<div class="container" th:with = "user = ${session.user}">
+		<div class="row align-items-start gap-5">
+			<div class="sidebar_profile col-md-2">
+				<!--add image information-->
+				<div class="avatar">
+					<a href="viewprofile" class="avatar_user">
+						<div class="img__user">
+							<div class="avatar__placeholder"><i class="fa-solid fa-user"></i></div>
+							<img th:src="${user.getUriAvatar()}" alt="User Avatar">
+						</div>
+					</a>
+					<div class="avt_description">
+						<div class="avt_name" th:text="${user.getfullNameIfExistOrNot()}">Đào Duy</div> <!--Customer Name-->
+						<a href="viewprofile">
+
+							<div class="edit__profile"><i class="fa-solid fa-pen"></i> Edit profile</div>
+						</a>
+					</div>
+				</div>
+
+				<nav class="profile-nav">
+					<ul class=" profile-nav__items">
+						<li class="profile-nav__item is-selected">
+							<a href="#" class="profile-nav__link">My Account</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Order History</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Return & Exchange</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Reset password</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="#" class="profile-nav__link">Newsletter</a>
+						</li>
+						<li class="profile-nav__item">
+							<a href="/logout" class="profile-nav__link">Logout</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<main class="view-profile col-md-6">
+				<div class="view-profile__infor">
+					<h1 class="view-profile__heading d-md-block">My Account</h1>
+					<div class="view-profile__content">
+						<form action="" class="profile-info" method="post">
+							<h2 class="form__section-heading">Customer Details</h2>
+							<!-- disable information-->
+							<div class="field rel__span">
+								<label for="email" class="field__label">Email address</label>
+								<input type="email" id="email" name="email"
+									class="field__input field__input--email disable__input" th:value = "${user.email}"
+									disabled>
+								<span id="email_span" class="field__span"><a href="email">Change Email</a></span>
+							</div>
+							<!-- change phone number-->
+							<div class="field phoneNumber">
+								<label for="phoneNumber" class="field__label">Phone Number</label>
+								<input type="text" id="phoneNumber" name="phoneNumber"
+									class="field__input disable__input" th:value = "${user.phoneNumber}" disabled>
+								<span id="phoneNumber_span" class="field__span"><a href="phone">Change Phone
+										Number</a></span>
+							</div>
+					</div>
+					<div class="field">
+						<label for="first-name" class="field__label">Your Name</label>
+						<input type="text" id="first-name" name="firstName" class="field__input mb__input" th:value="${user.getfullNameIfExistOrNot()}">
+					</div>
+					<div class="field">
+						<label for="address" class="field__label">Your Address</label>
+						<input type="text" id="address" name="address" class="field__input mb__input">
+					</div>
+					<!-- add date of birth-->
+					<div class="field">
+						<label>Date of Birth</label>
+						<div class="dob_fields d-flex justify-content-between">
+							<div class="dob__inputs">
+								<select id="day" class="dropdown__entry"></select>
+							</div>
+							<div class="dob__inputs">
+								<select id="month" class="dropdown__entry"></select>
+							</div>
+							<div class="dob__inputs">
+								<select id="year" class="dropdown__entry"></select>
+							</div>
+
+						</div>
+					</div>
+					<div class="gender-option js-gender-option">
+						<label class="gender-option__label gender-option-trigger">
+							Female
+							<input name="gender" type="radio" class="gender-option__input" id="female" value="0">
+							<span class="gender-option__checkmark"></span>
+						</label>
+						<label class="gender-option__label gender-option-trigger">
+							Male
+							<input name="gender" type="radio" class="gender-option__input" id="male" value="1">
+							<span class="gender-option__checkmark"></span>
+						</label>
+					</div>
+					<div class="field">
+						<button type="submit" class="btn-login btn-viewprofile">
+							<span>Update profile</span>
+						</button>
+					</div>
+					</form>
+				</div>
+			</main>
+			<!-- change user avatar-->
+			<div class="view-profile_image col-md-2">
+				<div class="view-profile__image">
+					<div class="image__placehoder">
+						<img class="image__link" th:src="${user.getUriAvatar()}" alt=""> <!-- avatar co r thi lay tu database r hien vao day-->
+					</div>
+					<input type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					<button class="btn_avatar">Chọn ảnh</button>
+					<div class="avt__description">
+						<p>Định lượng file tối đa 1 MB</p>
+						<p>Định dạng: .JPEG, .PNG</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:insert="home :: footer"></div>
+	<script src="../js/viewprofile.js"></script>
+</body>
+
+</html>
