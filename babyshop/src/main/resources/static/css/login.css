@@ -13,7 +13,7 @@ body {
     display: block;
     padding: 1rem 2.5rem;
     border: 0;
-    border-radius: 10px;
+    border-radius: .25rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: inherit;
@@ -78,6 +78,15 @@ body {
     width: 100%;
     display: block;
 }
+input[type=password]:disabled {
+	opacity: 0.3;
+}
+input[type=password].active {
+	border: 1px solid green;
+}
+input[type=password].invalid {
+	border: 1px solid red;	
+}
 
 .auth__form .field__input {
     font-size: .875rem;
@@ -119,10 +128,14 @@ body {
     font-size: 1.25rem;
 
 }
-
-.btn-login:hover {
-    background-color: #97d5c9;
+button[type=submit].btn-login {
+	opacity: 1;
 }
+
+button:disabled:hover {
+    opacity: 0.5;
+}
+
 
 .btn-login {
     background-color: #b4e1d8;
@@ -263,6 +276,7 @@ body {
 }
 .arlet-input {
 	display: none;
+	font-size: 10px;
 }
 .arlet-input.valid {
 	display: block;
@@ -270,6 +284,21 @@ body {
 	color: #229780;
 }
 .arlet-input.active {
+	display: block;
+	color: #dc3456;
+	margin-top: 10px;
+}
+
+.arlet-input1 {
+	display: none;
+	font-size: 10px;
+}
+.arlet-input1.valid {
+	display: block;
+	margin-top: 10px;
+	color: #229780;
+}
+.arlet-input1.active {
 	display: block;
 	color: #dc3456;
 	margin-top: 10px;

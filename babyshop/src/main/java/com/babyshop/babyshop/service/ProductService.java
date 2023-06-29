@@ -238,6 +238,10 @@ public class ProductService {
 	}
 	
 	public List<Product> getProductByBrand(Brand brand){
-		return productRepository.findByBrand(brand);
+		List<Product> products = productRepository.findByBrand(brand);
+		for (Product product : products) {
+			addLinkImage(product);
+		}
+		return products;
 	}
 }

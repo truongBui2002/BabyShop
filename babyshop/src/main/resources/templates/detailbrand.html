@@ -50,7 +50,7 @@
             <div class="slider___item">
                 <div th:each="product : ${products}" class="slider-items-list1">
                     <div class="product-card">
-                        <a href="#" class="product_image_link">
+                        <a th:href="@{'/product/details/' + ${product.productId}}" class="product_image_link">
                             <div class="image_block">
                                 <img th:src="${product.images.get(0).name}"> 
                                 <!--  <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy">-->
@@ -58,7 +58,7 @@
                         </a>
                         <h3 th:text="${product.brand.name}" class="card_title">
                         </h3>
-                        <a href="#" class="product_card_name">
+                        <a th:href="@{'/product/details/' + ${product.productId}}" class="product_card_name">
                             <h2 th:text="${product.name}">
 
                             </h2>

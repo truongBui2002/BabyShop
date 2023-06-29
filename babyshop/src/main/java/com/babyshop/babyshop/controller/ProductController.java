@@ -63,9 +63,10 @@ public class ProductController {
 		
 		//Ở search.html có một input hidden, khi user search trên thanh tìm kiếm thì giá trị của input sẽ thiết lập 
 		//mặc đinh sẽ là "" 
-		if(search.equals("") 
+		if((search.equals("")
 				|| (subcategoriesChecked.size() == 0 || agesChecked.size()==0 || brandsChecked.size()==0
-				|| sizesChecked.size()== 0 || colorsChecked.size()== 0 || gendersChecked.size() ==0 )) {
+				|| sizesChecked.size()== 0 || colorsChecked.size()== 0 || gendersChecked.size() ==0 )) 
+				&& !products.isEmpty()){
 			List<Product> productsFilter = productService.filter(subcategoriesChecked, agesChecked, brandsChecked, sizesChecked, colorsChecked, gendersChecked);
 			productService.sort(productsFilter, sort);
 			session.setAttribute(PRODUCTS, productsFilter); 

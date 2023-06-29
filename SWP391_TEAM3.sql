@@ -96,6 +96,8 @@ CREATE TABLE `product_info` (
 CREATE TABLE `category` (
   `category_id` int AUTO_INCREMENT,
   `name` varchar(255),
+-- description
+-- image_id
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(category_id)
@@ -104,6 +106,8 @@ CREATE TABLE `category` (
 CREATE TABLE `subcategory`(
   `subcategory_id` int AUTO_INCREMENT,
   `name` varchar(255),
+  -- description
+ -- image_id
   `category_id` int,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -370,22 +374,22 @@ INSERT subcategory(name, category_id) VALUES ("Responsible Animal Welfare", 10);
 -- INSERT 6 PRODUCT
 INSERT image(name) VALUES ("Absorba.jpg");
 
-INSERT brand(name, image_id, description) VALUES ("Absorba", 1, "");
+INSERT brand(name, image_id, description) VALUES ("Absorba", 1, "Absorba is a French children's clothing brand that was founded in 1949. Starting with producing baby pyjamas, it then expanded into offering a wide range of childrens’ garments from dresses and skirts to tops and jackets. One of the key features of Absorba's clothing is that it is made with soft, breathable materials that are gentle on a child's skin. The brand also places a strong emphasis on safety, with all of its products meeting strict quality and safety standards. Absorba is known for its commitment to sustainability and social responsibility.");
 
 -- , subcategory_id
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Long Sleeved T-Shirt Cream", 
 299,
-"Your little one can play all day in comfort. Cream T-Shirt by Absorba. The T-Shirt has a regular fit.
-– Snap buttons at the shoulder.
-– This product is crafted with sustainable organic cotton.", 
-"– 100% Organic Cotton.
+"Your little one can play all day in comfort. Cream T-Shirt by Absorba. The T-Shirt has a regular fit.</br></br>
+– Snap buttons at the shoulder.</br>
+– This product is crafted with sustainable organic cotton.</br>", 
+"– 100% Organic Cotton.</br>
 – Machine washable 30 degrees.", 1, 1, 0.3);
 
 INSERT image(name) VALUES ("PrintedLongSleevedT-ShirtCream.jpg");
 INSERT image(name) VALUES ("PrintedLongSleevedT-ShirtCream1.jpg");
 INSERT image(name) VALUES ("PrintedLongSleevedT-ShirtCream2.jpg");
-INSERT image(name) VALUES ("PrintedLongSleevedTShirtCream3.jpg");
+INSERT image(name) VALUES ("PrintedLongSleevedT-ShirtCream3.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(1, 2);
 INSERT image_product(product_id, image_id) VALUES(1, 3);
@@ -409,10 +413,10 @@ INSERT variant(product_id, name, quantity) VALUES( 1, '92 cm', 4);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "2-Pack Footed Baby Body Blue", 
 409,
-"Let your baby explore and play in comfort. Blue footed baby body by Absorba. Footed baby body has a soft velour material.
-– Snap buttons at the back.
+"Let your baby explore and play in comfort. Blue footed baby body by Absorba. Footed baby body has a soft velour material.</br></br>
+– Snap buttons at the back.</br>
 – This product is crafted with sustainable organic cotton.", 
-"– 75% Organic Cotton, 25% Polyester.
+"– 75% Organic Cotton, 25% Polyester.</br>
 – Machine washable 30 degrees.", 1, 8, 0.4);
 
 INSERT image(name) VALUES ("2-PackFootedBabyBodyBlue.jpg");
@@ -441,10 +445,10 @@ INSERT variant(product_id, name, quantity) VALUES( 2, '92 cm', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Striped Shorts Indigo", 
 229,
-"The perfect shorts for a sunny day with friends. Blue shorts by Absorba. The shorts have an elasticated waist.
-– Two front pockets.
+"The perfect shorts for a sunny day with friends. Blue shorts by Absorba. The shorts have an elasticated waist.</br></br>
+– Two front pockets.</br>
 – This product is crafted with sustainable organic cotton.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 30 degrees.", 1, 6, 0.3);
 
 INSERT image(name) VALUES ("StripedShortsIndigo.jpg");
@@ -469,9 +473,9 @@ INSERT variant(product_id, name, quantity) VALUES( 3, '92 cm', 0);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Leggings Cream", 
 229,
-"Keep little legs comfy. Cream leggings by Absorba. The leggings have a ribbed, folded waist.
+"Keep little legs comfy. Cream leggings by Absorba. The leggings have a ribbed, folded waist.</br></br>
 – This product is crafted with sustainable organic cotton.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 30 degrees.", 1, 2, 0.2);
 
 INSERT image(name) VALUES ("PrintedLeggingsCream.jpg");
@@ -496,10 +500,10 @@ INSERT variant(product_id, name, quantity) VALUES( 4, '92 cm', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed One-piece Cream", 
 299,
-"Perfect for a good night's sleep. Cream one-piece by Absorba. The one-piece has a ribbed design.
-– Snap buttons at the front and between the legs.
+"Perfect for a good night's sleep. Cream one-piece by Absorba. The one-piece has a ribbed design.</br></br>
+– Snap buttons at the front and between the legs.</br>
 – This product is crafted with sustainable organic cotton.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 30 degrees.", 1, 2, 0.3);
 
 INSERT image(name) VALUES ("PrintedOne-pieceCream.jpg");
@@ -523,10 +527,10 @@ INSERT variant(product_id, name, quantity) VALUES( 5, '98 cm', 5);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Footed Baby Body Cream", 
 299,
-"Let your baby explore and play in comfort. Cream footed baby body by Absorba. The footed baby body has a soft velour material.
-– Snap buttons at the back.
+"Let your baby explore and play in comfort. Cream footed baby body by Absorba. The footed baby body has a soft velour material.</br></br>
+– Snap buttons at the back.</br>
 – This product is crafted with sustainable organic cotton.", 
-"– 75% Organic Cotton, 25% Polyester.
+"– 75% Organic Cotton, 25% Polyester.</br>
 – Machine washable 30 degrees.", 1, 8, 0.4);
 
 INSERT image(name) VALUES ("PrintedFootedBabyBodyCream.jpg");
@@ -564,14 +568,14 @@ INSERT brand(name, image_id, description) VALUES ("BeSafe", 23, "");
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Dili Sandals Sand", 
 349,
-"Perfect for those sunny days. Beige Dili sandals by Kuling. The sandals have a faux leather upper.
-– Closed toe.
-– Velcro closure for easy on and off.
-– Cushioned insole.
+"Perfect for those sunny days. Beige Dili sandals by Kuling. The sandals have a faux leather upper.</br></br>
+– Closed toe.</br>
+– Velcro closure for easy on and off.</br>
+– Cushioned insole.</br>
 – Non-slip sole.", 
-"– Upper: Other Materials.
-– Lining: Other Materials.
-– Sole: Other Materials.
+"– Upper: Other Materials.</br>
+– Lining: Other Materials.</br>
+– Sole: Other Materials.</br>
 – Please note that when you purchase shoes for your child, you should select a size that is 1.5  cm larger than your child's foot. Wellies and boots should be up to 2  cm larger, for extra socks and insoles.", 2, 14, 0.5);
 
 INSERT image(name) VALUES ("DiliSandalsSand.jpg");
@@ -601,15 +605,15 @@ INSERT variant(product_id, name, quantity) VALUES( 7, '28 EU', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Lofoten Waterproof Sneakers Always Black", 
 599,
-"Keep little feet comfortable and stylish all day long. Black Lofoten sneakers by Kuling. The sneakers have a mesh upper.
-– Padded collar.
-– Velcro fastening for easy on and off.
-– Cushioning insole.
-– Sole with rough tread for a sure step.
+"Keep little feet comfortable and stylish all day long. Black Lofoten sneakers by Kuling. The sneakers have a mesh upper.</br></br>
+– Padded collar.</br>
+– Velcro fastening for easy on and off.</br>
+– Cushioning insole.</br>
+– Sole with rough tread for a sure step.</br>
 – Waterproof.", 
-"– Upper: Textiles, Other Materials.
-– Lining: Textiles.
-– Sole: Other Materials.
+"– Upper: Textiles, Other Materials.</br>
+– Lining: Textiles.</br>
+– Sole: Other Materials.</br>
 – Please note that when you purchase shoes for your child, you should select a size that is 1.5  cm larger than your child's foot. Wellies and boots should be up to 2  cm larger, for extra socks and insoles.", 2, 12, 0.3);
 
 INSERT image(name) VALUES ("LofotenWaterproofSneakersAlwaysBlack.jpg");
@@ -643,12 +647,12 @@ INSERT variant(product_id, name, quantity) VALUES( 8, '28 EU', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Paros One-piece Rashguard Swimsuit Lilac Daisy", 
 349,
-"Perfect for some fun on the beach. Purple Paros one-piece rashguard swimsuit by Kuling. The one-piece rashguard swimsuit has a stretchy, quick-drying material.
-– Mesh lining.
-– Zip closure at the front.
-– Provides UPF 50+ sun protection.
+"Perfect for some fun on the beach. Purple Paros one-piece rashguard swimsuit by Kuling. The one-piece rashguard swimsuit has a stretchy, quick-drying material.</br></br>
+– Mesh lining.</br>
+– Zip closure at the front.</br>
+– Provides UPF 50+ sun protection.</br>
 – Made with recycled materials.", 
-"– 96% Nylon, 4% Elastane.
+"– 96% Nylon, 4% Elastane.</br>
 – Machine washable 30 degrees.", 2, 8, 0.3);
 
 INSERT image(name) VALUES ("ParosOne-pieceRashguardSwimsuitLilacDaisy.jpg");
@@ -674,16 +678,16 @@ INSERT variant(product_id, name, quantity) VALUES( 9, '116 cm', 4);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "San Marino Dotted Recycled Rain Set Hazelnut", 
 599,
-"Time to jump through puddles. Brown San Marino rain set by Kuling. The set has welded seams.
-– Jacket with a detachable hood, a zip closure at the front and elasticated cuffs.
-– Pants with adjustable, elasticated shoulder straps, snap buttons at the sides, a front pocket, elasticated cuffs and adjustable, detachable foot loops.
-– Reflective details for visibility.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
+"Time to jump through puddles. Brown San Marino rain set by Kuling. The set has welded seams.</br></br>
+– Jacket with a detachable hood, a zip closure at the front and elasticated cuffs.</br>
+– Pants with adjustable, elasticated shoulder straps, snap buttons at the sides, a front pocket, elasticated cuffs and adjustable, detachable foot loops.</br>
+– Reflective details for visibility.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
 – Made with recycled materials.", 
-"– Waterproof: 8000 mm.
-– Windproof.
-– Shell: 100% Recycled Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 8000 mm.</br>
+– Windproof.</br>
+– Shell: 100% Recycled Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 2, 7, 0.4);
 
 INSERT image(name) VALUES ("SanMarinoDottedRecycledRainSetHazelnut.jpg");
@@ -720,10 +724,10 @@ INSERT brand(name, image_id, description) VALUES ("Mini Rodini", 45, "Establishe
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Floral Dress Cream", 
 599,
-"Eco-friendly fashion at its finest!. Cream dress by Mini Rodini. The dress has a floral all-over print.
-– Flared skirt with ruffles.
+"Eco-friendly fashion at its finest!. Cream dress by Mini Rodini. The dress has a floral all-over print.</br></br>
+– Flared skirt with ruffles.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 95% Organic Cotton, 5% Elastane.
+"– 95% Organic Cotton, 5% Elastane.</br>
 – Machine washable 40 degrees.", 8, 3, 1);
 
 INSERT image(name) VALUES ("FloralDressCream.jpg");
@@ -747,10 +751,10 @@ INSERT variant(product_id, name, quantity) VALUES( 11, '116 cm', 5);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "GOTS Pelican Printed Dress Yellow", 
 479,
-"A dress that is chic and comfortable. A must have!. Yellow dress by Mini Rodini. The dress has a playful all-over print with pelicans.
-– Gathered waist.
+"A dress that is chic and comfortable. A must have!. Yellow dress by Mini Rodini. The dress has a playful all-over print with pelicans.</br></br>
+– Gathered waist.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 95% Organic Cotton, 5% Elastane.
+"– 95% Organic Cotton, 5% Elastane.</br>
 – Machine washable 40 degrees.", 8, 3, 1);
 
 INSERT image(name) VALUES ("GOTSPelicanPrintedDressYellow.jpg");
@@ -778,13 +782,13 @@ INSERT variant(product_id, name, quantity) VALUES( 12, '122 cm', 9);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "GOTS Plaid Dress Red", 
 489,
-"Eco-friendly fashion at its finest!. Red dress by Mini Rodini. The dress has a sailor collar.
-– Snap buttons at the front.
-– Puff sleeves.
-– Gathered waist.
-– This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.
+"Eco-friendly fashion at its finest!. Red dress by Mini Rodini. The dress has a sailor collar.</br></br>
+– Snap buttons at the front.</br>
+– Puff sleeves.</br>
+– Gathered waist.</br>
+– This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.</br>
 – Made in Portugal.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 40 degrees.", 8, 3, 1);
 
 INSERT image(name) VALUES ("GOTSPlaidDressRed.jpg");
@@ -806,13 +810,13 @@ INSERT variant(product_id, name, quantity) VALUES( 13, '122 cm', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Floral Dress Orange", 
 599,
-"Eco-friendly fashion at its finest!. Orange dress by Mini Rodini. The dress has a floral all-over print.
-– Peter Pan collar.
-– Puff sleeves.
-– Snap buttons at the back.
-– Gathered waist.
+"Eco-friendly fashion at its finest!. Orange dress by Mini Rodini. The dress has a floral all-over print.</br></br>
+– Peter Pan collar.</br>
+– Puff sleeves.</br>
+– Snap buttons at the back.</br>
+– Gathered waist.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 40 degrees.", 8, 3, 0.3);
 
 INSERT image(name) VALUES ("FloralDressOrange.jpg");
@@ -836,11 +840,11 @@ INSERT variant(product_id, name, quantity) VALUES( 14, '128 cm', 6);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Dress Navy", 
 899,
-"A special day deserves a special dress. Navy dress by Mini Rodini. The dress has an all-over print with strawberries.
-– Smocked bodice.
-– Puff sleeves.
+"A special day deserves a special dress. Navy dress by Mini Rodini. The dress has an all-over print with strawberries.</br>
+– Smocked bodice.</br>
+– Puff sleeves.</br>
 – Sustainably grown lyocell.", 
-"– 100% Lyocell.
+"– 100% Lyocell.</br>
 – Machine washable 40 degrees.", 8, 3, 0.3);
 
 INSERT image(name) VALUES ("PrintedDressNavy.jpg");
@@ -871,11 +875,11 @@ INSERT brand(name, image_id, description) VALUES ("BUDDY & HOPE", 59, "Buddy & H
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Vivianne GOTS Dotted Dress Pink Mauve", 
 199,
-"Dress your little baby extra nicely. Cream Vivianne dress by Buddy & Hope. The dress has ruffle sleeves.
-– Button closure at the back.
-– Gathered waist.
+"Dress your little baby extra nicely. Cream Vivianne dress by Buddy & Hope. The dress has ruffle sleeves.</br></br>
+– Button closure at the back.</br>
+– Gathered waist.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 40 degrees.", 9, 3, 0.3);
 
 INSERT image(name) VALUES ("VivianneGOTSDottedDressPinkMauve.jpg");
@@ -901,11 +905,11 @@ INSERT variant(product_id, name, quantity) VALUES( 16, '134 cm', 2);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Vivianne GOTS Floral Dress Wildflowers", 
 199,
-"Dress your little baby extra nicely. Cream Vivianne dress by Buddy & Hope. The dress has ruffle sleeves.
-– Button closure at the back.
-– Gathered waist.
+"Dress your little baby extra nicely. Cream Vivianne dress by Buddy & Hope. The dress has ruffle sleeves.</br></br>
+– Button closure at the back.</br>
+– Gathered waist.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 40 degrees.", 9, 3, 1);
 
 INSERT image(name) VALUES ("VivianneGOTSFloralDressWildflowers.jpg");
@@ -936,11 +940,11 @@ INSERT variant(product_id, name, quantity) VALUES( 17, '140 cm', 8);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Siv GOTS Shirt And Shorts Set With Lemon Sand", 
 399,
-"Sunny days will be even more fun. Cream Siv shirt and shorts set by Buddy & Hope. The shirt and shorts set has a soft terry material.
-– Short-sleeved shirt with a button closure at the front and an embroidered lemon on the chest.
-– Shorts with an elasticated drawstring waist, two front pockets and a back pocket with an embroidered lemon.
+"Sunny days will be even more fun. Cream Siv shirt and shorts set by Buddy & Hope. The shirt and shorts set has a soft terry material.</br></br>
+– Short-sleeved shirt with a button closure at the front and an embroidered lemon on the chest.</br>
+– Shorts with an elasticated drawstring waist, two front pockets and a back pocket with an embroidered lemon.</br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– 100% Organic Cotton.
+"– 100% Organic Cotton.</br>
 – Machine washable 40 degrees.", 9, 8, 1);
 
 INSERT image(name) VALUES ("SivGOTSShirtAndShortsSetWithLemonSand.jpg");
@@ -970,10 +974,10 @@ INSERT variant(product_id, name, quantity) VALUES( 18, '116 cm', 3);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Melvin GOTS 2 Baby Bodies With Lemon Print Cream", 
 399,
-"Treat your baby with a new favorite body. Cream Melvin GOTS baby bodies by Buddy & Hope. The baby bodies have snap buttons at the shoulder and between the legs.
+"Treat your baby with a new favorite body. Cream Melvin GOTS baby bodies by Buddy & Hope. The baby bodies have snap buttons at the shoulder and between the legs.</br></br>
 – This product is GOTS certified, which means that it is made with certified organic materials and produced under the strictest social and environmental standards throughout the entire manufacturing process.", 
-"– Baby Body 1: 100% Organic Cotton.
-– Baby Body 2: 95% Organic Cotton, 5% Elastane.
+"– Baby Body 1: 100% Organic Cotton.</br>
+– Baby Body 2: 95% Organic Cotton, 5% Elastane.</br>
 – Machine washable 40 degrees.", 9, 1, 0.3);
 
 INSERT image(name) VALUES ("MelvinGOTS2BabyBodiesWithLemonPrintCream.jpg");
@@ -1001,20 +1005,20 @@ INSERT variant(product_id, name, quantity) VALUES( 19, '116 cm', 7);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Stockholm Heart Printed Shell Jacket Woody Rose", 
 699,
-"Get ready for outdoor adventures. Pink Stockholm jacket by Kuling. The jacket has taped seams.
-– YKK® zipper at the front.
-– Detachable hood.
-– Adjustable cuffs with a velcro closure.
-– Two front pockets.
-– Reflective details for visibility.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
+"Get ready for outdoor adventures. Pink Stockholm jacket by Kuling. The jacket has taped seams.</br></br>
+– YKK® zipper at the front.</br>
+– Detachable hood.</br>
+– Adjustable cuffs with a velcro closure.</br>
+– Two front pockets.</br>
+– Reflective details for visibility.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
 – Made with recycled materials.", 
-"– Waterproof: 15 000 mm.
-– Breathable: 8000 g/m2/24 h.
-– Windproof.
-– Shell: 100% Polyester.
-– Lining: 100% Recycled Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 15 000 mm.</br>
+– Breathable: 8000 g/m2/24 h.</br>
+– Windproof.</br>
+– Shell: 100% Polyester.</br>
+– Lining: 100% Recycled Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 2, 7, 0.4);
 
 INSERT image(name) VALUES ("StockholmHeartPrintedShellJacketWoodyRose.jpg");
@@ -1049,20 +1053,20 @@ INSERT variant(product_id, name, quantity) VALUES( 20, '146 cm', 8);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Stockholm Shell Jacket Hazelnut Leo", 
 699,
-"Get ready for outdoor adventures. Beige Stockholm shell jacket by Kuling. The jacket has taped seams.
-– YKK® zipper at the front.
-– Detachable hood.
-– Adjustable cuffs with a velcro closure.
-– Two front pockets.
-– Reflective details for visibility.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
+"Get ready for outdoor adventures. Beige Stockholm shell jacket by Kuling. The jacket has taped seams.</br></br>
+– YKK® zipper at the front.</br>
+– Detachable hood.</br>
+– Adjustable cuffs with a velcro closure.</br>
+– Two front pockets.</br>
+– Reflective details for visibility.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
 – Made with recycled materials.", 
-"– Waterproof: 15 000 mm.
-– Breathable: 8000 g/m2/24 h.
-– Windproof.
-– Shell: 100% Polyester.
-– Lining: 100% Recycled Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 15 000 mm.</br>
+– Breathable: 8000 g/m2/24 h.</br>
+– Windproof.</br>
+– Shell: 100% Polyester.</br>
+– Lining: 100% Recycled Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 2, 7, 0.4);
 
 INSERT image(name) VALUES ("StockholmShellJacketHazelnutLeo.jpg");
@@ -1096,18 +1100,18 @@ INSERT variant(product_id, name, quantity) VALUES( 21, '146 cm', 0);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Lillehammer Color-blocked Shell Jacket Honey Orange/Mist Blue", 
 599,
-"Orange Lillehammer jacket by Kuling. The jacket has taped seams.
-– Detachable hood.
-– Zip closure at the front.
-– Two front pockets.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
+"Orange Lillehammer jacket by Kuling. The jacket has taped seams.</br></br>
+– Detachable hood.</br>
+– Zip closure at the front.</br>
+– Two front pockets.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
 – Made with recycled materials.", 
-"– Waterproof: 15 000 mm.
-– Breathable: 8000 g/m2/24 h.
-– Windproof.
-– Shell: 100% Polyamide.
-– Lining: 100% Recycled Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 15 000 mm.</br>
+– Breathable: 8000 g/m2/24 h.</br>
+– Windproof.</br>
+– Shell: 100% Polyamide.</br>
+– Lining: 100% Recycled Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 2, 7, 1);
 
 INSERT image(name) VALUES ("LillehammerColor-blockedShellJacketHoneyOrange.jpg");
@@ -1144,25 +1148,25 @@ INSERT brand(name, image_id, description) VALUES ("Reima", 98, "Founded in 1944 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Veli Winter Jacket Thyme Green", 
 1199,
-"Be warm and comfy on winter adventures. Green Veli winter jacket by Reima. The jacket has sealed main seams for waterproofing.
-– Durable material.
-– Detachable hood.
-– Zip closure at the front.
-– Two front pockets.
-– Adjustable cuffs.
-– Adjustable waist.
-– Reflective details for visibility.
-– Smooth lining.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
-– Martindale-tested as abrasion-resistant up to 40,000 cycles.
+"Be warm and comfy on winter adventures. Green Veli winter jacket by Reima. The jacket has sealed main seams for waterproofing.</br></br>
+– Durable material.</br>
+– Detachable hood.</br>
+– Zip closure at the front.</br>
+– Two front pockets.</br>
+– Adjustable cuffs.</br>
+– Adjustable waist.</br>
+– Reflective details for visibility.</br>
+– Smooth lining.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
+– Martindale-tested as abrasion-resistant up to 40,000 cycles.</br>
 – Made with recycled materials.", 
-"– Waterproof: 10 000 mm.
-– Breathable: 7000 g/m2/24 h.
-– Windproof.
-– Temperature: 0 to -20°C.
-– 100% Polyester.
-– Coating: 100% Polyurethane.
-– Lining: 100% Polyester.
+"– Waterproof: 10 000 mm.</br>
+– Breathable: 7000 g/m2/24 h.</br>
+– Windproof.</br>
+– Temperature: 0 to -20°C.</br>
+– 100% Polyester.</br>
+– Coating: 100% Polyurethane.</br>
+– Lining: 100% Polyester.</br>
 – Machine washable 40 degrees.", 10, 7, 1);
 
 INSERT image(name) VALUES ("VeliWinterJacketThymeGreen.jpg");
@@ -1193,19 +1197,19 @@ INSERT image_product(product_id, image_id) VALUES(23, 103);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Reimatec Mutka Winter Jacket Navy", 
 1199,
-"Navy Reimatec Mutka jacket by Reima. The jacket has sealed seams.
-– Detachable hood with faux fur trim.
-– Zip closure at the front.
-– Two front pockets.
-– Adjustable cuffs.
-– Reflective detail for visibility.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
+"Navy Reimatec Mutka jacket by Reima. The jacket has sealed seams.</br></br>
+– Detachable hood with faux fur trim.</br>
+– Zip closure at the front.</br>
+– Two front pockets.</br>
+– Adjustable cuffs.</br>
+– Reflective detail for visibility.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
 – Martindale-tested as abrasion-resistant up to 20,000 cycles.", 
-"– Waterproof: 10 000 mm.
-– Breathable: 12 000 g/m²/24h.
-– Temperature: -10 to -30°C.
-– Shell, Lining And Padding: 100% Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 10 000 mm.</br>
+– Breathable: 12 000 g/m²/24h.</br>
+– Temperature: -10 to -30°C.</br>
+– Shell, Lining And Padding: 100% Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 10, 7, 1);
 
 INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy.jpg");
@@ -1237,19 +1241,19 @@ INSERT variant(product_id, name, quantity) VALUES( 24, '152 cm', 1);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Kumlinge Reimatec Shell Jacket Black", 
 899,
-"Get ready for outdoor adventures. Black Kumlinge Reimatec shell jacket by Reima. The jacket has sealed seams.
-– Detachable hood.
-– Zip closure at the front.
-– Two front pockets.
-– Elasticated cuffs.
-– Reflective details for visibility.
-– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.
-– Martindale-tested as abrasion-resistant up to 5,000 cycles.
+"Get ready for outdoor adventures. Black Kumlinge Reimatec shell jacket by Reima. The jacket has sealed seams.</br></br>
+– Detachable hood.</br>
+– Zip closure at the front.</br>
+– Two front pockets.</br>
+– Elasticated cuffs.</br>
+– Reflective details for visibility.</br>
+– Fluorocarbon-free water- and dirt-repellent BIONIC-FINISH®ECO.</br>
+– Martindale-tested as abrasion-resistant up to 5,000 cycles.</br>
 – Made with recycled materials.", 
-"– Waterproof: 10 000 mm.
-– Breathable: 5000 g/m²/24h.
-– Shell: 100% Recycled Polyester.
-– Coating: 100% Polyurethane.
+"– Waterproof: 10 000 mm.</br>
+– Breathable: 5000 g/m²/24h.</br>
+– Shell: 100% Recycled Polyester.</br>
+– Coating: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 10, 7, 0.3);
 
 INSERT image(name) VALUES ("KumlingeReimatecShellJacketBlack.jpg");
@@ -1286,18 +1290,18 @@ INSERT variant(product_id, name, quantity) VALUES( 25, '158 cm', 4);
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Sipoo Softshell Jacket Grayish Green", 
 799,
-"Get ready for outdoor adventures. Grayish green Sipoo softshell jacket by Reima. The softshell jacket has a technical material with three layers in fleece.
-– Detachable hood.
-– Zip closure at the front.
-– Two front pockets with a zip closure.
-– Reflective details for better visibility.
-– Fleece lining.
-– Teflon EcoElite® fluorocarbon-free water- and dirt-repellent finish.
+"Get ready for outdoor adventures. Grayish green Sipoo softshell jacket by Reima. The softshell jacket has a technical material with three layers in fleece.</br></br>
+– Detachable hood.</br>
+– Zip closure at the front.</br>
+– Two front pockets with a zip closure.</br>
+– Reflective details for better visibility.</br>
+– Fleece lining.</br>
+– Teflon EcoElite® fluorocarbon-free water- and dirt-repellent finish.</br>
 – Made with recycled materials.", 
-"– Water-resistant.
-– Breathable.
-– Main: 92% Polyester, 8% Elastane.
-– Membrane: 100% Polyurethane.
+"– Water-resistant.</br>
+– Breathable.</br>
+– Main: 92% Polyester, 8% Elastane.</br>
+– Membrane: 100% Polyurethane.</br>
 – Machine washable 40 degrees.", 10, 7, 1);
 
 INSERT image(name) VALUES ("SipooSoftshellJacketGrayishgreen.jpg");
@@ -1321,6 +1325,6 @@ INSERT variant(product_id, name, quantity) VALUES( 26, '152 cm', 4);
 INSERT variant(product_id, name, quantity) VALUES( 26, '158 cm', 4);
 
 select p.*, pf.age_range, pf.gender, pf.color, pf.style from product p join product_info pf on p.product_id = pf.product_id;
-select * from product_info;
+select * from category;
 
 

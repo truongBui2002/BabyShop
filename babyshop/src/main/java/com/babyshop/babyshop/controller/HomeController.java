@@ -48,4 +48,10 @@ public class HomeController {
 		return "subcategories";
 
 	}
+	@GetMapping("/afterresetbyphone")
+	public String afterresetpass() {
+		
+		return "afterresetbyphone";
+
+	}
 }

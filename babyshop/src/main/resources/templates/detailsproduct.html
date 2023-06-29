@@ -85,7 +85,7 @@
                             <div class="discount_info" th:if = "${product.discount!=100}" th:text = "${product.discount + '%'}">40%</div>
                         </div>
                         <div class="product-brands d-flex justify-content-between">
-                            <a href="#">
+                            <a th:href="@{'/brand/details/' + ${product.brand.brandId}}">
                                 <h2 class="product-brands-heading hv-underline" th:text = "${product.brand.name}">Kuling</h2>
                             </a>
                             <button aria-label="remove from wishlist" class="add-wishlist">
@@ -231,7 +231,7 @@
                                 class="prose prose-h1:text-3xl prose-h2:text-xl prose-h3:text-lg prose-p:text-base prose-ol:text-base prose-ul:text-base prose-table:text-base text-base"
                                 th:utext =  "${product.description}">   
                             </div>
-                            <p class="prose:text-base prose py-2 text-base">Product id: 1</p>
+                            <!-- <p class="prose:text-base prose py-2 text-base">Product id: 1</p> -->
                         </div>
                     </div>
                     <div id="details-click-btn" class="w-full border-b">
@@ -342,18 +342,29 @@
                                 <div class="product_main_user">duy</div>
                                 <div class="product_rating_star">
                                     <div>
-                                        <span class="yotpo-stars">
-                                            <span class="yotpo-icon yotpo-icon-empty-star rating-star pull-left"><i
-                                                    class="fa-regular fa-star"></i></span>
-                                            <span class="yotpo-icon yotpo-icon-empty-star rating-star pull-left"><i
-                                                    class="fa-regular fa-star"></i></span>
-                                            <span class="yotpo-icon yotpo-icon-empty-star rating-star pull-left"><i
-                                                    class="fa-regular fa-star"></i></span>
-                                            <span class="yotpo-icon yotpo-icon-empty-star rating-star pull-left"><i
-                                                    class="fa-regular fa-star"></i></span>
-                                            <span class="yotpo-icon yotpo-icon-empty-star rating-star pull-left"><i
-                                                    class="fa-regular fa-star"></i></span>
-                                        </span>
+                                          <div class="product-rating__rating">
+											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
+											      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
+											    </svg>
+											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
+											      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
+											    </svg>
+											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
+											      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
+											    </svg>
+											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
+											      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
+											    </svg>
+											    <!-- Sao không đổi màu -->
+											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating">
+											      <polygon fill="none" points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
+											    </svg>
+  										</div>
                                     </div>
                                 </div>
                                 <div class="product_rating_date"><span>2023-6-20 2:33PM</span></div>
