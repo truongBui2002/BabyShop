@@ -21,11 +21,10 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class CustomOidcUser implements OidcUser {
-	private UserService userService;
 	private Collection<? extends GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
 	
     private final OidcUser oidcUser;
-
+    private String username;
     @Override
     public Map<String, Object> getClaims() {
         return oidcUser.getClaims();

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/brand.css"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/search.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/detailbrand.css}">
+    <!-- cdn fown awe some-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Premium Brands | For newborns, infants, & kids</title>
+</head>
+
+<body>
+    <!-- nav - bar -->
+    <header th:insert="~{home :: navbar}"></header>
+    <!--page content-->
+    <div id="content" class="content container">
+    <form th:action="@{/search/product/filter}" method="get">
+    	<input type="hidden" name="search" th:value = "${productName !=null ? 'search' :''}"/>
+        <main class="search-list">
+            <div class="search-list__header ">
+                <h1 class="heading-1 search-list__title" th:if = "${productName != null}">
+                    We found [[${session.products.size()}]] products for [[${'"' + productName + '"'}]]
+                </h1>
+                <div class="search-list__row ">
+                </div>
+                <div class="search-list__row search-list__row--image">
+                </div>
+            </div>
+            <div id="product-list" class="filter__header">
+                <div class="filter__header--desktop">
+                    <button id="filter-btn" type="button" class="filter__toggle">
+                        <span>Filter</span>
+                    </button>
+                    <div class="js-filter-count filter__count" aria-atomic="true" aria-live="polite">
+                        <span class="filter__count-label">
+                            Shows:
+                        </span>
+                        <span class="strong" th:text = "${session.products.size()}">
+                            7
+                        </span>
+                        <span class="filter__count-product">
+                            Products
+                        </span>
+                    </div>
+                    <div class="sort__dropdown">
+                        <h2 class="dropdown__title">Sort products by:</h2>
+                        <div class="js-dropdown dropdown sort-dropdown">
+                            <button type="button" id="sortBtn" class="dropdown__btn" aria-expanded="false"
+                                aria-controls="dropdown-list">New in</button>
+                            <div id="sort" class="dropdown__list" tabindex="-1" aria-hidden="true">
+                                <div class="js-sort sort">
+                                    <h2 class="sort__title">Sort products by:</h2>
+                                    <ul class="sort__list">
+                                    	<li>
+                                    		<input type="radio" name="sort" id= "newIn-sort" th:checked = "${sort eq 'newIn'}" class="sort__option is-selected" 
+                                        	onclick="submit()" value="newIn"/>
+                                         	<label class="sub-categories__name1" for="newIn-sort" >New In</label>
+                                         </li>
+                                        <li>
+                                    		<input type="radio" name="sort" id="old-sort"th:checked = "${sort eq 'oldest'}" class="sort__option " 
+                                        	onclick="submit()" value="oldest"/>
+                                         	<label class="sub-categories__name1" for="old-sort" >Oldest</label>
+                                         </li>
+                                         
+                                         <li>
+                                    		<input type="radio" name="sort" id="a-z" th:checked="${sort eq 'productNameDesc'}" class="sort__option " onclick="submit()"
+    										value="productNameDesc" />
+                                         	<label class="sub-categories__name1" for="a-z" >Name (a – z)</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id="z-a" th:checked="${sort eq 'productNameAsc'}" class="sort__option " onclick="submit()"
+    										value="productNameAsc" />
+                                         	<label class="sub-categories__name1" for="z-a" >Name (z – a)</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id="lowest" th:checked="${sort eq 'priceAsc'}" class="sort__option " onclick="submit()"
+   											value="priceAsc" />
+                                         	<label class="sub-categories__name1" for="lowest" >Price (Lowest)</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id="highest" th:checked="${sort eq 'priceDesc'}" class="sort__option " onclick="submit()"
+    										value="priceDesc" />
+                                         	<label class="sub-categories__name1" for="highest" >Price (Highest)</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id="best-seller" th:checked="${sort eq 'bestsellers'}" class="sort__option " onclick="submit()"
+    										value="bestsellers" />
+                                         	<label class="sub-categories__name1" for="best-seller" >Bestsellers</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id="brand_a-z" th:checked="${sort eq 'brandNameDesc'}" class="sort__option " onclick="submit()"
+    										value="brandNameDesc" />
+                                         	<label class="sub-categories__name1" for="brand_a-z" >Brand (a – z)</label>
+                                         </li>
+                                         <li>
+                                    		<input type="radio" name="sort" id= "brand_z-a" th:checked = "${sort eq 'brandNameAsc'}" class="sort__option is-selected" 
+                                        	onclick="submit()" value="brandNameAsc"/>
+                                         	<label class="sub-categories__name1" for="brand_z-a" >Brand (z – a)</label>
+                                         </li>
+                                         <!--  old -->
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="filter-hidden" class="js-filter filter">
+                <div class="filter__container filter__container--desktop">
+                    <div class="tabs">
+                        <ul id="tab-lists" class="tabs__list" role="tablist">
+                            <li role="presentation"><a href="#tab-lists" id="229-tab" class="tabs__tab is-selected" role="tab"
+                                    tabindex="0" aria-controls="229">Category</a></li>
+                            <li role="presentation"><a href="#tab-lists" id="4153-tab" class="tabs__tab " role="tab"
+                                    tabindex="-1" aria-controls="4153">Age</a></li>
+                            <li role="presentation"><a href="#tab-lists" id="47-tab" class="tabs__tab " role="tab"
+                                    tabindex="-1" aria-controls="47">Brand</a></li>
+                            <li role="presentation"><a href="#tab-lists" id="4152-tab" class="tabs__tab " role="tab"
+                                    tabindex="-1" aria-controls="4152">Size</a></li>
+                            <li role="presentation"><a href="#tab-lists" id="233-tab" class="tabs__tab " role="tab"
+                                    tabindex="-1" aria-controls="233">Color</a></li>
+                            <li role="presentation"><a href="#tab-lists" id="65-tab" class="tabs__tab " role="tab"
+                                    tabindex="-1" aria-controls="65">Gender</a></li>
+                        </ul>
+                        <section id="229" class="tabs__panel is-selected" role="tabpanel" tabindex="0"
+                            aria-labelledby="229-tab">
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="228">
+                                <ul class="filter__list">
+                                    
+                                   <li th:each = "subcategory : ${subcategories}" th:if="${subcategory.subcategoryId} <= 15">
+                                        <input type="checkbox" name="subcategory" th:id="${subcategory.name}" th:value="${subcategory.subcategoryId}" class="filter__option  color-hover"
+                                            aria-label="Clothing"  th:checked="${subcategoriesChecked != null and #lists.contains(subcategoriesChecked, subcategory.subcategoryId)}"/>
+                                        <label class="sub-categories__name label_sub_cate" th:for="${subcategory.name}" >
+                                        	[[${subcategory.name}]]</label>
+                                        	
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="228">
+                                <ul class="filter__list">
+                                    
+                                   <li th:each = "subcategory : ${subcategories}" th:if="${subcategory.subcategoryId} > 15 and ${subcategory.subcategoryId} <= 30">
+                                        <input type="checkbox" name="subcategory" th:id="${subcategory.name}" th:value="${subcategory.subcategoryId}" class="filter__option  color-hover"
+                                            aria-label="Clothing"  th:checked="${subcategoriesChecked != null and #lists.contains(subcategoriesChecked, subcategory.subcategoryId)}"/>
+                                        <label class="sub-categories__name" th:for="${subcategory.name}" >[[${subcategory.name}]]</label>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="228">
+                                <ul class="filter__list">
+                                    
+                                   <li th:each = "subcategory : ${subcategories}" th:if="${subcategory.subcategoryId} > 30 and ${subcategory.subcategoryId} <= 45">
+                                        <input type="checkbox" name="subcategory" th:id="${subcategory.name}" th:value="${subcategory.subcategoryId}" class="filter__option  color-hover"
+                                            aria-label="Clothing"  th:checked="${subcategoriesChecked != null and #lists.contains(subcategoriesChecked, subcategory.subcategoryId)}"/>
+                                        <label class="sub-categories__name" th:for="${subcategory.name}" >[[${subcategory.name}]]</label>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="228">
+                                <ul class="filter__list">
+                                    
+                                   <li th:each = "subcategory : ${subcategories}" th:if="${subcategory.subcategoryId} > 45">
+                                        <input type="checkbox" name="subcategory" th:id="${subcategory.name}" th:value="${subcategory.subcategoryId}" class="filter__option  color-hover"
+                                            aria-label="Clothing"  th:checked="${subcategoriesChecked != null and #lists.contains(subcategoriesChecked, subcategory.subcategoryId)}"/>
+                                        <label class="sub-categories__name" th:for="${subcategory.name}" >[[${subcategory.name}]]</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section id="4153" class="tabs__panel " role="tabpanel" tabindex="0" aria-labelledby="4153-tab"
+                            aria-hidden="true">
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="4153">
+                                <ul class="filter__list">
+                                    <li  th:each="age, iterStat : ${ages}" th:if="${iterStat.index} <= 3">
+                                        <input type="checkbox" name="ages" th:value="${age}" th:id="${age}" class="filter__option"
+                                            th:aria-label="${age}" th:checked="${agesChecked != null and #lists.contains(agesChecked, age)}"/> 
+                                            <label class="sub-categories__name" th:for="${age}" >[[${age}]]</label>
+                                           
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="4153">
+                                <ul class="filter__list">
+                                    <li  th:each="age, iterStat : ${ages}" th:if="${iterStat.index} > 3 and ${iterStat.index} <= 9">
+                                        <input type="checkbox" name="ages" th:value="${age}" th:id="${age}" class="filter__option  "
+                                            th:aria-label="${age}" th:checked="${agesChecked != null and #lists.contains(agesChecked, age)}"/> 
+                                            <label class="sub-categories__name" th:for="${age}" >[[${age}]]</label>
+                                    </li>    
+                                </ul>
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="4153">
+                                <ul class="filter__list">
+                                    <li  th:each="age, iterStat : ${ages}" th:if="${iterStat.index} > 9 and ${iterStat.index} <= 15">
+                                        <input type="checkbox" name="ages" th:value="${age}" th:id="${age}" class="filter__option  "
+                                            th:aria-label="${age}" th:checked="${agesChecked != null and #lists.contains(agesChecked, age)}"/> 
+                                            <label class="sub-categories__name" th:for="${age}" >[[${age}]]</label>
+                                    </li>   
+                                </ul>
+                            </div>
+                            
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="4153">
+                                <ul class="filter__list">
+                                    <li  th:each="age, iterStat : ${ages}" th:if="${iterStat.index} > 15 and ${iterStat.index} <= 21">
+                                        <input type="checkbox" name="ages" th:value="${age}" th:id="${age}" class="filter__option  "
+                                            th:aria-label="${age}" th:checked="${agesChecked != null and #lists.contains(agesChecked, age)}"/> 
+                                            <label class="sub-categories__name" th:for="${age}" >[[${age}]]</label>
+                                    </li>   
+                                </ul>
+                            </div>
+                        </section>
+                        <section id="47" class="tabs__panel " role="tabpanel" tabindex="0" aria-labelledby="47-tab"
+                            aria-hidden="true">
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="47">
+                                <ul class="filter__list">
+                                    <li th:each = "brand : ${brands}"  th:if="${brand.brandId} <= 5">
+                                        <input type="checkbox" name="brands" th:value="${brand.brandId}" th:id="${brand.name}" class="filter__option  "
+                                        aria-label="Bonpoint" th:checked="${brandsChecked != null and #lists.contains(brandsChecked, brand.brandId)}"/> 
+                                       	<label class="sub-categories__name" th:for="${brand.name}" >[[${brand.name}]]</label>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="47">
+                                <ul class="filter__list">
+                                    <li th:each = "brand : ${brands}"  th:if="${brand.brandId} > 5 and ${brand.brandId} <= 10">
+                                        <input type="checkbox" name="brands" th:value="${brand.brandId}" th:id="${brand.name}" class="filter__option  "
+                                        aria-label="Bonpoint" th:checked="${brandsChecked != null and #lists.contains(brandsChecked, brand.brandId)}"/> 
+                                       	<label class="sub-categories__name" th:for="${brand.name}" >[[${brand.name}]]</label>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            
+                        </section>
+                        <section id="4152" class="tabs__panel " role="tabpanel" tabindex="0" aria-labelledby="4152-tab"
+                            aria-hidden="true">
+                            <div class="filter__group-content  filter__group-content--onecol" data-filter-group="4152">
+                                <ul class="filter__list">
+                                    <li th:each = "size, iterStat : ${sizes}" th:if = "${iterStat.index} <= 16">
+                                        <input type="checkbox" name="sizes" th:value="${size}" th:id="${size}" class="filter__option  "
+                                            th:aria-label="${size}"  th:checked="${sizesChecked != null and #lists.contains(sizesChecked, size)}"/> 
+                                            <label class="sub-categories__name" th:for="${size}" >[[${size}]]</label>
+                                           
+                                    </li>
+                                     
+                                </ul>
+                            </div>
+                            
+                            <div class="filter__group-content  filter__group-content--onecol" data-filter-group="4152">
+                                <ul class="filter__list">
+                                    <li th:each = "size, iterStat : ${sizes}"	th:if = "${iterStat.index} > 16 and ${iterStat.index} <= 33 ">
+                                        <input type="checkbox" name="sizes" th:value="${size}" th:id="${size}" class="filter__option  "
+                                            th:aria-label="${size}"  th:checked="${sizesChecked != null and #lists.contains(sizesChecked, size)}"/> 
+                                            <label class="sub-categories__name" th:for="${size}" >[[${size}]]</label>
+                                    </li>
+                                </ul>
+                            </div>
+                             <div class="filter__group-content  filter__group-content--onecol" data-filter-group="4152">
+                                <ul class="filter__list">
+                                    <li th:each = "size, iterStat : ${sizes}"	th:if = "${iterStat.index} > 33">
+                                        <input type="checkbox" name="sizes" th:value="${size}" th:id="${size}" class="filter__option  "
+                                            th:aria-label="${size}"  th:checked="${sizesChecked != null and #lists.contains(sizesChecked, size)}"/> 
+                                            <label class="sub-categories__name" th:for="${size}" >[[${size}]]</label>
+                                           
+                                    </li>
+                                     
+                                </ul>
+                            </div>
+                            
+                        </section>
+                        <section id="233" class="tabs__panel " role="tabpanel" tabindex="0" aria-labelledby="233-tab"
+                            aria-hidden="true">
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="233">
+                                <ul class="filter__list">
+                                    <li th:each = "color, iterStat : ${colors}" th:if = "${iterStat.index} <= 6">
+                                        <input type="checkbox" name="colors" th:value = "${color}" th:id="${color}" class="filter__option  color"
+                                            aria-label="Black" th:checked="${colorsChecked != null and #lists.contains(colorsChecked, color)}"/> 
+                                            <label class="sub-categories__name" th:for="${color}" >[[${color}]]</label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="233">
+                                <ul class="filter__list">
+                                    <li th:each = "color, iterStat : ${colors}" th:if = "${iterStat.index} > 6">
+                                        <input type="checkbox" name="colors" th:value = "${color}" th:id="${color}" class="filter__option  color"
+                                            aria-label="Black" th:checked="${colorsChecked != null and #lists.contains(colorsChecked, color)}"/> 
+                                            <label class="sub-categories__name" th:for="${color}" >[[${color}]]</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section id="65" class="tabs__panel" role="tabpanel" tabindex="0" aria-labelledby="63-tab"
+                            aria-hidden="true">
+                            <div class="filter__group-content filter__group-content--onecol" data-filter-group="63">
+                                <ul class="filter__list">
+                                    <li th:each = "gender : ${genders}">
+                                        <input type="checkbox" name="genders" th:value="${gender}" th:id="${gender}" class="filter__option  "
+                                            aria-label="Boys" th:checked="${gendersChecked != null and #lists.contains(gendersChecked, gender)}"/>
+                                            <label class="sub-categories__name" th:for="${gender}" >[[${gender}]]</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="js-filter-done">
+                        <button class="btn btn--inverted filter__done-btn" onclick="closeF()">
+                            Done
+                        </button>
+                    </div>
+                </div>
+                <div class="js-filter-tags filter-tags">
+                </div>
+            </div>
+            <!--  old -->
+            <!-- 
+            <div class="product-list js-product-list" tabindex="-1">
+                <article class="card js-product card--quickshop" data-id="474753"
+                    data-gtm-vis-first-on-screen-30836705_353="491" data-gtm-vis-total-visible-time-30836705_353="100"
+                    data-gtm-vis-has-fired-30836705_353="1" th:each = "product : ${session.products}">
+
+                    <div class="embed-responsive card__image">
+                        <img th:src="${product.images.get(0).name}" class="product__image js-image has-loaded"
+                            loading="lazy" alt="Cachea Dress Soft Sand" srcset="">
+                    </div>
+                    <div class="card__loader"></div>
+                    <div class="card__content">
+                        <h3 class="card__title">
+                            <a class="card__link" href="/cachea-dress-soft-sand/p/474753">
+                                <span class="card__brand" th:text = "${product.brand.name}">
+                                    Molo
+                                </span>
+                                <strong class="card__name" th:text = "${product.name}">
+                                    Cachea Dress Soft Sand
+                                </strong>
+                            </a>
+                        </h3>
+                        <div class="card__price">
+                            <div itemscope="" itemprop="offers" itemtype="http://schema.org/Offer" class="price">
+                                <span itemprop="price" content="399.00" class="price__current" data-price="399.00" th:text = "${product.price + '.000 VND'}">
+                                    399 kr
+                                </span>
+                                <meta itemprop="priceCurrency" content="SEK">
+                            </div>
+                        </div>
+                    </div>
+                    <div data-qs-id="474753" class="card__quickshop">
+                        <div class="quickshop-btn__holder">
+                            <button class="quickshop-btn js-quickshop-btn">
+                                Add to cart
+                            </button>
+                            <a href="#" class="add-to-favorites js-add-to-favorites is-empty" data-id="474753">
+                                <span class="add-to-favorites__span">Favorite</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+               
+            </div>
+             -->
+             <!--  new -->
+             <div class="slider___item">
+                <div th:each = "product : ${session.products}" class="slider-items-list1">
+                    <div class="product-card">
+                        <a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
+                            <div class="image_block">
+                                <img th:src="${product.images.get(0).name}" loading="lazy">
+                                
+                            </div>
+                        </a>
+                        <h3 th:text="${product.brand.name}" class="card_title">
+                        </h3>
+                        <a th:href="'/product/details/' + ${product.productId}" class="product_card_name">
+                            <h2 th:text="${product.name}">
+
+                            </h2>
+                        </a>
+                        <div class="mt-auto">
+                            <div class="product-price">
+                                <span class="discount_price"  th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
+                                <span class="n_discount_price" th:if = "${product.discount} !=100" th:text="${product.price + '.000VNĐ'}"></span>
+                            </div>
+                        </div>
+                        <div class="product_discount_label" th:if = "${product.discount} !=100" th:text="${product.discount + '%'}"></div>
+                        <div aria-label="remove from wishlist" class="add-wishlist">
+								<div class="add-wishlist-child">
+								<!--  content -->
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+             <div class="pagination-nav">
+                <a aria-label="1plus-in-the-family" href="#" class="pagi-btn">
+                    <svg class="fill-black stroke-none " viewBox="0 0 24 24" width="24" height="24">
+                        <path fill-rule="evenodd"
+                            d="M20.25 12.75a.75.75 0 0 0 0-1.5H5.56l5.47-5.47a.75.75 0 1 0-1.06-1.06l-6.75 6.75a.75.75 0 0 0 0 1.06l6.75 6.75a.75.75 0 1 0 1.06-1.06l-5.47-5.47h14.69Z">
+                        </path>
+                    </svg>
+                </a>
+                <span class="number-of-pages">
+                    Page
+                    <!-- -->
+                    1
+                    <!-- -->
+                    of
+                    <!-- -->
+                    8
+                </span>
+                <a aria-label="1plus-in-the-family" href="#" class="pagi-btn">
+                    <svg class="fill-black stroke-none " viewBox="0 0 24 24" width="24" height="24">
+                        <path fill-rule="evenodd"
+                            d="M3.75 11.25a.75.75 0 0 0 0 1.5h14.69l-5.47 5.47a.75.75 0 1 0 1.06 1.06l6.75-6.75a.75.75 0 0 0 0-1.06l-6.75-6.75a.75.75 0 1 0-1.06 1.06l5.47 5.47H3.75Z">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+        </main>
+        </form>
+    </div>
+    <!--footer-->
+    <footer th:insert="~{home :: footer}"></footer>
+    <div th:insert="~{home :: uptop}"></div>
+    
+    
+</body>
+<script th:src="@{/js/script.js}"></script> 
+<script th:src="@{/js/search.js}"></script>
+
+</html>

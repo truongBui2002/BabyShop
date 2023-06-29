@@ -35,7 +35,7 @@ public class Subcategory {
 	private int subcategoryId;
 
 	@Column(name = "name")
-	private String name;
+	private String name = "";
 
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
@@ -45,7 +45,7 @@ public class Subcategory {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
-	private Category category;
+	private Category category = new Category();
 	
 	@OneToMany(mappedBy = "subcategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Product> products;

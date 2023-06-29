@@ -32,18 +32,26 @@ public class BrandService {
 	public List<Brand> getAll() {
 		List<Brand> brands = brandsRepository.findAll();
 		for (Brand brand : brands) {
-			brand = addLinkImage(brand);
+			addLinkImage(brand);
 		}
 		return brands;
 	}
 	
-	public Brand addLinkImage(Brand brand) {
+	public void addLinkImage(Brand brand) {
 		Image image = brand.getImage();
 		entityManager.detach(image);
 		Image img = imageRepository.findById(image.getImageId()).get();
 		String imageName = MvcUriComponentsBuilder.fromMethodName(ImageController.class,
                 "readDetailFileBrand", img.getName()).build().toUri().toString();
 		image.setName(imageName);
-		return brand;
 	}
+	public Brand getBrandById(int brandId) {
+		Optional<Brand> brand = brandsRepository.findById(brandId);
+		if(brand.isPresent()) {
+			addLinkImage(brand.get());
+			return brand.get();
+		}
+		return null;
+	}
+	
 }

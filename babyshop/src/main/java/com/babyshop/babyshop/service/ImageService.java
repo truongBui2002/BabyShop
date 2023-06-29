@@ -15,6 +15,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.babyshop.babyshop.repositories.ImageRepository;
 
 @Service
@@ -106,6 +108,25 @@ public class ImageService {
 		}
 		return generatedFileName;
 	} 
+	public String updateAvatar(MultipartFile file) {
+		String generatedFileName =randFileName();
+		try {
+		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		generatedFileName = generatedFileName + "." + fileExtension;
+		Path destinationFilePath = this.storageFolderAvatar.resolve(Paths.get(generatedFileName)).normalize()
+				.toAbsolutePath();
+		if (!destinationFilePath.getParent().equals(this.storageFolderAvatar.toAbsolutePath())) {
+			throw new RuntimeException("Cannot store file outside current directory");
+		}
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+		}
+		}catch (Exception e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+		return generatedFileName;
+	}
 	
 	public byte[] readFileContentAvatar(String fileName) {
 		try {

@@ -2,6 +2,7 @@ package com.babyshop.babyshop.models;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,6 +65,9 @@ public class User implements UserDetails {
 
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
+	
+	@Column(name = "gender")
+	private boolean gender;
 
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new java.util.Date().getTime());
@@ -111,7 +115,8 @@ public class User implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.email;
+		if(this.email!=null) return this.email;
+		return this.phoneNumber;
 	}
 
 	@Override
@@ -132,6 +137,9 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	public LocalDate getDob() {
+		return this.dob.toLocalDate();
 	}
 
 }

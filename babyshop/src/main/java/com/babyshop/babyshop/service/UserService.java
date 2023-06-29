@@ -34,15 +34,15 @@ public class UserService implements UserDetailsService{
     
     @Autowired
     EntityManager entityManager;
+
     @Override
     public UserDetails loadUserByUsername(String emailOrPhone) throws UsernameNotFoundException {
         User user = findByEmail(emailOrPhone);
-        System.out.println("emailOrPhone: " + emailOrPhone);
         if(user == null) {
         	user = findByPhone(emailOrPhone);
         }
         if (user != null) {
-            return user;
+            return user; 
         } else {
             throw new UsernameNotFoundException("Invalid email or password");
         }
@@ -72,6 +72,11 @@ public class UserService implements UserDetailsService{
     	entityManager.merge(role);
     	userRepository.save(user); 
     } 
+    
+    public void save(User user) {
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	userRepository.save(user);
+    }
     
     public boolean userIsExists(String key) {
     	User user1 = findByEmail(key);

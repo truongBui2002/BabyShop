@@ -23,30 +23,30 @@ const maleFunc = (e) => {
 
 
 
-// femaleOption.addEventListener('click', femaleFunc);
-// maleOption.addEventListener('click', maleFunc);
+femaleOption.addEventListener('click', femaleFunc);
+maleOption.addEventListener('click', maleFunc);
 
-// // process disable input
-// const email = document.getElementById('email');
-// const phoneNumber = document.getElementById('phoneNumber');
+// process disable input
+const email = document.getElementById('email');
+const phoneNumber = document.getElementById('phoneNumber');
 
-// const spanEmail = document.getElementById("email_span");
-// const spanPhone = document.getElementById("phoneNumber_span");
+const spanEmail = document.getElementById("email_span");
+const spanPhone = document.getElementById("phoneNumber_span");
 
-// const clickEmailSpan = () => {
-//     if(email.hasAttribute('disabled')) {
-//         email.removeAttribute('disabled');
-//         email.style.background = 'none'; 
-//     }
-// }
-// const clickPhoneSpan = () => {
-//     if(phoneNumber.hasAttribute('disabled')) {
-//         phoneNumber.removeAttribute('disabled');
-//         phoneNumber.style.background = 'none';
-//     }
-// }
-// spanEmail.addEventListener('click', clickEmailSpan);
-// spanPhone.addEventListener('click', clickPhoneSpan);
+const clickEmailSpan = () => {
+    if(email.hasAttribute('disabled')) {
+        email.removeAttribute('disabled');
+        email.style.background = 'none'; 
+    }
+}
+const clickPhoneSpan = () => {
+    if(phoneNumber.hasAttribute('disabled')) {
+        phoneNumber.removeAttribute('disabled');
+        phoneNumber.style.background = 'none';
+    }
+}
+spanEmail.addEventListener('click', clickEmailSpan);
+spanPhone.addEventListener('click', clickPhoneSpan);
 
 // constraints phone number with OTP
 
@@ -94,7 +94,8 @@ fileInput.addEventListener('change', function (event) {
         const reader = new FileReader();
 
         reader.onload = function (event) {
-            avatarPreview.style.backgroundImage = `url(${event.target.result})`;
+            //avatarPreview.style.backgroundImage = `url(${event.target.result})`;
+            avatarPreview.src = reader.result;
         };
 
         reader.readAsDataURL(file);

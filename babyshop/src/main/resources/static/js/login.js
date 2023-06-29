@@ -4,62 +4,54 @@ var inputKey = document.getElementById('phoneNumber');
 var passField = document.getElementsByClassName('field_pass');
 var otp = document.getElementById('otpValue');
 var registerField = document.getElementsByClassName('field_register')[0];
+var phoneIsExists = document.getElementById('phoneOrMaiExists');
+var sendOTP = document.getElementsByClassName('sendOTP')[0];
 async function sendOtp() {
-	var phoneOrMail = inputKey.value;
-	if (isPhoneNumber(phoneOrMail)) {
+	if (phoneIsExists.style.display == 'block') {
+		console.log('Phone is EXISTS');
+		phoneIsExists.style.display = 'none';
+	}
+	var phoneStr = inputKey.value;
+	if (isPhoneNumber(phoneStr)) {
 		var url = "/login/checkexits";
-		var value = await sendata(url, phoneOrMail);
+		var value = await sendata(url, phoneStr);
 		console.log(value);
-		if (value !=='exists') {
-			var phone = phoneOrMail.replace(/^0/, "+84");
+		if (value !== 'exists') {
+			var phone = phoneStr.replace(/^0/, "+84");
+			//vô hiệu hóa sự kiện bấm vào thẻ span
+			sendOTP.style.pointerEvents = 'none';
+			inputKey.readOnly = true;
 			phoneAuth(phone);
+			//firebase.auth().signOut();
 		} else {
-			document.getElementById("phoneOrMaiExists").style.display = 'block';
-		}
-
-	} else if (isGmail(phoneOrMail)) {
-		const url = "/login/sendcode/email"
-		const email = phoneOrMail;
-		
-		var value = await sendata(url, email);
-		console.log(value);
-		if (value !=='exists') {
-			inputKey.readonly = true;
-			otpField.style.display = 'block';
-			passField[0].style.display = 'block';
-			registerField.style.display = 'block';
-		} else {
-			document.getElementById("phoneOrMaiExists").style.display = 'block';
+			phoneIsExists.style.display = 'block';
 		}
 	} else {
-		document.getElementById('syntax_error').style.display = 'block';
+		/*document.getElementById('syntax_error').style.display = 'block';*/
+		
+		//Check valid phone number in here
 	}
-
 
 }
 function isPhoneNumber(input) {
 	const phoneRegex = /^0\d{9,10}$/;
 	return phoneRegex.test(input);
 }
-function isGmail(email) {
-	const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-	return gmailRegex.test(email);
-}
 // fetch là hàm bất đồng bộ nên cần phải thêm await
 async function sendata(url, data) {
-  var value;
-  await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }).then(res => {
-    return res.text();
-  }).then(text => {
-    value = text;
-  });
-  return value;
+	var value;
+	await fetch(url, {
+		method: 'POST',
+		body: data,
+		headers: {
+			'Content-Type': 'text/plain'
+		}
+	}).then(res => {
+		return res.text();
+	}).then(text => {
+		value = text;
+	});
+	return value;
 }
 
 
@@ -75,40 +67,41 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var otpField = document.getElementsByClassName('field_otp')[0];
-
+var manyError = document.getElementById('manyError');
 function phoneAuth(phoneNumber) {
 	const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
 		size: 'invisible' // Ẩn reCAPTCHA
 	});
 	var capcha = document.getElementById('recaptcha-container');
-	console.log(phoneNumber);
 	otpField.style.display = 'block';
 
 
 
 	firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
-		.then(function (confirmationResult) {
+		.then(function(confirmationResult) {
+			var count = 0; //đến số lần nhập otp
+			var opt_err = document.getElementById('opt_err');
 			otp.oninput = () => {
 				var inputValue = otp.value;
-				inputKey.readonly = true;
-				if (inputValue.length === 6) {
+				opt_err.style.display = 'none';
+				if (inputValue.length === 6 && count <= 2) {
+					count++;
+					console.log("COUNT :" + count);
 					confirmationResult.confirm(inputValue)
 						.then((result) => {
-							console.log(result);
-							result.user.getIdToken().then((token) => {
-								console.log('TOKEN: ' + token);
-							});
+							
 							passField[0].style.display = 'block';
-							// passField[1].style.display = 'block';
 							otpField.style.display = 'none';
 							registerField.style.display = 'block';
 						})
 						.catch((err) => {
-				 			alert('Bạn đã nhập sai OTP, xin vui lòng gửi lại mã xác thực');
+							opt_err.style.display = 'block';
 						});
+				} else if (count >= 2) {
+					document.getElementById('manyError').style.display = 'block';
 				}
 			};
-		}).catch(function (error) {
+		}).catch(function(error) {
 			alert(error.message);
 		});
 
@@ -118,12 +111,12 @@ function phoneAuth(phoneNumber) {
 function showTab(event, tabNumber) {
 	event.preventDefault();
 	var tabPanels = document.querySelectorAll('.tabs__panel');
-	tabPanels.forEach(function (panel) {
+	tabPanels.forEach(function(panel) {
 		panel.style.display = 'none';
 	});
 
 	var tabLinks = document.querySelectorAll('.tabs__tab');
-	tabLinks.forEach(function (link) {
+	tabLinks.forEach(function(link) {
 		link.classList.remove('is-selected');
 	});
 
@@ -148,3 +141,22 @@ function showTab(event, tabNumber) {
 		selectedTabLink1.style.backgroundColor = '#f7efef';
 	}
 }
+/* valid form*/
+const userInputted = document.getElementById("email-login");
+console.log(userInputted);
+const passInputted = document.getElementById("password-login");
+
+const btnLogin = document.getElementById("btn-login1");
+
+function checkField() {
+	if (userInputted.value !== '' && passInputted.value !== '') {
+		btnLogin.disabled = false;
+		btnLogin.style.cursor = 'pointer';
+	} else {
+		btnLogin.disabled = true;
+	}
+}
+
+userInputted.addEventListener('input', checkField);
+passInputted.addEventListener('input', checkField);
+

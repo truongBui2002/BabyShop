@@ -1,6 +1,7 @@
 package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Category {
 	private int categoryId;
 
 	@Column(name = "name")
-	private String name;
+	private String name = "";
 
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
@@ -41,7 +42,7 @@ public class Category {
 	private Timestamp updateAt = new Timestamp(new Date().getTime());
 	
 	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<Subcategory> subcategories;
+	private List<Subcategory> subcategories = new ArrayList<>();
 
 	public Category(String name) {
 		this.name = name;

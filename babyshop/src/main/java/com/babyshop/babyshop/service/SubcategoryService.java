@@ -25,7 +25,7 @@ public class SubcategoryService {
 	SubcategoryRepository subcategoryRepository;
 	
 	@Autowired
-	ProductRepository productRepository;
+	ProductService productService;
 
 	@Autowired
 	ImageRepository imageRepository;
@@ -44,27 +44,9 @@ public class SubcategoryService {
 		Subcategory subcategory = subcategoryRepository.findByName(name);
 		List<Product> products = subcategory.getProducts();
 		for (Product product : products) {
-			product = addLinkImage(product);
+			productService.addLinkImage(product);
 		}
 		return subcategory;
 	}
 	
-	
-	
-	public Product addLinkImage(Product product) {
-		List<Image> images = new ArrayList<>();
-		for (Image image : product.getImages()) {
-			//Loại bỏ những image đã được JPA tạo ra
-//			entityManager.detach(image);
-//			Image img = imageRepository.findById(image.getImageId()).get();
-			String imageName = MvcUriComponentsBuilder.fromMethodName(ImageController.class,
-                    "readDetailFileProduct", image.getName()).build().toUri().toString();
-			
-			image.setName(imageName);
-			images.add(image);
-			
-		}
-		product.setImages(images);
-		return product;
-	}
 }

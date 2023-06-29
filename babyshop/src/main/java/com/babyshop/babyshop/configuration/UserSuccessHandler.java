@@ -73,10 +73,9 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 				System.out.print("user: " + user.getEmail());
 			}
 			User user = userService.findByEmail(email);
-			System.out.print("user: " + user.getEmail());
 			session.setAttribute("user", user);
 		}
-		redirectUrl = "/viewprofile";
+		redirectUrl = "/user/viewprofile";
 
 		// chuyển tiếp tới địa chỉ
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
