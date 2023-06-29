@@ -1,82 +1,105 @@
-function startSlideshow() {
-  const slides = document.querySelectorAll('.slides a');
-  let currentSlide = 0;
 
-  setInterval(() => {
-    slides[currentSlide].className = '';
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].className = 'active';
-  }, 4000);
-}
+// product listing 
+var listProductSliders = document.querySelectorAll('.list-product-slider');
+console.log(listProductSliders);
 
-window.addEventListener('load', startSlideshow);
+listProductSliders.forEach((listProductSlider) => {
 
-//dragging items
-const carousels = document.querySelectorAll(".slider___items")
 
-console.log(carousels);
-carousels.forEach((carousel) => {
-  const firstImg = carousel.querySelectorAll("img")[0];
-  const arrowIcons = document.querySelectorAll(".slider_nav button");
-  const sliderChildren = document.querySelectorAll(".slider-items-list");
-  sliderChildren.forEach((sliderChild) => {
-    sliderChild.addEventListener("click", (e) => {
-      e.preventDefault();
-    });
-  });
 
-  let isDragStart = false, isDragging = false, prevPageX, prevScrollLeft, positionDiff;
+  const sliderItems = listProductSlider.querySelector('.slider___items1');
+
+  const firstItem = sliderItems.querySelectorAll('.slider-items-list1')[0];
+
+  const arrowProductLists = listProductSlider.querySelectorAll('button.scroll_carousel');
+  arrowProductLists[0].setAttribute('disabled', 'true');
+
+  let firstItemWidth = firstItem.clientWidth + 12;
+  let scrollWidth = sliderItems.scrollWidth - sliderItems.clientWidth;
+  arrowProductLists.forEach(
+    icon => {
+      icon.addEventListener('click', () => {
+        console.log(icon);
+        console.log('sliderItems.scrollLeft', sliderItems.scrollLeft);
+        sliderItems.scrollLeft += icon.classList.contains('scroll_carousel_left') ? -firstItemWidth * 2 : firstItemWidth * 2;
+        setTimeout(() => showHideIcons(), 30);
+      });
+    }
+  );
 
   const showHideIcons = () => {
-    // showing and hiding prev/next icon according to carousel scroll left value
-    let scrollWidth = carousel.scrollWidth - carousel.clientWidth; 
-    arrowIcons[0].style.display = carousel.scrollLeft == 0 ? "none" : "block";
-    arrowIcons[1].style.display = carousel.scrollLeft >= scrollWidth -1 ? "none" : "block";
+    if (sliderItems.scrollLeft === 0) {
+      arrowProductLists[0].setAttribute('disabled', 'true');
+    } else {
+      arrowProductLists[0].removeAttribute('disabled');
+    }
+    if (sliderItems.scrollLeft === scrollWidth) {
+      arrowProductLists[1].setAttribute('disabled', 'true');
+    } else {
+      arrowProductLists[1].removeAttribute('disabled');
+    }
+
   }
-
-  arrowIcons.forEach(icon => {
-    icon.addEventListener("click", () => {
-      let firstImgWidth = firstImg.clientWidth + 14;  
-      carousel.scrollLeft += icon.className == "left" ? -firstImgWidth : firstImgWidth;
-      setTimeout(showHideIcons(), 60); // calling showHideIcons after 60ms
-    });
-  });
-
-
-  const dragStart = (e) => {
-    // updatating global variables value on mouse down event
-    isDragStart = true;
-    prevPageX = e.pageX || e.touches[0].pageX;
-    prevScrollLeft = carousel.scrollLeft;
-  }
-
-  const dragging = (e) => {
-    // scrolling images/carousel to left according to mouse pointer
-    if (!isDragStart) return;
-    e.preventDefault();
-    isDragging = true;
-    carousel.classList.add("dragging");
-    positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
-    carousel.scrollLeft = prevScrollLeft - positionDiff;
-    showHideIcons();
-  }
-
-  const dragStop = () => {
-    isDragStart = false;
-    carousel.classList.remove("dragging");
-
-    if (!isDragging) return;
-    isDragging = false;
-    // autoSlide();
-  }
-
-  carousel.addEventListener("mousedown", dragStart); // push
-  carousel.addEventListener("touchstart", dragStart);
-
-  document.addEventListener("mousemove", dragging);
-  carousel.addEventListener("touchmove", dragging);
-
-  document.addEventListener("mouseup", dragStop); //drop
-  carousel.addEventListener("touchend", dragStop);
 });
+
+
+
+var imageBlocks = document.querySelectorAll('.image_block');
+imageBlocks.forEach((e) => {
+  const img = e.querySelector('img');
+  function loaded() {
+    e.classList.add('loaded');
+  }
+  if (img.complete) {
+    loaded();
+  } else {
+    img.addEventListener('load', loaded);
+  }
+});
+
+const upTop = document.getElementById('up-top');
+upTop.addEventListener('click', () => {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+});
+
+window.onscroll = function () { scrollFunction() };
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    upTop.style.opacity = "1";
+
+  } else {
+    upTop.style.opacity = "0";
+  }
+}
+
+/* fill heart */
+var addWishLists = document.querySelectorAll('.add-wishlist');
+console.log(addWishLists);
+addWishLists.forEach( (addWishList) => {
+	var heartLight = addWishList.querySelector('.heart-light');
+	var heartTomato = addWishList.querySelector('.heart-tomato');
+	
+	addWishList.addEventListener('click', () => {
+		if(heartLight.classList.contains('fill-neutral-light') && heartTomato.classList.contains('fill-neutral-microwave')) {
+			heartLight.classList.add('fill-tomato-dark');
+			heartLight.classList.remove('fill-neutral-light');
+			heartTomato.classList.add('fill-tomato-dark');
+			heartTomato.classList.remove('fill-neutral-microwave');
+			addWishList.ariaLabel = 'add from wishlist';
+			
+		}else {
+			heartLight.classList.add('fill-neutral-light');
+			heartTomato.classList.add('fill-neutral-microwave');
+			addWishList.ariaLabel = 'remove from wishlist';
+		}
+	});
+});
+var ariaWishList = document.querySelectorAll('[aria-label="remove from wishlist"]');
+console.log('cac', ariaWishList);
+
+function addedWishlist() {
+	var ariaWishList = document.querySelectorAll('[aria-label]');
+}
 

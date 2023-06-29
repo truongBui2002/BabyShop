@@ -2,7 +2,9 @@ body {
     font-size: 16px;
     color: #222;
     letter-spacing: .01rem;
+    font-family: 'Poppins', sans-serif;
 }
+
 /* .hehe {
     display: non;
 } */
@@ -11,16 +13,21 @@ body {
     display: block;
     padding: 1rem 2.5rem;
     border: 0;
-    border-radius: 2px;
+    border-radius: 10px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: inherit;
     text-decoration: none;
     text-align: center;
-    font-size: .875rem;
+    font-size: 1rem;
     color: #222;
     background: 0 0;
     cursor: pointer;
+    text-transform: uppercase;
+}
+
+#btn-login1 {
+    cursor: not-allowed;
 }
 
 .login-form {
@@ -48,8 +55,7 @@ body {
 
 }
 
-.auth_form,
-.auth__links {
+.auth_form {
     padding: 0 2.5rem;
 }
 
@@ -89,18 +95,19 @@ body {
 .auth__links {
     font-size: .75rem;
     text-align: center;
-    padding-bottom: 2rem;
 }
 
 
 .auth .tabs__list li {
     width: 50%;
 }
+
 .auth .tabs__list .tabs__tab[aria-selected=true] {
     background: #fff;
 }
+
 .auth .tabs__list .tabs__tab {
-    font-family: GT Walsheim Pro,Arial,Helvetica,sans-serif;
+    font-family: GT Walsheim Pro, Arial, Helvetica, sans-serif;
     font-weight: 700;
     display: block;
     background: #f7efef;
@@ -110,8 +117,9 @@ body {
     color: #222;
     padding: 1.25rem;
     font-size: 1.25rem;
-    
+
 }
+
 .btn-login:hover {
     background-color: #97d5c9;
 }
@@ -119,28 +127,151 @@ body {
 .btn-login {
     background-color: #b4e1d8;
     width: 100%;
+    color: #fff;
 }
+
 .phoneNumber {
     position: relative;
 }
+
 .sendOTP {
     display: block;
     position: absolute;
-    top: 38px;
+    top: 37px;
     right: 11px;
     cursor: pointer;
     font-size: 14px;
 }
+
 .sendOTP:hover {
     color: #97d5c9;
 }
+
 .hidden-tab {
     visibility: hidden;
     display: none;
 }
+
 .auth {
     margin-bottom: 60px;
 }
+
 .recaptcha-container {
     margin-top: 50px;
 }
+
+
+.other_method_login {
+    display: flex;
+    align-items: center;
+}
+
+.border-before {
+    height: 1px;
+    width: 100%;
+    background-color: #dbdbdb;
+    flex: 1;
+}
+
+.other_method_login>span {
+    text-transform: uppercase;
+    padding: 0 1rem;
+    font-size: .75rem;
+    color: #ccc;
+}
+
+.google__link {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.google_logo {
+    font-size: 1rem;
+    padding-right: 10px;
+    line-height: 1rem;
+}
+
+.google_text {
+    font-size: 1rem;
+    line-height: 1rem;
+}
+
+.auth__link {
+    display: block;
+    padding-bottom: 1rem;
+}
+
+.auth__title {
+    margin-bottom: 0;
+}
+
+.sub_auth__title {
+    opacity: 0.8;
+    text-align: center;
+    font-size: .8rem;
+    margin-bottom: 3rem;
+}
+
+/* popup register form */
+.popup-login-tab {
+    padding: 24px 8px 8px 8px !important;
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: normal;
+}
+
+.popup-login-tab>.popup-login-tab-item {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 8px;
+    user-select: none;
+    width: calc(50% - 16px);
+}
+
+.popup-login-tab > .popup-login-tab-item hr {
+    font-size: 2em;
+    margin: 5px 0;
+    border: 1px solid #eee0;
+    transition: all 0.5s ease-in-out;
+    width: 20%;
+    margin-block-start: 0.2em;
+    margin-block-end: 0.2em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+}
+.popup-login-tab > .popup-login-tab-item.active a, .popup-login-tab .popup-login-tab-item:hover a {
+    color: #229780;
+}
+.popup-login-tab > .popup-login-tab-item:hover hr, .popup-login-tab > .popup-login-tab-item.active hr {
+    border: 1px solid #229780;
+    width: 100%;
+}
+.input_box {
+    position: relative;
+}
+
+/* reset password*/
+.rs-pass {
+	cursor: not-allowed;
+}
+
+.bs-textbox:disabled {
+	background-color: #f2f2f2;
+	color: #f2f2f2;
+}
+.arlet-input {
+	display: none;
+}
+.arlet-input.valid {
+	display: block;
+	margin-top: 10px;
+	color: #229780;
+}
+.arlet-input.active {
+	display: block;
+	color: #dc3456;
+	margin-top: 10px;
+}
+

@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.babyshop.babyshop.service.ImageService;
 
 @RestController
-@RequestMapping(path = "/img")
 public class ImageController {
 	
 	@Autowired
 	public ImageService imageService;
 	
-	@GetMapping("/product/{imgName:.+}")
+	@GetMapping("img/product/{imgName:.+}")
 	public ResponseEntity<byte[]> readDetailFileProduct(@PathVariable String imgName){
 		try {
 			byte[] bytes = imageService.readFileContentProduct(imgName);
@@ -32,7 +31,7 @@ public class ImageController {
 		}
 	}
 	
-	@GetMapping("/brand/{brandName:.+}")
+	@GetMapping("img/brand/{brandName:.+}")
 	public ResponseEntity<byte[]> readDetailFileBrand(@PathVariable String brandName){
 		try {
 			byte[] bytes = imageService.readFileContentBrand(brandName);
@@ -44,7 +43,7 @@ public class ImageController {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	@GetMapping("/viewprofile/{avatar:.+}")
+	@GetMapping("/user/viewprofile/{avatar:.+}")
 	public ResponseEntity<byte[]> readDetailFileAvatar(@PathVariable String avatar){
 		try {
 			byte[] bytes = imageService.readFileContentAvatar(avatar);

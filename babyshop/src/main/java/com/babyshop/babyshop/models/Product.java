@@ -1,5 +1,6 @@
 package com.babyshop.babyshop.models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,36 +18,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.context.annotation.Scope;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Scope("protoype")
 @Data
@@ -61,31 +41,31 @@ public class Product {
 	@Column(name = "product_id")
 	private int productId;
 	@Column(name = "name")
-	private String name;
+	private String name = "";
 
 	@Column(name = "price")
-	private double price;
+	private double price = 0.0;
 
 	@Column(name = "description")
-	private String description;
+	private String description = "";
 
 	@Column(name = "specification")
-	private String specification;
+	private String specification = "";
 
 	@Column(name = "discount")
-	private double discount;
+	private double discount = 0.0;
 	
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
 
 	@Column(name = "created_at")
-	private Date createdAt;
+	private Timestamp createdAt = new Timestamp(new Date().getTime());
 
 	@Column(name = "update_at")
-	private Date updateAt;
+	private Timestamp updateAt = new Timestamp(new Date().getTime());
 
 	@Transient
-	private double salePrice;
+	private double salePrice = 0.0;
 	// fetch = FetchType.EAGER
 	// trong quá trình truy vấn thực thể "product" nó cũng sẽ tải các thực thể liên
 	// quan(Eager Loading)
@@ -100,21 +80,26 @@ public class Product {
             //join với cột ở một bảng khác
             inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "image_id")}
     )
-	private List<Image> images;
+	private List<Image> images = new ArrayList<>();
 	
 	//fetch = FetchType.LAZY: được truy vấn khi gọi tới
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id")
-	private Brand brand;
+	private Brand brand = new Brand();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcategory_id")
-	private Subcategory subcategory;
+	private Subcategory subcategory = new Subcategory();
 	
+	@OneToOne(mappedBy = "product")
+	private ProductInfo productInfo;
 	
-
-	public double getSalePrice() {
-		return price - price*discount;
+	@OneToMany(mappedBy = "product")
+	private List<Variant> variant;
+	
+	public int getSalePrice() {
+		if(this.discount==1) return (int)price;
+		return (int)(price - price*discount);
 	}
 	public int getDiscount() {
 		return (int)(discount*100);

@@ -1,0 +1,12 @@
+.forgot_box {
+    display: block;
+    width: 100%;
+    line-height: 1.25rem;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+    background-color: #b4e1d8;
+    padding: 15px 0;
+    border-radius: 5px;
+}

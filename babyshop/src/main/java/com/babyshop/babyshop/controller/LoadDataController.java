@@ -1,5 +1,6 @@
 package com.babyshop.babyshop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,87 @@ public class LoadDataController {
 		List<Product> productsSale = productService.getProductBySale(1);
 		List<Brand> brands = brandsService.getAll();
 		
-		
 		modelMap.addAttribute("categories", categories);
 		modelMap.addAttribute("subcategoryR1", subcategoryR1);
 		modelMap.addAttribute("subcategoryR2", subcategoryR2);
 		modelMap.addAttribute("productsSale", productsSale);
 		modelMap.addAttribute("brands", brands);
 	}
+	
+	public void loadFilter(ModelMap modelMap) {
+		List<String> sizes = loadSizes();
+		List<String> ages = loadAge();
+		List<String> colors = loadColors();
+		List<String> genders = loadGenders();
+		List<Subcategory> subcategories = subcategoryService.getAll();
+		
+		modelMap.addAttribute("sizes", sizes);
+		modelMap.addAttribute("ages", ages);
+		modelMap.addAttribute("colors", colors);
+		modelMap.addAttribute("subcategories", subcategories);
+		modelMap.addAttribute("genders", genders);
+	}
+	
+	public List<String> loadSizes(){
+		int count = 50;
+		List<String> sizes = new ArrayList<>();
+		sizes.add("One Size");
+		while(true) {
+			if(count>158) break;
+			String size = count + " cm";
+			sizes.add(size);
+			count += 6;
+		}
+		count = 18;
+		while(true) {
+			if(count>36) break;
+			String size = count + " EU";
+			sizes.add(size);
+			count++;
+		}
+		return sizes;
+	}
+	
+	public List<String> loadAge(){
+		List<String> ages = new ArrayList<>();
+		ages.add("0-3 months");
+		ages.add("3-6 months");
+		ages.add("6-9 months");
+		ages.add("9-12 months");
+		int count = 1;
+		while(true) {
+			if(count>36) break;
+			String age = count + " year";
+			ages.add(age);
+			count++;
+		}
+		return ages;
+	}
+	
+	public List<String> loadColors(){
+		List<String> colors = new ArrayList<>();
+		colors.add("Beige");
+		colors.add("Black");
+		colors.add("Blue");
+		colors.add("Brown");
+		colors.add("Cream");
+		colors.add("Green");
+		colors.add("Grey");
+		colors.add("Navy");
+		colors.add("Orange");
+		colors.add("Pink");
+		colors.add("Purple");
+		colors.add("Red");
+		colors.add("Yellow");
+		return colors;
+	}
+	
+	public List<String> loadGenders(){
+		List<String> genders = new ArrayList<>();
+		genders.add("Boys");
+		genders.add("Girls");
+		genders.add("Unisex");
+		return genders;
+	}
+	
 }

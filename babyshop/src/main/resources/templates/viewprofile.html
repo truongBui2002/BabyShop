@@ -8,11 +8,11 @@
 	<!-- cdn boostrap-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 	<!--login css-->
 
-	<link rel="stylesheet" type="text/css" href="../css/login.css">
-	<link rel="stylesheet" type="text/css" href="../css/viewprofile.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/viewprofile.css}">
 	<!-- cdn fown awe some-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -22,16 +22,7 @@
 
 <body>
 	<!-- nav - bar -->
-	<div th:insert="home :: navbar"></div>
-	<div class="discount">
-		<div class="d-flex">
-			<a class="flex-fill banner-top" href="#">20-50% off selected
-				Everyday wear <span>SHOP HERE</span>
-			</a> <a class="flex-fill banner-top" href="#">Splash into summer - Up
-				to 50%<span>SHOP HERE</span>
-			</a>
-		</div>
-	</div>
+	<header th:insert="~{home :: navbar}"></header>
 	<!--view profile-->
 	<div class="container" th:with = "user = ${session.user}">
 		<div class="row align-items-start gap-5">
@@ -56,7 +47,7 @@
 				<nav class="profile-nav">
 					<ul class=" profile-nav__items">
 						<li class="profile-nav__item is-selected">
-							<a href="#" class="profile-nav__link">My Account</a>
+							<a th:href="@{/user/viewprofile}" class="profile-nav__link">My Account</a>
 						</li>
 						<li class="profile-nav__item">
 							<a href="#" class="profile-nav__link">Order History</a>
@@ -65,13 +56,13 @@
 							<a href="#" class="profile-nav__link">Return & Exchange</a>
 						</li>
 						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Reset password</a>
+							<a th:href="@{/user/resetpass}" class="profile-nav__link">Reset password</a>
 						</li>
 						<li class="profile-nav__item">
 							<a href="#" class="profile-nav__link">Newsletter</a>
 						</li>
 						<li class="profile-nav__item">
-							<a href="/logout" class="profile-nav__link">Logout</a>
+							<a th:href="@{/logout}" class="profile-nav__link">Logout</a>
 						</li>
 					</ul>
 				</nav>
@@ -80,7 +71,7 @@
 				<div class="view-profile__infor">
 					<h1 class="view-profile__heading d-md-block">My Account</h1>
 					<div class="view-profile__content">
-						<form action="" class="profile-info" method="post">
+						<form action="/user/update/profile" class="profile-info" method="post" enctype="multipart/form-data">
 							<h2 class="form__section-heading">Customer Details</h2>
 							<!-- disable information-->
 							<div class="field rel__span">
@@ -88,15 +79,20 @@
 								<input type="email" id="email" name="email"
 									class="field__input field__input--email disable__input" th:value = "${user.email}"
 									disabled>
-								<span id="email_span" class="field__span"><a href="email">Change Email</a></span>
+								<span id="email_span" class="field__span">
+								<a href="/user/update/email" th:if = "${user.email!=null}">Change Email</a>
+								<a href="/user/update/email" th:if = "${user.email==null}">New Email</a>
+								</span>
 							</div>
 							<!-- change phone number-->
 							<div class="field phoneNumber">
 								<label for="phoneNumber" class="field__label">Phone Number</label>
 								<input type="text" id="phoneNumber" name="phoneNumber"
 									class="field__input disable__input" th:value = "${user.phoneNumber}" disabled>
-								<span id="phoneNumber_span" class="field__span"><a href="phone">Change Phone
-										Number</a></span>
+								<span id="phoneNumber_span" class="field__span">
+								<a href="phone" th:if = "${user.phoneNumber!=null}">Change PhoneNumber</a>
+								<a href="phone" th:if = "${user.phoneNumber==null}">New Phone Number</a>
+								</span>
 							</div>
 					</div>
 					<div class="field">
@@ -112,13 +108,13 @@
 						<label>Date of Birth</label>
 						<div class="dob_fields d-flex justify-content-between">
 							<div class="dob__inputs">
-								<select id="day" class="dropdown__entry"></select>
+								<select id="day" name="day" class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="month" class="dropdown__entry"></select>
+								<select id="month" name="month" class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="year" class="dropdown__entry"></select>
+								<select id="year" name="year" class="dropdown__entry"></select>
 							</div>
 
 						</div>
@@ -126,12 +122,14 @@
 					<div class="gender-option js-gender-option">
 						<label class="gender-option__label gender-option-trigger">
 							Female
-							<input name="gender" type="radio" class="gender-option__input" id="female" value="0">
+							<input name="gender" type="radio" class="gender-option__input" id="female" value="0"
+							th:checked = "${user.gender}">
 							<span class="gender-option__checkmark"></span>
 						</label>
 						<label class="gender-option__label gender-option-trigger">
 							Male
-							<input name="gender" type="radio" class="gender-option__input" id="male" value="1">
+							<input name="gender" type="radio" class="gender-option__input" id="male" value="1"
+							th:checked = "${user.gender}">
 							<span class="gender-option__checkmark"></span>
 						</label>
 					</div>
@@ -140,7 +138,7 @@
 							<span>Update profile</span>
 						</button>
 					</div>
-					</form>
+					<!--  -->
 				</div>
 			</main>
 			<!-- change user avatar-->
@@ -149,7 +147,7 @@
 					<div class="image__placehoder">
 						<img class="image__link" th:src="${user.getUriAvatar()}" alt=""> <!-- avatar co r thi lay tu database r hien vao day-->
 					</div>
-					<input type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					<input name="avatar" type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
 					<button class="btn_avatar">Chọn ảnh</button>
 					<div class="avt__description">
 						<p>Định lượng file tối đa 1 MB</p>
@@ -157,10 +155,11 @@
 					</div>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
-	<div th:insert="home :: footer"></div>
-	<script src="../js/viewprofile.js"></script>
+	<footer th:insert="~{home :: footer}"></footer>
+	<script th:src="@{/js/viewprofile.js}"></script>
 </body>
 
 </html>

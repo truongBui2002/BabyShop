@@ -126,3 +126,26 @@ ul.breadcrumb li:first-child {
         line-height: 2.5rem;
     }
 }
+
+
+.bread-crumbs {
+    text-transform: uppercase;
+    padding: 10px 0 15px 0;
+    font-size: .75rem;
+    line-height: 1rem;
+    letter-spacing: .05rem;
+    font-weight: 700;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hv-underline:hover {
+    text-decoration: underline;
+}
+
+.text-neutral-microwave {
+    --tw-text-op: 1;
+    color: rgb(122 122 122 / var(--tw-text-op));
+}

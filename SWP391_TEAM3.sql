@@ -1,6 +1,8 @@
- create database swp391_team3;
+create database swp391_team3;
 
- use swp391_team3;
+use swp391_team3;
+ALTER DATABASE swp391_team3 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ 
 CREATE TABLE `slide` (
   `slide_id` int AUTO_INCREMENT,
   `title` varchar(255),
@@ -23,10 +25,11 @@ CREATE TABLE `user` (
   `email` varchar(255),
   `phone_number` varchar(255),
   `password` varchar(255),
-  `full_name` varchar(255), 
+  `full_name` varchar(255) CHARSET utf8mb4, 
   `image_id` int,
   `dob` date,
   `status` varchar(255),
+  `gender` boolean DEFAULT false,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(user_id)
@@ -77,6 +80,19 @@ CREATE TABLE `product` (
    PRIMARY KEY(product_id)
 );
 
+CREATE TABLE `product_info` (
+  product_info_id int AUTO_INCREMENT,
+  product_id int,
+  age_range varchar(255),
+  gender varchar(255),
+  color varchar(255),
+  style varchar(255),
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(product_info_id)
+);
+
+
 CREATE TABLE `category` (
   `category_id` int AUTO_INCREMENT,
   `name` varchar(255),
@@ -96,9 +112,9 @@ CREATE TABLE `subcategory`(
 
 CREATE TABLE `variant` (
   `variant_id` int AUTO_INCREMENT,
-  `name` varchar(255), -- size
   `product_id` int,
-  `variant_quantity` int,
+  `name` varchar(255), -- size
+  `quantity` int,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(variant_id)
@@ -209,13 +225,14 @@ ALTER TABLE `brand` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`)
 ALTER TABLE `product` ADD FOREIGN KEY (`brand_id`) REFERENCES `brand` (`brand_id`);
 
 ALTER TABLE `product` ADD FOREIGN KEY (`subcategory_id`) REFERENCES `subcategory` (`subcategory_id`);
+--
+ALTER TABLE `product_info` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 ALTER TABLE `subcategory` ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
 
-
 ALTER TABLE `variant` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
- ALTER TABLE `order_details` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
+ALTER TABLE `order_details` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
 
@@ -241,6 +258,10 @@ ALTER TABLE `image_slide` ADD FOREIGN KEY (`slide_id`) REFERENCES `slide` (`slid
 
 ALTER TABLE `image_slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
+-- SET UTF-8
+ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
 
 -- INSERT USER
 -- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
@@ -259,7 +280,7 @@ INSERT category(name) VALUES ("Home");
 INSERT category(name) VALUES ("Toys");
 INSERT category(name) VALUES ("Outlet");
 INSERT category(name) VALUES ("Green Page");
-INSERT category(name) VALUES ("Magazine");
+-- INSERT category(name) VALUES ("Magazine");
 
 -- INSERT subcategory
 -- Clothing
@@ -371,6 +392,19 @@ INSERT image_product(product_id, image_id) VALUES(1, 3);
 INSERT image_product(product_id, image_id) VALUES(1, 4);
 INSERT image_product(product_id, image_id) VALUES(1, 5);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(1, '0-3 months', 'Unisex', 'Cream', '');
+
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 1, '50 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 1, '56 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 1, '62 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 1, '68 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 1, '74 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 1, '80 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 1, '86 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 1, '92 cm', 4);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "2-Pack Footed Baby Body Blue", 
@@ -391,6 +425,18 @@ INSERT image_product(product_id, image_id) VALUES(2, 7);
 INSERT image_product(product_id, image_id) VALUES(2, 8);
 INSERT image_product(product_id, image_id) VALUES(2, 9);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(2, '3-6 months', 'Boys', 'Blue', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 2, '50 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 2, '56 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 2, '62 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 2, '68 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 2, '74 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 2, '80 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 2, '86 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 2, '92 cm', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Striped Shorts Indigo", 
@@ -407,6 +453,19 @@ INSERT image(name) VALUES ("StripedShortsIndigo1.jpg");
 INSERT image_product(product_id, image_id) VALUES(3, 10);
 INSERT image_product(product_id, image_id) VALUES(3, 11);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(3, '6-9 months', 'Boys', 'Blue', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 3, '50 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 3, '56 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 3, '62 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 3, '68 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 3, '74 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 3, '80 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 3, '86 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 3, '92 cm', 0);
+
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Leggings Cream", 
 229,
@@ -421,6 +480,18 @@ INSERT image(name) VALUES ("PrintedLeggingsCream1.jpg");
 INSERT image_product(product_id, image_id) VALUES(4, 12);
 INSERT image_product(product_id, image_id) VALUES(4, 13);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(4, '9-12 months', 'Unisex', 'Cream', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 4, '50 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 4, '56 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 4, '62 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 4, '68 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 4, '74 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 4, '80 cm', 10);
+INSERT variant(product_id, name, quantity) VALUES( 4, '86 cm', 11);
+INSERT variant(product_id, name, quantity) VALUES( 4, '92 cm', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed One-piece Cream", 
@@ -436,6 +507,18 @@ INSERT image(name) VALUES ("PrintedOne-pieceCream1.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(5, 14);
 INSERT image_product(product_id, image_id) VALUES(5, 15);
+
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(5, '1 year', 'Girls', 'Cream', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 5, '62 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 5, '68 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 5, '74 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 5, '80 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 5, '86 cm', 10);
+INSERT variant(product_id, name, quantity) VALUES( 5, '92 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 5, '98 cm', 5);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Footed Baby Body Cream", 
@@ -459,6 +542,18 @@ INSERT image(name) VALUES ("Molo.jpg");
 INSERT image(name) VALUES ("Stokke.jpg");
 INSERT image(name) VALUES ("BeSafe.jpg");
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(6, '2 year', 'Girls', 'Cream', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 6, '62 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 6, '68 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 6, '74 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 6, '80 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 6, '86 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 6, '92 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 6, '98 cm', 2);
+
 INSERT brand(name, image_id, description) VALUES ("Kuling", 18, "Designed for active and adventurous kids, Swedish brand Kuling designs long-lasting apparel with signature Scandinavian style. Discover their colorful collection of kids’ and babies’ fashion such as UV clothing, ski jackets, footwear and rain gear. Check out the lates items from Kuling here!");
 INSERT brand(name, image_id, description) VALUES ("MiniRodini", 19, "Established in Sweden in 2006, Mini Rodini is an eco-conscious brand devoted to the playful personalities of children. Mini Rodini encourages kids to stand out from the crowd with fun prints, bright colors and bold characters.");
 INSERT brand(name, image_id, description) VALUES ("Wheat", 20, "Danish brand Wheat started in 2002 and has as its focus to reinterpret classic kids and baby clothes to put its own spin on the items. The brand does everything from coats and accessories to tops and dresses. Wheat has as part of its core to focus on sustainability and natural fibers in their products.");
@@ -477,7 +572,7 @@ INSERT product(name, price, description, specification, brand_id, subcategory_id
 "– Upper: Other Materials.
 – Lining: Other Materials.
 – Sole: Other Materials.
-– Please note that when you purchase shoes for your child, you should select a size that is 1.5 cm larger than your child's foot. Wellies and boots should be up to 2 cm larger, for extra socks and insoles.", 2, 14, 0.5);
+– Please note that when you purchase shoes for your child, you should select a size that is 1.5  cm larger than your child's foot. Wellies and boots should be up to 2  cm larger, for extra socks and insoles.", 2, 14, 0.5);
 
 INSERT image(name) VALUES ("DiliSandalsSand.jpg");
 INSERT image(name) VALUES ("DiliSandalsSand1.jpg");
@@ -489,6 +584,19 @@ INSERT image_product(product_id, image_id) VALUES(7, 25);
 INSERT image_product(product_id, image_id) VALUES(7, 26);
 INSERT image_product(product_id, image_id) VALUES(7, 27);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(7, '3 year', 'Girls', 'Cream', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 7, '20 EU', 1);
+INSERT variant(product_id, name, quantity) VALUES( 7, '21 EU', 2);
+INSERT variant(product_id, name, quantity) VALUES( 7, '22 EU', 0);
+INSERT variant(product_id, name, quantity) VALUES( 7, '23 EU',  8);
+INSERT variant(product_id, name, quantity) VALUES( 7, '24 EU', 6);
+INSERT variant(product_id, name, quantity) VALUES( 7, '25 EU', 0);
+INSERT variant(product_id, name, quantity) VALUES( 7, '26 EU', 2);
+INSERT variant(product_id, name, quantity) VALUES( 7, '27 EU', 2);
+INSERT variant(product_id, name, quantity) VALUES( 7, '28 EU', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Lofoten Waterproof Sneakers Always Black", 
@@ -502,7 +610,7 @@ INSERT product(name, price, description, specification, brand_id, subcategory_id
 "– Upper: Textiles, Other Materials.
 – Lining: Textiles.
 – Sole: Other Materials.
-– Please note that when you purchase shoes for your child, you should select a size that is 1.5 cm larger than your child's foot. Wellies and boots should be up to 2 cm larger, for extra socks and insoles.", 2, 12, 0.3);
+– Please note that when you purchase shoes for your child, you should select a size that is 1.5  cm larger than your child's foot. Wellies and boots should be up to 2  cm larger, for extra socks and insoles.", 2, 12, 0.3);
 
 INSERT image(name) VALUES ("LofotenWaterproofSneakersAlwaysBlack.jpg");
 INSERT image(name) VALUES ("LofotenWaterproofSneakersAlwaysBlack1.jpg");
@@ -518,6 +626,19 @@ INSERT image_product(product_id, image_id) VALUES(8, 31);
 INSERT image_product(product_id, image_id) VALUES(8, 32);
 INSERT image_product(product_id, image_id) VALUES(8, 33);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(8, '4 year', 'Boys', 'Black', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 8, '20 EU', 4);
+INSERT variant(product_id, name, quantity) VALUES( 8, '21 EU', 2);
+INSERT variant(product_id, name, quantity) VALUES( 8, '22 EU', 4);
+INSERT variant(product_id, name, quantity) VALUES( 8, '23 EU', 0);
+INSERT variant(product_id, name, quantity) VALUES( 8, '24 EU', 0);
+INSERT variant(product_id, name, quantity) VALUES( 8, '25 EU', 3);
+INSERT variant(product_id, name, quantity) VALUES( 8, '26 EU', 6);
+INSERT variant(product_id, name, quantity) VALUES( 8, '27 EU', 7);
+INSERT variant(product_id, name, quantity) VALUES( 8, '28 EU', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Paros One-piece Rashguard Swimsuit Lilac Daisy", 
@@ -538,6 +659,17 @@ INSERT image_product(product_id, image_id) VALUES(9, 34);
 INSERT image_product(product_id, image_id) VALUES(9, 35);
 INSERT image_product(product_id, image_id) VALUES(9, 36);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(9, '5 year', 'Girls', 'Pink', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 9, '80 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 9, '86 cm', 9);
+INSERT variant(product_id, name, quantity) VALUES( 9, '92 cm', 10);
+INSERT variant(product_id, name, quantity) VALUES( 9, '98 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 9, '104 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 9, '110 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 9, '116 cm', 4);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "San Marino Dotted Recycled Rain Set Hazelnut", 
@@ -571,6 +703,18 @@ INSERT image_product(product_id, image_id) VALUES(10, 41);
 INSERT image_product(product_id, image_id) VALUES(10, 42);
 INSERT image_product(product_id, image_id) VALUES(10, 43);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(10, '6 year', 'Girls', 'Brown', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 10, '80 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 10, '86 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 10, '92 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 10, '98 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 10, '104 cm', 12);
+INSERT variant(product_id, name, quantity) VALUES( 10, '110 cm', 9);
+INSERT variant(product_id, name, quantity) VALUES( 10, '116 cm', 0);
+
 INSERT image(name) VALUES ("MiniRodini.jpg");
 INSERT brand(name, image_id, description) VALUES ("Mini Rodini", 45, "Established in Sweden in 2006, Mini Rodini is an eco-conscious brand devoted to the playful personalities of children. Mini Rodini encourages kids to stand out from the crowd with fun prints, bright colors and bold characters.");
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
@@ -587,6 +731,18 @@ INSERT image(name) VALUES ("FloralDressCream1.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(11, 46);
 INSERT image_product(product_id, image_id) VALUES(11, 47);
+
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(11, '7 year', 'Girls', 'Red', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 11, '80 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 11, '86 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 11, '92 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 11, '98 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 11, '104 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 11, '110 cm', 11);
+INSERT variant(product_id, name, quantity) VALUES( 11, '116 cm', 5);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "GOTS Pelican Printed Dress Yellow", 
@@ -607,6 +763,18 @@ INSERT image_product(product_id, image_id) VALUES(12, 49);
 INSERT image_product(product_id, image_id) VALUES(12, 50);
 INSERT image_product(product_id, image_id) VALUES(12, 51);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(12, '8 year', 'Girls', 'Yellow', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 12, '86 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 12, '92 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 12, '98 cm', 12);
+INSERT variant(product_id, name, quantity) VALUES( 12, '104 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 12, '110 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 12, '116 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 12, '122 cm', 9);
+
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "GOTS Plaid Dress Red", 
 489,
@@ -623,6 +791,17 @@ INSERT image(name) VALUES ("GOTSPlaidDressRed.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(13, 52);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(13, '9 year', 'Girls', 'Red', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 13, '86 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 13, '92 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 13, '98 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 13, '104 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 13, '110 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 13, '116 cm', 10);
+INSERT variant(product_id, name, quantity) VALUES( 13, '122 cm', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Floral Dress Orange", 
@@ -641,6 +820,18 @@ INSERT image(name) VALUES ("FloralDressOrange1.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(14, 53);
 INSERT image_product(product_id, image_id) VALUES(14, 54);
+
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(14, '10 year', 'Girls', 'Red', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 14, '92 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 14, '98 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 14, '104 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 14, '110 cm', 9);
+INSERT variant(product_id, name, quantity) VALUES( 14, '116 cm', 12);
+INSERT variant(product_id, name, quantity) VALUES( 14, '122 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 14, '128 cm', 6);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Printed Dress Navy", 
@@ -661,6 +852,18 @@ INSERT image_product(product_id, image_id) VALUES(15, 55);
 INSERT image_product(product_id, image_id) VALUES(15, 56);
 INSERT image_product(product_id, image_id) VALUES(15, 57);
 INSERT image_product(product_id, image_id) VALUES(15, 58);
+
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(15, '10 year', 'Girls', 'Black', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 15, '92 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 15, '98 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 15, '104 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 15, '110 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 15, '116 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 15, '122 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 15, '128 cm', 2);
 
 INSERT image(name) VALUES ("BUDDYHOPE.jpg");
 INSERT brand(name, image_id, description) VALUES ("BUDDY & HOPE", 59, "Buddy & Hope is a baby brand with Swedish heritage founded in 2019 offering home and baby products in a universal fit. Working after the words confident, subtle and universal the Buddy & Hope products adds a silver lining to the everyday life. The range of carefully designed products caters to the conscious parents aware of great materials and design. In the assortment you can find products that will make life a bit extra cozy for your child, both in the stroller, in the cot or in the kids room. Believing in the saying “Everything can always be better” we can trust Buddy & Hope to deliver universal products to fit most strollers and rooms out there, season after season.");
@@ -683,6 +886,17 @@ INSERT image_product(product_id, image_id) VALUES(16, 60);
 INSERT image_product(product_id, image_id) VALUES(16, 61);
 INSERT image_product(product_id, image_id) VALUES(16, 62);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(16, '11 year', 'Girls', 'Beige', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 16, '98 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 16, '104 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 16, '110 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 16, '116 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 16, '122 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 16, '128 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 16, '134 cm', 2);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Vivianne GOTS Floral Dress Wildflowers", 
@@ -707,6 +921,18 @@ INSERT image_product(product_id, image_id) VALUES(17, 65);
 INSERT image_product(product_id, image_id) VALUES(17, 66);
 INSERT image_product(product_id, image_id) VALUES(17, 67);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(17, '12 year', 'Girls', 'Beige', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 17, '104 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 17, '110 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 17, '116 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 17, '122 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 17, '128 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 17, '134 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 17, '140 cm', 8);
+
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Siv GOTS Shirt And Shorts Set With Lemon Sand", 
 399,
@@ -729,6 +955,18 @@ INSERT image_product(product_id, image_id) VALUES(18, 70);
 INSERT image_product(product_id, image_id) VALUES(18, 71);
 INSERT image_product(product_id, image_id) VALUES(18, 72);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(18, '7 year', 'Girls', 'Beige', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 18, '80 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 18, '86 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 18, '92 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 18, '98 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 18, '104 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 18, '110 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 18, '116 cm', 3);
+
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Melvin GOTS 2 Baby Bodies With Lemon Print Cream", 
 399,
@@ -748,6 +986,17 @@ INSERT image_product(product_id, image_id) VALUES(19, 74);
 INSERT image_product(product_id, image_id) VALUES(19, 75);
 INSERT image_product(product_id, image_id) VALUES(19, 76);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(19, '6 year', 'Girls', 'Beige', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 19, '80 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 19, '86 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 19, '92 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 19, '98 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 19, '104 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 19, '110 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 19, '116 cm', 7);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Stockholm Heart Printed Shell Jacket Woody Rose", 
@@ -785,6 +1034,17 @@ INSERT image_product(product_id, image_id) VALUES(20, 81);
 INSERT image_product(product_id, image_id) VALUES(20, 82);
 INSERT image_product(product_id, image_id) VALUES(20, 83);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(20, '13 year', 'Girls', 'Pink', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 20, '110 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 20, '116 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 20, '122 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 20, '128 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 20, '134 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 20, '140 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 20, '146 cm', 8);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Stockholm Shell Jacket Hazelnut Leo", 
@@ -821,6 +1081,17 @@ INSERT image_product(product_id, image_id) VALUES(21, 88);
 INSERT image_product(product_id, image_id) VALUES(21, 89);
 INSERT image_product(product_id, image_id) VALUES(21, 90);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(21, '14 year', 'Girls', 'Beige', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 21, '110 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 21, '116 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 21, '122 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 21, '128 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 21, '134 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 21, '140 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 21, '146 cm', 0);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Lillehammer Color-blocked Shell Jacket Honey Orange/Mist Blue", 
@@ -855,6 +1126,18 @@ INSERT image_product(product_id, image_id) VALUES(22, 95);
 INSERT image_product(product_id, image_id) VALUES(22, 96);
 INSERT image_product(product_id, image_id) VALUES(22, 97);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(22, '15 year', 'Boys', 'Orange', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 22, '116 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 22, '122 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 22, '128 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 22, '134 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 22, '140 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 22, '146 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 22, '152 cm', 0);
+
 INSERT image(name) VALUES ("reima.jpg");
 INSERT brand(name, image_id, description) VALUES ("Reima", 98, "Founded in 1944 in Finland, Reima’s mission is to encourage children to discover the joy of movement by providing them with functional and durable clothing. Reima’s boots and sneakers, coveralls and jackets, and swimwear and UV-clothing are some of the ways Reima has your child covered.");
 
@@ -888,6 +1171,18 @@ INSERT image(name) VALUES ("VeliWinterJacketThymeGreen2.jpg");
 INSERT image(name) VALUES ("VeliWinterJacketThymeGreen3.jpg");
 INSERT image(name) VALUES ("VeliWinterJacketThymeGreen4.jpg");
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(23, '16 year', 'Boys', 'Green', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 23, '116 cm', 1);
+INSERT variant(product_id, name, quantity) VALUES( 23, '122 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 23, '128 cm', 8);
+INSERT variant(product_id, name, quantity) VALUES( 23, '134 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 23, '140 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 23, '146 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 23, '152 cm', 1);
+
 INSERT image_product(product_id, image_id) VALUES(23, 99);
 INSERT image_product(product_id, image_id) VALUES(23, 100);
 INSERT image_product(product_id, image_id) VALUES(23, 101);
@@ -913,12 +1208,12 @@ INSERT product(name, price, description, specification, brand_id, subcategory_id
 – Coating: 100% Polyurethane.
 – Machine washable 40 degrees.", 10, 7, 1);
 
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy.jpg");
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy1.jpg");
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy2.jpg");
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy3.jpg");
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy4.jpg");
-INSERT image(name) VALUES ("ReimatecMutkaWinterJacketNavy5.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy1.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy2.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy3.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy4.jpg");
+INSERT image(name) VALUES ("ReimatecmutkaWinterJacketNavy5.jpg");
 
 INSERT image_product(product_id, image_id) VALUES(24, 104);
 INSERT image_product(product_id, image_id) VALUES(24, 105);
@@ -927,6 +1222,17 @@ INSERT image_product(product_id, image_id) VALUES(24, 107);
 INSERT image_product(product_id, image_id) VALUES(24, 108);
 INSERT image_product(product_id, image_id) VALUES(24, 109);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(24, '17 year', 'Boys', 'Navy', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 24, '116 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 24, '122 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 24, '128 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 24, '134 cm', 2);
+INSERT variant(product_id, name, quantity) VALUES( 24, '140 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 24, '146 cm', 7);
+INSERT variant(product_id, name, quantity) VALUES( 24, '152 cm', 1);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
 "Kumlinge Reimatec Shell Jacket Black", 
@@ -965,9 +1271,20 @@ INSERT image_product(product_id, image_id) VALUES(25, 115);
 INSERT image_product(product_id, image_id) VALUES(25, 116);
 INSERT image_product(product_id, image_id) VALUES(25, 117);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(25, '18 year', 'Boys', 'Black', '');
+
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 25, '122 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 25, '128 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 25, '134 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 25, '140 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 25, '146 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 25, '152 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 25, '158 cm', 4);
 
 INSERT product(name, price, description, specification, brand_id, subcategory_id, discount) VALUES (
-"Sipoo Softshell Jacket Grayish green", 
+"Sipoo Softshell Jacket Grayish Green", 
 799,
 "Get ready for outdoor adventures. Grayish green Sipoo softshell jacket by Reima. The softshell jacket has a technical material with three layers in fleece.
 – Detachable hood.
@@ -991,6 +1308,19 @@ INSERT image_product(product_id, image_id) VALUES(26, 118);
 INSERT image_product(product_id, image_id) VALUES(26, 119);
 INSERT image_product(product_id, image_id) VALUES(26, 120);
 
+-- product_info
+INSERT product_info(product_id, age_range, gender, color, style) VALUES(26, '18 year', 'Boys', 'Green', '');
 
+-- variant
+INSERT variant(product_id, name, quantity) VALUES( 26, '122 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 26, '128 cm', 3);
+INSERT variant(product_id, name, quantity) VALUES( 26, '134 cm', 5);
+INSERT variant(product_id, name, quantity) VALUES( 26, '140 cm', 0);
+INSERT variant(product_id, name, quantity) VALUES( 26, '146 cm', 6);
+INSERT variant(product_id, name, quantity) VALUES( 26, '152 cm', 4);
+INSERT variant(product_id, name, quantity) VALUES( 26, '158 cm', 4);
+
+select p.*, pf.age_range, pf.gender, pf.color, pf.style from product p join product_info pf on p.product_id = pf.product_id;
+select * from product_info;
 
 

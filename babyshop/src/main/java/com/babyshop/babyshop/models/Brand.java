@@ -1,7 +1,7 @@
 package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,10 +38,10 @@ public class Brand {
 	private int brandId;
 	
 	@Column(name = "name")
-	private String name;
+	private String name = "";
 	
 	@Column(name = "description")
-	private String desciption;
+	private String desciption = "";
 	
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
@@ -54,11 +54,11 @@ public class Brand {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "image_id")
-	private Image image;
+	private Image image = new Image();
 	
 	//mappedBy: thuộc tính chỉ ra bên tham chiếu tới (brand ở đây là 1 trường trong product)
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "brand", orphanRemoval = true)
-	private List<Product> products;
+	private List<Product> products = new ArrayList<>();
 
 	public Brand(String name, String desciption, Image image) {
 		this.name = name;
