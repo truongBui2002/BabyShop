@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,12 +37,19 @@ public class Subcategory {
 
 	@Column(name = "name")
 	private String name = "";
+	
+	@Column(name = "description")
+	private String description;
 
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
 
 	@Column(name = "update_at")
 	private Timestamp updateAt = new Timestamp(new Date().getTime());
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id")
+	private Image image;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")

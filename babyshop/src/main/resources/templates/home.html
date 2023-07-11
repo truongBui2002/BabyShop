@@ -82,21 +82,12 @@
 							<a class=" color-hover nav__links" th:href="@{/brand}">Brands</a>
 
 						</div>
-						<div class="text-center flex-fill hover-nav">
-							<a class="color-hover nav__links" th:href="@{/categories}">New In</a>
+
+						<div class="text-center flex-fill hover-nav" th:each="category : ${categories}"  th:if="${category.subcategories.size() != 0}">
+							<a class="color-hover nav__links" th:href="@{'/categories/' + ${category.categoryId}}" th:text="${category.name}">Clothing</a>
 							<div class="hidden-nav">
 								<div class="hidden-element">
-									<a href="#">Category: New In</a>
-									<a href="#" th:each="category : ${categories}" th:text="${category.name}"></a>
-								</div>
-							</div>
-						</div>
-
-						<div class="text-center flex-fill hover-nav" th:each="category : ${categories}">
-							<a class="color-hover nav__links" th:href="@{/categories}" th:text="${category.name}">Clothing</a>
-							<div class="hidden-nav" th:if="${category.subcategories.size() != 0}">
-								<div class="hidden-element">
-									<a th:href="@{/categories }" th:text="'Category: ' + ${category.name}"> </a> <a th:href="@{/categories }"
+									<a th:href="@{'/subcategories/' + ${subcategory.subcategoryId}}"
 										th:each="subcategory: ${category.subcategories}"
 										th:text="${subcategory.name}">Clothing</a>
 								</div>
@@ -183,22 +174,37 @@
 								</div>
 							</div>
 							<div class="product_discount_label" th:text="${product.discount + '%'}"></div>
-							<button aria-label="remove from wishlist" class="add-wishlist">
-								<div class="add-wishlist-child">
-								<!--  content -->
+							<div aria-label="remove from wishlist" class="add-wishlist">
+							<input type="hidden" th:value = "${product.productId}"/>
+                        <!--  Không đỏ -->
+								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
 									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<!--  border -->
 									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
+								</div> 
+						<!-- Đỏ -->
+								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
+								<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
 								</div>
-							</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -360,22 +366,37 @@
 								</div>
 							</div>
 							<div class="product_discount_label" th:if ="${product.discount!=100}" th:text="${product.discount + '%'}"></div>
-							<button aria-label="remove from wishlist" class="add-wishlist">
-								<div class="add-wishlist-child">
-								<!--  content -->
+							<div aria-label="remove from wishlist" class="add-wishlist">
+							<input type="hidden" th:value = "${product.productId}"/>
+                        <!--  Không đỏ -->
+								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
 									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<!--  border -->
 									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
+								</div> 
+						<!-- Đỏ -->
+								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
+								<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
 								</div>
-							</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -461,22 +482,37 @@
 								</div>
 							</div>
 							<div class="product_discount_label" th:if ="${product.discount!=100}" th:text="${product.discount + '%'}"></div>
-							<button aria-label="remove from wishlist" class="add-wishlist">
-								<div class="add-wishlist-child">
-								<!--  content -->
+							<div aria-label="remove from wishlist" class="add-wishlist">
+							<input type="hidden" th:value = "${product.productId}"/>
+                        <!--  Không đỏ -->
+								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
 									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<!--  border -->
 									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
+								</div> 
+						<!-- Đỏ -->
+								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
+								<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
 								</div>
-							</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -573,6 +609,6 @@
 		</div>
 	</div>
 </body>
-<script src="../js/script.js"></script>
+<script th:src="@{/js/script.js}"></script>
 
 </html>

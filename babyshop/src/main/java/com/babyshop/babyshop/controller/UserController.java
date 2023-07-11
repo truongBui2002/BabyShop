@@ -178,7 +178,7 @@ public class UserController {
 	
 	@PostMapping("/fogotpass/email")
 	public String fogotByEmail(ModelMap modelMap, @RequestParam(name = "email") String email) {
-		
+		loadDataController.loadData(modelMap);
 		User user = userService.findByEmail(email);
 		if(user!=null) {
 			RandomKey rd = new RandomKey();

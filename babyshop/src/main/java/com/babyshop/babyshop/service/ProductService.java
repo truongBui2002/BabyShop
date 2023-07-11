@@ -66,7 +66,12 @@ public class ProductService {
 	}
 
 	public List<Product> getByNameContain(String name) {
-		List<Product> products = productRepository.findByNameContain(name);
+		String[] arrWordName = name.split("\\s+");
+		String nameFormat = "";
+		for (String word : arrWordName) {
+			nameFormat += word + " ";
+		}
+		List<Product> products = productRepository.findByNameContain(nameFormat.trim());
 		for (Product product : products) {
 			addLinkImage(product);
 		}
@@ -150,7 +155,7 @@ public class ProductService {
 
 	// TODO
 	public void sortByBestsellers(List<Product> products, String type) {
-		
+
 	}
 
 	public void sortByBrandName(List<Product> products, String type) {
@@ -165,61 +170,57 @@ public class ProductService {
 		}
 	}
 
-	public List<Product> filter(
-			List<Integer> subcategoriesChecked, List<String> agesChecked,
-			List<Integer> brandsChecked, List<String> sizesChecked,
-			List<String> colorsChecked, List<String> gendersChecked){
-		
-			List<Product> allProducts = getAll();
-			//Lọc ra những sản phẩm có subcategories
-			List<Product> subcategoriesFilter = allProducts.stream().filter(p ->{
-				return 	subcategoriesChecked.size()!=0
-						?subcategoriesChecked.contains(p.getSubcategory().getSubcategoryId()):true;
-			}).toList();
-			
-			//Lọc ra những sản phẩm có ages trong subcategoriesFilter
-			List<Product> agesFilter = subcategoriesFilter.stream().filter(p -> {
-				return 	agesChecked.size()!=0
-						?agesChecked.contains(p.getProductInfo().getAgeRange()):true;
-			}).toList();			
-			
-			//Lọc ra những sản phẩm có brands trong agesFilter
-			List<Product> brandsFilter = agesFilter.stream().filter(p ->{
-				return brandsChecked.size()!=0
-						? brandsChecked.contains(p.getBrand().getName()):true;
-			}).toList();
-			
-			//Loc ra những sản phẩm có sizes trong brandsFilter
-			List<Product> sizesFilter = brandsFilter.stream().filter(p->{
-				if(sizesChecked.size()!=0) {
-					for (Variant var : p.getVariant()) {
-						if(sizesChecked.contains(var.getName())) {
-							return true;
-						}
-					}
-					return false;
-				}else {
-					return true;
-				}}).toList();
-			
-			//Lọc ra những sản phẩm có colors trong sizesFilter
-			List<Product> colorsFilter = sizesFilter.stream().filter(p->{
-				return colorsChecked.size()!=0
-						? colorsChecked.contains(p.getProductInfo().getColor()): true;
-			}).toList();			
-			
-			//Lọc ra những sản phẩm có genders trong colorsFilter
-			List<Product> gendersFilter = colorsFilter.stream().filter(p->{
+	public List<Product> filter(List<Product> oldProducts, List<Integer> subcategoriesChecked, List<String> agesChecked,
+			List<Integer> brandsChecked, List<String> sizesChecked, List<String> colorsChecked,
+			List<String> gendersChecked) {
+		// Lọc ra những sản phẩm có subcategories
+		List<Product> subcategoriesFilter = oldProducts.stream().filter(p -> {
+			return subcategoriesChecked.size() != 0
+					? subcategoriesChecked.contains(p.getSubcategory().getSubcategoryId())
+					: true;
+		}).toList();
 
-				return gendersChecked.size()!=0
-						? gendersChecked.contains(p.getProductInfo().getGender()):true;
-			}).toList();
-			
-			//Dùng stream() tạo ra list thì list này không bị sửa đổi được vì thế tạo ra một list khác
-			return new ArrayList<>(gendersFilter);
-		
+		// Lọc ra những sản phẩm có ages trong subcategoriesFilter
+		List<Product> agesFilter = subcategoriesFilter.stream().filter(p -> {
+			return agesChecked.size() != 0 ? agesChecked.contains(p.getProductInfo().getAgeRange()) : true;
+		}).toList();
+
+		// Lọc ra những sản phẩm có brands trong agesFilter
+		List<Product> brandsFilter = agesFilter.stream().filter(p -> {
+			return brandsChecked.size() != 0 ? brandsChecked.contains(p.getBrand().getBrandId()) : true;
+		}).toList();
+
+		// Loc ra những sản phẩm có sizes trong brandsFilter
+		List<Product> sizesFilter = brandsFilter.stream().filter(p -> {
+			if (sizesChecked.size() != 0) {
+				for (Variant var : p.getVariant()) {
+					if (sizesChecked.contains(var.getName())) {
+						return true;
+					}
+				}
+				return false;
+			} else {
+				return true;
+			}
+		}).toList();
+
+		// Lọc ra những sản phẩm có colors trong sizesFilter
+		List<Product> colorsFilter = sizesFilter.stream().filter(p -> {
+			return colorsChecked.size() != 0 ? colorsChecked.contains(p.getProductInfo().getColor()) : true;
+		}).toList();
+
+		// Lọc ra những sản phẩm có genders trong colorsFilter
+		List<Product> gendersFilter = colorsFilter.stream().filter(p -> {
+
+			return gendersChecked.size() != 0 ? gendersChecked.contains(p.getProductInfo().getGender()) : true;
+		}).toList();
+
+		// Dùng stream() tạo ra list thì list này không bị sửa đổi được vì thế tạo ra
+		// một list khác
+		return new ArrayList<>(gendersFilter);
+
 	}
- 
+
 	public List<Product> getAll() {
 		List<Product> products = productRepository.findAll();
 		for (Product product : products) {
@@ -227,21 +228,29 @@ public class ProductService {
 		}
 		return products;
 	}
-	
+
 	public Product getProductById(int productid) {
 		Optional<Product> product = productRepository.findById(productid);
-		if(product.isPresent()) {
+		if (product.isPresent()) {
 			addLinkImage(product.get());
 			return product.get();
 		}
 		return null;
 	}
-	
-	public List<Product> getProductByBrand(Brand brand){
+
+	public List<Product> getProductByBrand(Brand brand) {
 		List<Product> products = productRepository.findByBrand(brand);
 		for (Product product : products) {
 			addLinkImage(product);
 		}
 		return products;
+	}
+
+	public List<Product> copy(List<Product> old) {
+		List<Product> newList = new ArrayList<>();
+		for (Product product : old) {
+			newList.add(getProductById(product.getProductId()));
+		}
+		return newList;
 	}
 }

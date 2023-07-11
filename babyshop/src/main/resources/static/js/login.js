@@ -1,50 +1,11 @@
 
-
-var inputKey = document.getElementById('phoneNumber');
-var passField = document.getElementsByClassName('field_pass');
-var otp = document.getElementById('otpValue');
-var registerField = document.getElementsByClassName('field_register')[0];
-var phoneIsExists = document.getElementById('phoneOrMaiExists');
-var sendOTP = document.getElementsByClassName('sendOTP')[0];
-async function sendOtp() {
-	if (phoneIsExists.style.display == 'block') {
-		console.log('Phone is EXISTS');
-		phoneIsExists.style.display = 'none';
-	}
-	var phoneStr = inputKey.value;
-	if (isPhoneNumber(phoneStr)) {
-		var url = "/login/checkexits";
-		var value = await sendata(url, phoneStr);
-		console.log(value);
-		if (value !== 'exists') {
-			var phone = phoneStr.replace(/^0/, "+84");
-			//vô hiệu hóa sự kiện bấm vào thẻ span
-			sendOTP.style.pointerEvents = 'none';
-			inputKey.readOnly = true;
-			phoneAuth(phone);
-			//firebase.auth().signOut();
-		} else {
-			phoneIsExists.style.display = 'block';
-		}
-	} else {
-		/*document.getElementById('syntax_error').style.display = 'block';*/
-		
-		//Check valid phone number in here
-	}
-
-}
-function isPhoneNumber(input) {
-	const phoneRegex = /^0\d{9,10}$/;
-	return phoneRegex.test(input);
-}
-// fetch là hàm bất đồng bộ nên cần phải thêm await
 async function sendata(url, data) {
 	var value;
 	await fetch(url, {
 		method: 'POST',
-		body: data,
+		body: JSON.stringify(data),
 		headers: {
-			'Content-Type': 'text/plain'
+			'Content-Type': 'application/json'
 		}
 	}).then(res => {
 		return res.text();
@@ -56,67 +17,74 @@ async function sendata(url, data) {
 
 
 const firebaseConfig = {
-	apiKey: "AIzaSyDbLvnQAtTUqLAYLE3F2x0du-ua_xAD4ko",
-	authDomain: "sendotp-d3598.firebaseapp.com",
-	projectId: "sendotp-d3598",
-	storageBucket: "sendotp-d3598.appspot.com",
-	messagingSenderId: "776466389576",
-	appId: "1:776466389576:web:ef677af869e4e739ff567d",
-	measurementId: "G-4VH3R0S17N"
+	apiKey: "AIzaSyBk8Rd-TIwUuwUoxjtcEqpiz043pcZVikE",
+	authDomain: "localhost",
+	projectId: "otp-project-9efb7",
+	storageBucket: "otp-project-9efb7.appspot.com",
+	messagingSenderId: "139847367306",
+	appId: "1:139847367306:web:a216a0847311f2fb974b73",
+	measurementId: "G-78Z0MX4QC4"
 };
 firebase.initializeApp(firebaseConfig);
+//send code by Phone
+function sendOTPPhone(e) {
+	var accountType = e.value;
+	var phoneNumBer = accountType.replace(/^0/, "+84");
+	phoneAuth(phoneNumBer);
+}
+// 1 function check existed in database
+async function checkExistedPhone(e) {
+	var url = "/login/checkexits";
+	var phone = e.value;
+	var value = await sendata(url, phone);
+	return value === "not exists" ? true : false;
 
-var otpField = document.getElementsByClassName('field_otp')[0];
-var manyError = document.getElementById('manyError');
+
+}
+
 function phoneAuth(phoneNumber) {
+
 	const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-		size: 'invisible' // Ẩn reCAPTCHA
+		size: 'invisible'
 	});
-	var capcha = document.getElementById('recaptcha-container');
-	otpField.style.display = 'block';
-
-
-
 	firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
-		.then(function(confirmationResult) {
-			var count = 0; //đến số lần nhập otp
-			var opt_err = document.getElementById('opt_err');
-			otp.oninput = () => {
-				var inputValue = otp.value;
-				opt_err.style.display = 'none';
-				if (inputValue.length === 6 && count <= 2) {
-					count++;
-					console.log("COUNT :" + count);
-					confirmationResult.confirm(inputValue)
-						.then((result) => {
-							
-							passField[0].style.display = 'block';
-							otpField.style.display = 'none';
-							registerField.style.display = 'block';
-						})
-						.catch((err) => {
-							opt_err.style.display = 'block';
-						});
-				} else if (count >= 2) {
-					document.getElementById('manyError').style.display = 'block';
-				}
-			};
-		}).catch(function(error) {
-			alert(error.message);
+		.then(function (result) {
+			confirmationResult = result;
+			console.log("Gửi mã OTP thành công");
+		})
+		.catch(function (error) {
+			console.log("Gửi mã OTP thất bại:", error);
 		});
 
+}
+function confirmOTP(otpValue) {
+	return confirmationResult.confirm(otpValue)
+		.then(function (result) {
+			return true;
+		})
+		.catch(function (error) {
+			return false;
+		});
+}
+
+// send OTP in email
+async function sendOTPEmail(e) {
+	const url = "/login/sendcode/email";
+	var email = e.value;
+	var value = await sendata(url, email);
+	console.log(value);
 }
 
 
 function showTab(event, tabNumber) {
 	event.preventDefault();
 	var tabPanels = document.querySelectorAll('.tabs__panel');
-	tabPanels.forEach(function(panel) {
+	tabPanels.forEach(function (panel) {
 		panel.style.display = 'none';
 	});
 
 	var tabLinks = document.querySelectorAll('.tabs__tab');
-	tabLinks.forEach(function(link) {
+	tabLinks.forEach(function (link) {
 		link.classList.remove('is-selected');
 	});
 
@@ -141,9 +109,10 @@ function showTab(event, tabNumber) {
 		selectedTabLink1.style.backgroundColor = '#f7efef';
 	}
 }
-/* valid form*/
+
+
+/* valid form - login*/
 const userInputted = document.getElementById("email-login");
-console.log(userInputted);
 const passInputted = document.getElementById("password-login");
 
 const btnLogin = document.getElementById("btn-login1");
@@ -159,4 +128,235 @@ function checkField() {
 
 userInputted.addEventListener('input', checkField);
 passInputted.addEventListener('input', checkField);
+
+
+//new register form
+var phoneTab = document.querySelector('.popup-login-tab-login');
+var emailTab = document.querySelector('.popup-login-tab-register');
+
+var popUpPhone = document.querySelector('.popup-register-phone');
+var popUpEmail = document.querySelector('.popup-register-email');
+
+validationFormRegister(popUpPhone);
+
+function switchToEmailSection() {
+	phoneTab.classList.remove("active");
+	emailTab.classList.add("active");
+	popUpPhone.style.display = "none";
+	popUpEmail.style.display = "block";
+	validationFormRegister(popUpEmail);
+}
+function switchToPhoneSection() {
+	phoneTab.classList.add("active");
+	emailTab.classList.remove("active");
+	popUpPhone.style.display = "block";
+	popUpEmail.style.display = "none";
+	validationFormRegister(popUpPhone);
+}
+phoneTab.addEventListener("click", switchToPhoneSection);
+emailTab.addEventListener("click", switchToEmailSection);
+
+
+function validationFormRegister(e) {
+	var account = e.querySelector('.js-account');
+	var otpBtn = e.querySelector('.js-otp');
+	var otpValue = e.querySelector('.js-otpValue');
+	var rgtPass = e.querySelector('.js-pass');
+	var rgtRePass = e.querySelector('.js-repass');
+	var rgtBtn = e.querySelector('.js-register');
+
+
+	if (emptyIn(otpValue) && emptyIn(rgtPass) && emptyIn(rgtRePass)) {
+		disabledIn(otpValue);
+		disabledIn(rgtPass);
+		disabledIn(rgtRePass);
+		disabledIn(rgtBtn);
+	}
+	account.addEventListener('input', () => {
+		if (account.name === 'rgt-phone') {
+			if (validatePhoneNumber(account.value)) {
+				checkExistedPhone(account).then(function (result) {
+					console.log(result);
+					if (result) {
+						otpBtn.addEventListener('click', function handleClick() {
+							
+							disabledIn(account);
+							sendOTPPhone(account);
+
+							enableIn(otpValue);
+							let countOTP = 4;
+							otpValue.addEventListener('input', function () {
+								console.log(confirmationResult);
+								if (otpValue.value.length === 6 && confirmationResult) {
+									confirmOTP(otpValue.value)
+										.then(function (success) {
+											if (success) {
+												console.log("Xác thực OTP thành công");
+												enableIn(rgtPass);
+												enableIn(rgtRePass);
+												disabledIn(otpValue);
+												if (!(rgtPass.disabled && rgtRePass.disabled)) {
+													rgtRePass.addEventListener('input', function () {
+														if (validateRePassword(rgtPass.value, rgtRePass.value)) {
+															console.log('true pass');
+															enableIn(rgtBtn);
+														} else {
+															console.log('error pass & re-pass');
+															disabledIn(rgtBtn);
+														}
+													});
+													rgtPass.addEventListener('input', function () {
+														if (validateRePassword(rgtPass.value, rgtRePass.value)) {
+															console.log('true pass');
+															enableIn(rgtBtn);
+														} else {
+															console.log('error pass & re-pass');
+															disabledIn(rgtBtn);
+														}
+													});
+												}
+											} else {
+												countOTP--;
+												console.log("Xác thực OTP thất bại", countOTP);
+												if (countOTP === 0) {
+													location.reload();
+												}
+											}
+										})
+										.catch(function (error) {
+											console.log("Lỗi xác thực OTP:", error);
+										});
+								}
+							});
+							otpBtn.removeEventListener('click', handleClick);
+						});
+						console.log('valid phone');
+					}
+				});
+
+
+
+
+			} else {
+				// k duoc thi in ra loi o day
+				console.log('in-valid phone');
+				otpBtn.removeEventListener('click', sendOTPPhone);
+			}
+		}
+		//email
+		else if (account.name === 'rgt-email') {
+			if (validateGmail(account.value)) {
+				otpBtn.addEventListener('click', function () {
+					disabledIn(account);
+					sendOTPEmail(account);
+
+					enableIn(otpValue);
+					otpValue.addEventListener('input', function () {
+
+						if (validateOTP(otpValue.value)) {
+							enableIn(rgtPass);
+							enableIn(rgtRePass);
+							disabledIn(otpValue);
+							if (!(rgtPass.disabled && rgtRePass.disabled)) {
+								rgtRePass.addEventListener('input', function () {
+									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
+										console.log('true pass');
+										enableIn(rgtBtn);
+									} else {
+										console.log('error pass & re-pass');
+										disabledIn(rgtBtn);
+									}
+								});
+								rgtPass.addEventListener('input', function () {
+									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
+										console.log('true pass');
+										enableIn(rgtBtn);
+									} else {
+										console.log('error pass & re-pass');
+										disabledIn(rgtBtn);
+									}
+								});
+							}
+						} else {
+							console.log('error otp value');
+						}
+
+					});
+				});
+				console.log('valid email');
+
+
+			} else {
+				// k duoc thi in ra loi o day
+				console.log('in-valid email');
+				otpBtn.removeEventListener('click', sendOTPEmail);
+			}
+		}
+	});
+
+};
+
+
+//validation method
+function emptyIn(e) {
+	return e.value === "";
+}
+
+function disabledIn(e) {
+	if (e !== null) {
+		e.disabled = true;
+	}
+}
+
+function enableIn(e) {
+	if (e !== null) {
+		e.disabled = false;
+		e.focus();
+	}
+}
+function validatePhoneNumber(phoneNumber) {
+	var pattern = /^0\d{9}$/;
+	var cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+	if (cleanPhoneNumber.match(pattern)) {
+		console.log(phoneNumber);
+		return true;
+	} else {
+		return false;
+	}
+}
+function validateGmail(email) {
+	var gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+
+	if (email.match(gmailPattern)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function clearInputField(inputElement) {
+	inputElement.value = "";
+}
+
+function validateRePassword(password, rePassword) {
+	var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
+
+	var isMatch = password === rePassword;
+	var isValid = rePassword.match(passwordPattern);
+
+	return isMatch && isValid;
+}
+
+//authen mail
+//trả về true nếu đúng, false nếu sai
+async function checkOtpEmail(email, code){
+	var url = "/login/authen/email";
+	var data = {email, code};
+	var value = await sendata(url, data);
+	return value;
+}
+
+
 

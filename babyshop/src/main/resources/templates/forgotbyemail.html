@@ -33,6 +33,7 @@
                         <h3 class="auth__title">Forgot your password?</h3>
                         <p class="sub_auth__title">Enter email address to reset your password</p>
                         <div th:if = "${success}!=null" th:text = "${success}"></div>
+                        <div th:if = "${err}!=null" th:text = "${err}"></div>
                         <div class="arlet-input" th:if = "${err}!=null"></div>
                         <form th:action="@{/fogotpass/email}" method="post" class="auth_form js-auth-form">
                             <div class="field">

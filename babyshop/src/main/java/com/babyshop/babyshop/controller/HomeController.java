@@ -33,21 +33,6 @@ public class HomeController {
 		loadDataController.loadData(modelMap);
 		return "home";
 	}
-	@GetMapping("/categories")
-	public String categories(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		return "categories";
-
-	}
-	@GetMapping("/subcategories")
-	public String subCategories(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		List<Product> products = productService.getAll();
-		
-		modelMap.addAttribute("products", products);
-		return "subcategories";
-
-	}
 	@GetMapping("/afterresetbyphone")
 	public String afterresetpass() {
 		

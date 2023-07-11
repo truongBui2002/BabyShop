@@ -76,12 +76,18 @@ function scrollFunction() {
 
 /* fill heart */
 var addWishLists = document.querySelectorAll('.add-wishlist');
-console.log(addWishLists);
 addWishLists.forEach( (addWishList) => {
+	
 	var heartLight = addWishList.querySelector('.heart-light');
 	var heartTomato = addWishList.querySelector('.heart-tomato');
 	
-	addWishList.addEventListener('click', () => {
+	//Lấy ra productId theo input hidden
+	var productId = addWishList.querySelector('input[type="hidden"]').value;
+//	console.log('productId: ' + productId)
+	
+	addWishList.addEventListener('click', (e) => {
+		addOrRemoveFavorite(productId);
+	
 		if(heartLight.classList.contains('fill-neutral-light') && heartTomato.classList.contains('fill-neutral-microwave')) {
 			heartLight.classList.add('fill-tomato-dark');
 			heartLight.classList.remove('fill-neutral-light');
@@ -97,9 +103,17 @@ addWishLists.forEach( (addWishList) => {
 	});
 });
 var ariaWishList = document.querySelectorAll('[aria-label="remove from wishlist"]');
-console.log('cac', ariaWishList);
 
 function addedWishlist() {
 	var ariaWishList = document.querySelectorAll('[aria-label]');
 }
 
+// click heart
+
+function addOrRemoveFavorite(productId){
+	console.log("Đã bấm vào favorite: " + productId );
+	//Thêm request ở đây
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", "/product/favorite/" + productId);
+	xhr.send();
+}

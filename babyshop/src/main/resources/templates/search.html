@@ -24,12 +24,12 @@
     <header th:insert="~{home :: navbar}"></header>
     <!--page content-->
     <div id="content" class="content container">
-    <form th:action="@{/search/product/filter}" method="get">
-    	<input type="hidden" name="search" th:value = "${productName !=null ? 'search' :''}"/>
+    <form th:action="@{/search/product/filter}" method="post" id="form-search-product">
+    	<input type="hidden" name="search" id="search" th:value = "${productName !=null} ? ${productName} : ''"/>
         <main class="search-list">
             <div class="search-list__header ">
                 <h1 class="heading-1 search-list__title" th:if = "${productName != null}">
-                    We found [[${session.products.size()}]] products for [[${'"' + productName + '"'}]]
+                    We found <span th:text = "${session.oldProducts.size()}"></span> products for "<span th:text="${productName}" style="white-space: pre;"></span>"
                 </h1>
                 <div class="search-list__row ">
                 </div>
@@ -45,7 +45,7 @@
                         <span class="filter__count-label">
                             Shows:
                         </span>
-                        <span class="strong" th:text = "${session.products.size()}">
+                        <span class="strong" th:text = "${session.oldProducts.size()}">
                             7
                         </span>
                         <span class="filter__count-product">
@@ -63,48 +63,48 @@
                                     <ul class="sort__list">
                                     	<li>
                                     		<input type="radio" name="sort" id= "newIn-sort" th:checked = "${sort eq 'newIn'}" class="sort__option is-selected" 
-                                        	onclick="submit()" value="newIn"/>
+                                        	  value="newIn"/>
                                          	<label class="sub-categories__name1" for="newIn-sort" >New In</label>
                                          </li>
                                         <li>
                                     		<input type="radio" name="sort" id="old-sort"th:checked = "${sort eq 'oldest'}" class="sort__option " 
-                                        	onclick="submit()" value="oldest"/>
+                                        	 value="oldest"/>
                                          	<label class="sub-categories__name1" for="old-sort" >Oldest</label>
                                          </li>
                                          
                                          <li>
-                                    		<input type="radio" name="sort" id="a-z" th:checked="${sort eq 'productNameDesc'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="a-z" th:checked="${sort eq 'productNameDesc'}" class="sort__option " 
     										value="productNameDesc" />
                                          	<label class="sub-categories__name1" for="a-z" >Name (a – z)</label>
                                          </li>
                                          <li>
-                                    		<input type="radio" name="sort" id="z-a" th:checked="${sort eq 'productNameAsc'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="z-a" th:checked="${sort eq 'productNameAsc'}" class="sort__option " 
     										value="productNameAsc" />
                                          	<label class="sub-categories__name1" for="z-a" >Name (z – a)</label>
                                          </li>
                                          <li>
-                                    		<input type="radio" name="sort" id="lowest" th:checked="${sort eq 'priceAsc'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="lowest" th:checked="${sort eq 'priceAsc'}" class="sort__option "
    											value="priceAsc" />
                                          	<label class="sub-categories__name1" for="lowest" >Price (Lowest)</label>
                                          </li>
                                          <li>
-                                    		<input type="radio" name="sort" id="highest" th:checked="${sort eq 'priceDesc'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="highest" th:checked="${sort eq 'priceDesc'}" class="sort__option " 
     										value="priceDesc" />
                                          	<label class="sub-categories__name1" for="highest" >Price (Highest)</label>
                                          </li>
                                          <li>
-                                    		<input type="radio" name="sort" id="best-seller" th:checked="${sort eq 'bestsellers'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="best-seller" th:checked="${sort eq 'bestsellers'}" class="sort__option " 
     										value="bestsellers" />
                                          	<label class="sub-categories__name1" for="best-seller" >Bestsellers</label>
                                          </li>
                                          <li>
-                                    		<input type="radio" name="sort" id="brand_a-z" th:checked="${sort eq 'brandNameDesc'}" class="sort__option " onclick="submit()"
+                                    		<input type="radio" name="sort" id="brand_a-z" th:checked="${sort eq 'brandNameDesc'}" class="sort__option " 
     										value="brandNameDesc" />
                                          	<label class="sub-categories__name1" for="brand_a-z" >Brand (a – z)</label>
                                          </li>
                                          <li>
                                     		<input type="radio" name="sort" id= "brand_z-a" th:checked = "${sort eq 'brandNameAsc'}" class="sort__option is-selected" 
-                                        	onclick="submit()" value="brandNameAsc"/>
+                                        	 value="brandNameAsc"/>
                                          	<label class="sub-categories__name1" for="brand_z-a" >Brand (z – a)</label>
                                          </li>
                                          <!--  old -->
@@ -143,8 +143,6 @@
                                             aria-label="Clothing"  th:checked="${subcategoriesChecked != null and #lists.contains(subcategoriesChecked, subcategory.subcategoryId)}"/>
                                         <label class="sub-categories__name label_sub_cate" th:for="${subcategory.name}" >
                                         	[[${subcategory.name}]]</label>
-                                        	
-                                        
                                     </li>
                                 </ul>
                             </div>
@@ -317,74 +315,28 @@
                             </div>
                         </section>
                     </div>
-                    <div class="js-filter-done">
+                    <!-- <div class="js-filter-done">
                         <button class="btn btn--inverted filter__done-btn" onclick="closeF()">
                             Done
                         </button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="js-filter-tags filter-tags">
                 </div>
             </div>
-            <!--  old -->
-            <!-- 
-            <div class="product-list js-product-list" tabindex="-1">
-                <article class="card js-product card--quickshop" data-id="474753"
-                    data-gtm-vis-first-on-screen-30836705_353="491" data-gtm-vis-total-visible-time-30836705_353="100"
-                    data-gtm-vis-has-fired-30836705_353="1" th:each = "product : ${session.products}">
-
-                    <div class="embed-responsive card__image">
-                        <img th:src="${product.images.get(0).name}" class="product__image js-image has-loaded"
-                            loading="lazy" alt="Cachea Dress Soft Sand" srcset="">
-                    </div>
-                    <div class="card__loader"></div>
-                    <div class="card__content">
-                        <h3 class="card__title">
-                            <a class="card__link" href="/cachea-dress-soft-sand/p/474753">
-                                <span class="card__brand" th:text = "${product.brand.name}">
-                                    Molo
-                                </span>
-                                <strong class="card__name" th:text = "${product.name}">
-                                    Cachea Dress Soft Sand
-                                </strong>
-                            </a>
-                        </h3>
-                        <div class="card__price">
-                            <div itemscope="" itemprop="offers" itemtype="http://schema.org/Offer" class="price">
-                                <span itemprop="price" content="399.00" class="price__current" data-price="399.00" th:text = "${product.price + '.000 VND'}">
-                                    399 kr
-                                </span>
-                                <meta itemprop="priceCurrency" content="SEK">
-                            </div>
-                        </div>
-                    </div>
-                    <div data-qs-id="474753" class="card__quickshop">
-                        <div class="quickshop-btn__holder">
-                            <button class="quickshop-btn js-quickshop-btn">
-                                Add to cart
-                            </button>
-                            <a href="#" class="add-to-favorites js-add-to-favorites is-empty" data-id="474753">
-                                <span class="add-to-favorites__span">Favorite</span>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-               
-            </div>
-             -->
              <!--  new -->
-             <div class="slider___item">
+             <div class="slider___item" id="search-product" th:fragment="search-product">
                 <div th:each = "product : ${session.products}" class="slider-items-list1">
                     <div class="product-card">
-                        <a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
+                        <a th:href="@{'/product/details/' + ${product.productId}}" class="product_image_link">
                             <div class="image_block">
-                                <img th:src="${product.images.get(0).name}" loading="lazy">
+                                <img th:src="${product.images.get(0).name}" loading = "lazy">
                                 
                             </div>
                         </a>
                         <h3 th:text="${product.brand.name}" class="card_title">
                         </h3>
-                        <a th:href="'/product/details/' + ${product.productId}" class="product_card_name">
+                        <a th:href="@{'/product/details/' + ${product.productId}}" class="product_card_name">
                             <h2 th:text="${product.name}">
 
                             </h2>
@@ -397,42 +349,60 @@
                         </div>
                         <div class="product_discount_label" th:if = "${product.discount} !=100" th:text="${product.discount + '%'}"></div>
                         <div aria-label="remove from wishlist" class="add-wishlist">
-								<div class="add-wishlist-child">
-								<!--  content -->
+							<input type="hidden" th:value = "${product.productId}"/>
+                        <!--  Không đỏ -->
+								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
 									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<!--  border -->
 									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
+								</div> 
+						<!-- Đỏ -->
+								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
+								<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
 								</div>
-						</div>
+							</div>
                     </div>
                 </div>
-            </div>
-             <div class="pagination-nav">
-                <a aria-label="1plus-in-the-family" href="#" class="pagi-btn">
+                <!-- Thêm ở đây -->
+                <div class="pagi-fav">
+                <div class="pagination-nav">
+             <div id="page-data" th:data-page="${page}"></div>
+             <div id="page-dataMax" th:data-maxpage="${maxPage}"></div>
+                <a aria-label="1plus-in-the-family" class="pagi-btn" href="#">
                     <svg class="fill-black stroke-none " viewBox="0 0 24 24" width="24" height="24">
                         <path fill-rule="evenodd"
                             d="M20.25 12.75a.75.75 0 0 0 0-1.5H5.56l5.47-5.47a.75.75 0 1 0-1.06-1.06l-6.75 6.75a.75.75 0 0 0 0 1.06l6.75 6.75a.75.75 0 1 0 1.06-1.06l-5.47-5.47h14.69Z">
-                        </path>
+                        </path>	
                     </svg>
                 </a>
                 <span class="number-of-pages">
                     Page
                     <!-- -->
-                    1
+                    [[${page}]]
                     <!-- -->
                     of
                     <!-- -->
-                    8
+                    [[${maxPage}]]
                 </span>
-                <a aria-label="1plus-in-the-family" href="#" class="pagi-btn">
+                <a aria-label="1plus-in-the-family" class="pagi-btn" href="#">
                     <svg class="fill-black stroke-none " viewBox="0 0 24 24" width="24" height="24">
                         <path fill-rule="evenodd"
                             d="M3.75 11.25a.75.75 0 0 0 0 1.5h14.69l-5.47 5.47a.75.75 0 1 0 1.06 1.06l6.75-6.75a.75.75 0 0 0 0-1.06l-6.75-6.75a.75.75 0 1 0-1.06 1.06l5.47 5.47H3.75Z">
@@ -440,6 +410,10 @@
                     </svg>
                 </a>
             </div>
+			</div>
+            <!-- Thêm ở đây -->
+            </div>
+             
         </main>
         </form>
     </div>
