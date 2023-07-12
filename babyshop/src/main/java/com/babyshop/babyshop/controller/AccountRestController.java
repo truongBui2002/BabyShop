@@ -26,25 +26,30 @@ public class AccountRestController {
 	@Autowired
 	SendMailService sendMailService; 
 	  
-	@PostMapping("/login/sendcode/email") 
-	public String code(@RequestBody String email){
+	@PostMapping("/login/checkexist/email") 
+	public String checkEmailExists(@RequestBody String email){
 		
 		String emailEx = email.trim().replace("\"", "");
 		if (userService.userIsExists(emailEx)) {
 			return "exists"; 
 		} else { 
-			RandomKey randomKey = new RandomKey();
-			String code = randomKey.getNumber(6);
-			System.out.println("code: " + code);
-			sendMailService.sendCode(emailEx, code);
-			session.setAttribute("code", code);  
-			session.setAttribute("emailVerifier", emailEx); 
-			LocalDateTime start = LocalDateTime.now();
-			session.setAttribute("start", start);
 			return "not exists";
-		}   
+		}    
 	}   
- 
+	@PostMapping("/login/sendcode/email")
+	public String sendCodeEmail(@RequestBody String email) {
+		String emailEx = email.trim().replace("\"", "");
+		RandomKey randomKey = new RandomKey();
+		String code = randomKey.getNumber(6);
+		System.out.println("code: " + code);
+		sendMailService.sendCode(emailEx, code);
+		session.setAttribute("code", code);  
+		session.setAttribute("emailVerifier", emailEx); 
+		LocalDateTime start = LocalDateTime.now();
+		session.setAttribute("start", start);
+		return "success";
+	}
+	
 	@PostMapping("/login/checkexits")
 	public String verifierCode (@RequestBody String phone){
 		if (userService.userIsExists(phone.trim().replace("\"", ""))) {

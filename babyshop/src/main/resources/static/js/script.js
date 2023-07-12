@@ -43,7 +43,7 @@ listProductSliders.forEach((listProductSlider) => {
 });
 
 
-
+/* image in list product */
 var imageBlocks = document.querySelectorAll('.image_block');
 imageBlocks.forEach((e) => {
   const img = e.querySelector('img');
@@ -56,6 +56,33 @@ imageBlocks.forEach((e) => {
     img.addEventListener('load', loaded);
   }
 });
+/* categories load image */
+var imageBlocks = document.querySelectorAll('.image_block');
+imageBlocks.forEach((e) => {
+  const img = e.querySelector('img');
+  function loaded() {
+    e.classList.add('loaded');
+  }
+  if (img.complete) {
+    loaded();
+  } else {
+    img.addEventListener('load', loaded);
+  }
+});
+var boxImgs = document.querySelectorAll('.box-img');
+console.log('boxImgs', boxImgs);
+boxImgs.forEach((e) => {
+  const img = e.querySelector('img');
+  function loaded() {
+    e.classList.add('loaded');
+  }
+  if (img.complete) {
+    loaded();
+  } else {
+    img.addEventListener('load', loaded);
+  }
+});
+
 
 const upTop = document.getElementById('up-top');
 upTop.addEventListener('click', () => {

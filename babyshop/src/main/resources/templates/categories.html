@@ -44,7 +44,7 @@
             <div>
                 <div class="link-collection">
                     <div class="mb-4" style="width: 100%;"></div>
-                    <a href="#" class="link-collection-elements" th:each = "sub : ${category.subcategories}">
+                    <a th:href="@{'/subcategories/' + ${sub.subcategoryId}}" class="link-collection-elements" th:each = "sub : ${category.subcategories}">
                         <span th:text = "${sub.name}">All-in-Ones</span>
                     </a>
                 </div>

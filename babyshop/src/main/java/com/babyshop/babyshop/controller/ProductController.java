@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.babyshop.babyshop.models.Feedback;
 import com.babyshop.babyshop.models.Product;
+import com.babyshop.babyshop.models.Variant;
 import com.babyshop.babyshop.service.CookiesService;
+import com.babyshop.babyshop.service.FeedbackService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
 
@@ -43,6 +46,9 @@ public class ProductController {
 
 	@Autowired
 	CookiesService cookiesService;
+	
+	@Autowired
+	FeedbackService feedbackService;
 
 	@GetMapping("/search/product")
 	public String search(ModelMap modelMap, @RequestParam(name = "page", defaultValue = "1") int page,
@@ -57,7 +63,6 @@ public class ProductController {
 		loadDataController.loadData(modelMap);
 		loadDataController.loadFilter(modelMap);
 
-		System.out.println("productName: " + productName);
 		List<Product> products = productService.getByNameContain(productName);
 		List<Product> oldProducts = productService.copy(products);
 
@@ -115,14 +120,11 @@ public class ProductController {
 		List<Product> listProByPage;
 		if ((page-1) * 16 < productsFilter.size()) {
 			if (productsFilter.size() > page * 16 - 1) {
-				System.out.println("IF Tren");
 				listProByPage = productsFilter.subList((page-1) * 16, page* 16);
 			} else {
 				listProByPage = productsFilter.subList((page-1) * 16, productsFilter.size()); 
-				System.out.println("ELSE Tren");
 			}
 		}else {
-			System.out.println("ELSE duoi");
 			listProByPage = productsFilter;
 			
 		}
@@ -135,35 +137,18 @@ public class ProductController {
 		return "search :: search-product";
 	}
 
-	@GetMapping("/search/product/{page}")
-	public String page(ModelMap modelMap, @PathVariable("page") int page,
-			@RequestParam(name = "sort", defaultValue = "newIn") String sort,
-			@RequestParam(name = "subcategory", defaultValue = "") List<Integer> subcategoriesChecked,
-			@RequestParam(name = "ages", defaultValue = "") List<String> agesChecked,
-			@RequestParam(name = "brands", defaultValue = "") List<Integer> brandsChecked,
-			@RequestParam(name = "sizes", defaultValue = "") List<String> sizesChecked,
-			@RequestParam(name = "colors", defaultValue = "") List<String> colorsChecked,
-			@RequestParam(name = "genders", defaultValue = "") List<String> gendersChecked) {
-		loadDataController.loadData(modelMap);
-		loadDataController.loadFilter(modelMap);
-		List<Product> oldProducts = (List<Product>) session.getAttribute("products");
-
-		modelMap.addAttribute("page", page);
-		modelMap.addAttribute("sort", sort);
-		modelMap.addAttribute("subcategoriesChecked", subcategoriesChecked);
-		modelMap.addAttribute("agesChecked", agesChecked);
-		modelMap.addAttribute("brandsChecked", brandsChecked);
-		modelMap.addAttribute("sizesChecked", sizesChecked);
-		modelMap.addAttribute("colorsChecked", colorsChecked);
-		modelMap.addAttribute("gendersChecked", gendersChecked);
-		return "search";
-	}
-
 	@GetMapping("/product/details/{id}")
 	public String detailsProduct(ModelMap modelMap, @PathVariable("id") int productId) {
 		loadDataController.loadData(modelMap);
 		Product product = productService.getProductById(productId);
+		List<Feedback> feedbacks = feedbackService.getFeedBacksActive(product);
+		List<Product> productsSimilar = product.getSubcategory().getProducts()
+										.stream().filter(pro -> {
+											return pro.getProductId()!= product.getProductId();
+										}).toList();
 		modelMap.addAttribute("product", product);
+		modelMap.addAttribute("feedbacks", feedbacks);
+		modelMap.addAttribute("productsSimilar", productsSimilar);
 		return "detailsproduct";
 	}
 

@@ -46,9 +46,7 @@ CREATE TABLE `customer` (
   `customer_id` int AUTO_INCREMENT,
   `user_id` int,
   `full_name` varchar(255),
-  `phone_number` varchar(255),
-  `email` varchar(255),
-  `gender` boolean,
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(customer_id)
@@ -58,6 +56,8 @@ CREATE TABLE location (
   `location_id` int AUTO_INCREMENT,
   `customer_id` int,
   `address` varchar(255),
+  `phone_number` varchar(255),
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(location_id)
@@ -133,7 +133,7 @@ CREATE TABLE `variant` (
    PRIMARY KEY(variant_id)
 );
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `order_id` int AUTO_INCREMENT,
   `code` varchar(255),
   `customer_id` int,
@@ -147,10 +147,12 @@ CREATE TABLE `order_details` (
   `order_details_id` int AUTO_INCREMENT,
   `order_id` int,
   `product_id` int,
-  `price` varchar(255),
-  `variant_product` varchar(255),
+  `price` decimal,
+  `variant_id` int,
+  `quantity` int,
   `profit` decimal,
   `discount` decimal,
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(order_details_id)
@@ -167,14 +169,13 @@ CREATE TABLE `session` (
 
 CREATE TABLE `feedback` (
   `feedback_id` int AUTO_INCREMENT,
-  `image_id` int,
   `rate_star` int,
-  `user_id` int,
   `description` longtext,
   `customer_id` int,
   `product_id` int,
-  `status` varchar(255),
+  `order_details_id` int,
   `like` int,
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(feedback_id)
@@ -219,13 +220,22 @@ CREATE TABLE `image_slide` (
   PRIMARY KEY(image_slide_id)
 );
 
+CREATE TABLE `image_feedback` (
+  `image_feedback_id` int AUTO_INCREMENT,
+  `feedback_id` int,
+  `image_id` int,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(image_feedback_id)
+);
+
 ALTER TABLE `user` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
-ALTER TABLE `order` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+ALTER TABLE `orders` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
 
 ALTER TABLE `brand` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
@@ -241,17 +251,17 @@ ALTER TABLE `variant` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`prod
 
 ALTER TABLE `order_details` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
-ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
+ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+
+ALTER TABLE `order_details` ADD FOREIGN KEY (`variant_id`) REFERENCES `variant` (`variant_id`);
 
 ALTER TABLE `session` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
-ALTER TABLE `feedback` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
-ALTER TABLE `feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `feedback` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 ALTER TABLE `feedback` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+
+ALTER TABLE `feedback` ADD FOREIGN KEY (`order_details_id`) REFERENCES `order_details` (`order_details_id`);
 
 ALTER TABLE `tip_page` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
@@ -271,17 +281,35 @@ ALTER TABLE `subcategory` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`imag
 
 ALTER TABLE `category` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
+ALTER TABLE `image_feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
+
+ALTER TABLE `image_feedback` ADD FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`);
+
 -- SET UTF-8
 ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-
-
 -- INSERT USER
 -- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
-INSERT role(name) VALUES("ROLE_CUSTOMER");
-INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608");
-INSERT user_role(user_id, role_id) VALUES(1, 1);
+INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761607"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16081001@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761609"); -- ROLE_STAFF
+INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654920"); -- ROLE_ADMIN
 
+-- INSERT USER
+INSERT role(name) VALUES("ROLE_CUSTOMER");
+INSERT role(name) VALUES("ROLE_STAFF");
+INSERT role(name) VALUES("ROLE_ADMIN");
+ 
+INSERT user_role(user_id, role_id) VALUES(1, 1);
+INSERT user_role(user_id, role_id) VALUES(2, 1);
+INSERT user_role(user_id, role_id) VALUES(3, 2); 
+INSERT user_role(user_id, role_id) VALUES(3, 3); 
+
+-- INSERT CUSTOMER
+INSERT customer(user_id, full_name) VALUES (1, "Customer Truong 1");
+INSERT customer(user_id, full_name) VALUES (2, "Customer Truong 2");
+
+SELECT * FROM swp391_team3.customer;
 -- INSERT category
 INSERT category(name) VALUES ("Clothing");
 INSERT category(name) VALUES ("Footwear");
@@ -291,9 +319,6 @@ INSERT category(name) VALUES ("Car Seats");
 INSERT category(name) VALUES ("Baby Gear");
 INSERT category(name) VALUES ("Home");
 INSERT category(name) VALUES ("Toys");
--- INSERT category(name) VALUES ("Outlet");
--- INSERT category(name) VALUES ("Green Page");
--- INSERT category(name) VALUES ("Magazine");
 
 -- INSERT subcategory
 -- Clothing
@@ -1441,7 +1466,80 @@ UPDATE subcategory set description = "Newborn toys and baby toys need to be chos
 UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 159  where subcategory_id = 51; -- cần sửa subcategory_id và description theo ảnh img đã chèn
 UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 160  where subcategory_id = 52; -- cần sửa subcategory_id và description theo ảnh img đã chèn
 
-SELECT * FROM swp391_team3.subcategory;
+-- INSERT ORDER
+-- COMPLETED : Hoàn thành
+-- SHIP : Đang giao
+-- WAIT : Chờ xác nhận
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+
+
+-- ORDER-ID: 1
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (1, 2, 11, 2, 490, 0, 0, "COMPLETED");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (1, 3, 18, 1, 160, 0, 0, "COMPLETED");
+-- ORDER-ID: 2
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (2, 2, 13, 1, 245, 0, 0, "SHIP");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (2, 1, 3, 2, 418, 0, 0, "SHIP");
+-- ORDER-ID: 3
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (3, 4, 30, 1, 160, 0, 0, "WAIT");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (3, 5, 37, 1, 183, 0, 0, "WAIT");
+-- ORDER-ID: 4
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (4, 2, 11, 2, 490, 0, 0, "COMPLETED");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (4, 4, 30, 1, 160, 0, 0, "COMPLETED");
+-- ORDER-ID: 5
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (5, 4, 30, 1, 160, 0, 0, "SHIP");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (5, 2, 13, 1, 245, 0, 0, "SHIP");
+-- ORDER-ID: 6
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (6, 4, 30, 1, 160, 0, 0, "WAIT");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (6, 2, 11, 2, 490, 0, 0, "WAIT");
+
+
+-- INSERT FEEDBACK
+-- ACTIVE : hoạt động
+-- INACTIVE : Không hoạt động
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 1, "Very good, 9.5 point", 5, 1, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (3, 1, "Temporarily, in general, give 8 points :))", 4, 2, 0, "ACTIVE");
+
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 5, 7, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (4, 2, "The product is pretty bad.", 3, 8, 0, "ACTIVE");
+
+-- INSERT IMAGE FEEDBACK : start image-id: 161
+INSERT image(name) VALUES ("feedback12312412gdf.webp"); 
+INSERT image(name) VALUES ("feedback1241231ew.webp"); 
+INSERT image(name) VALUES ("feedback234892hg.webp"); 
+INSERT image(name) VALUES ("feedback235243qw.webp"); 
+INSERT image(name) VALUES ("feedback23894asd.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 161);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 162);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 163);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 164);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 165);
+
+INSERT image(name) VALUES ("feedback123124asdjk.webp"); 
+INSERT image(name) VALUES ("feedback12312sdj123.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(2, 166);
+INSERT image_feedback(feedback_id, image_id) VALUES(2, 167);
+
+INSERT image(name) VALUES ("feedback12234asd12.webp"); 
+INSERT image(name) VALUES ("feedback12430sd32a.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(4, 168);
+INSERT image_feedback(feedback_id, image_id) VALUES(4, 169);
+
+--  UPDATE avater user
+INSERT image(name) VALUES ("avatarwibu1.webp"); 
+INSERT image(name) VALUES ("avatarwibu2.jpg"); 
+UPDATE user SET image_id = 170 where user_id = 1;
+UPDATE user SET image_id = 171 where user_id = 1;
+
+SELECT * FROM swp391_team3.order_details;
+SELECT * FROM swp391_team3.variant;
+SELECT * FROM swp391_team3.product;
+SELECT * FROM swp391_team3.orders;
+SELECT * FROM swp391_team3.feedback;
 SELECT * FROM swp391_team3.image;
-
-
+SELECT * FROM swp391_team3.image_feedback;

@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.babyshop.babyshop.controller.ImageController;
 import com.babyshop.babyshop.util.Status;
 
 import jakarta.persistence.CascadeType;
@@ -97,6 +99,12 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<Variant> variant;
 	
+	@OneToMany(mappedBy = "product")
+	private List<Feedback> feedbacks;
+	
+	@OneToMany(mappedBy = "product")
+	private List<OrderDetails> orderDetails;
+	
 	public int getSalePrice() {
 		if(this.discount==1) return (int)price;
 		return (int)(price - price*discount);
@@ -105,6 +113,17 @@ public class Product {
 		return (int)(discount*100);
 	}
 	public int getPrice() {
+		
 		return (int)price;
 	}
+//	public List<String> getImages(){
+//		List<String> uriImages = new ArrayList<>();
+//		for (Image image : images) {
+//			String imageName = MvcUriComponentsBuilder
+//					.fromMethodName(ImageController.class, "readDetailFileProduct", image.getName()).build().toUri()
+//					.toString();
+//			uriImages.add(imageName);
+//		}
+//		return uriImages;
+//	}
 }

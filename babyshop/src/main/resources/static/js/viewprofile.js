@@ -20,33 +20,30 @@ const maleFunc = (e) => {
         femaleOption.removeAttribute("checked");
     }
 }
-
-
-
 femaleOption.addEventListener('click', femaleFunc);
 maleOption.addEventListener('click', maleFunc);
 
-// process disable input
-const email = document.getElementById('email');
-const phoneNumber = document.getElementById('phoneNumber');
+// // process disable input
+// const email = document.getElementById('email');
+// const phoneNumber = document.getElementById('phoneNumber');
 
-const spanEmail = document.getElementById("email_span");
-const spanPhone = document.getElementById("phoneNumber_span");
+// const spanEmail = document.getElementById("email_span");
+// const spanPhone = document.getElementById("phoneNumber_span");
 
-const clickEmailSpan = () => {
-    if(email.hasAttribute('disabled')) {
-        email.removeAttribute('disabled');
-        email.style.background = 'none'; 
-    }
-}
-const clickPhoneSpan = () => {
-    if(phoneNumber.hasAttribute('disabled')) {
-        phoneNumber.removeAttribute('disabled');
-        phoneNumber.style.background = 'none';
-    }
-}
-spanEmail.addEventListener('click', clickEmailSpan);
-spanPhone.addEventListener('click', clickPhoneSpan);
+// const clickEmailSpan = () => {
+//     if(email.hasAttribute('disabled')) {
+//         email.removeAttribute('disabled');
+//         email.style.background = 'none'; 
+//     }
+// }
+// const clickPhoneSpan = () => {
+//     if(phoneNumber.hasAttribute('disabled')) {
+//         phoneNumber.removeAttribute('disabled');
+//         phoneNumber.style.background = 'none';
+//     }
+// }
+// spanEmail.addEventListener('click', clickEmailSpan);
+// spanPhone.addEventListener('click', clickPhoneSpan);
 
 // constraints phone number with OTP
 
@@ -111,4 +108,15 @@ avatarPreview.addEventListener('click', function () {
 const selectButton = document.querySelector('.btn_avatar');
 selectButton.addEventListener('click', function () {
     fileInput.click();
+});
+
+var a = document.querySelectorAll('.FEE-3D');
+console.log(a);
+a.forEach((e) => {
+    e.addEventListener('click', () => {
+        a.forEach((c) => {
+            c.classList.remove('tH0d6d');
+        })
+        e.classList.add('tH0d6d');
+    });
 });

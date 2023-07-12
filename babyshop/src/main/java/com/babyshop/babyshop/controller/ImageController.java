@@ -42,7 +42,7 @@ public class ImageController {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	@GetMapping("/user/viewprofile/{avatar:.+}")
+	@GetMapping("/img/avatar/{avatar:.+}")
 	public ResponseEntity<byte[]> readDetailFileAvatar(@PathVariable String avatar){
 		try {
 			byte[] bytes = imageService.readFileContentAvatar(avatar);
@@ -72,6 +72,19 @@ public class ImageController {
 	public ResponseEntity<byte[]> readDetailFileSubcategory(@PathVariable String subcategoryName){
 		try {
 			byte[] bytes = imageService.readFileContentSubategory(subcategoryName);
+			return ResponseEntity
+					.ok() 
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	
+	@GetMapping("/img/feedback/{feedbackName:.+}")
+	public ResponseEntity<byte[]> readDetailFileFeedback(@PathVariable String feedbackName){
+		try {
+			byte[] bytes = imageService.readFileContentFeedback(feedbackName);
 			return ResponseEntity
 					.ok() 
 					.contentType(MediaType.IMAGE_JPEG)

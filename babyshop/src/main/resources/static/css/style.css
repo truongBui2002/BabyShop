@@ -15,6 +15,10 @@ body {
     letter-spacing: .01rem;
 }
 
+header {
+    background-color: #fff;
+}
+
 *:focus {
     outline: none
 }
@@ -38,7 +42,7 @@ a:focus {
 
 
 img {
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .color-hover:hover {
@@ -145,11 +149,18 @@ img {
 }
 
 .navigation {
-    overflow-y: visible;
-    margin-top: 30px;
-    margin-bottom: 25px;
-
+    display: none;
 }
+
+@media (min-width: 640px) {
+    .navigation {
+        overflow-y: visible;
+        margin-top: 30px;
+        margin-bottom: 25px;
+        display: block;
+    }
+}
+
 
 .nav__links {
     font-size: 16px;
@@ -996,6 +1007,7 @@ footer {
 
 
 /* key frame for image */
+/* image block */
 
 .image_block::before {
     content: '';
@@ -1023,6 +1035,34 @@ footer {
     opacity: 1;
 }
 
+/* box img */
+.box-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    animation: pulse 2.5s infinite;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.box-img.loaded {
+    opacity: 1;
+}
+
+.box-img.loaded::before {
+    content: none;
+    animation: pulse 2.5s infinite;
+}
+
+.box-img img {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+
+.box-img.loaded img {
+    opacity: 1;
+}
+
+
 @keyframes pulse {
     0% {
         background-color: rgba(255, 255, 255, 0);
@@ -1041,7 +1081,7 @@ footer {
 .fill-tomato-dark {
 	fill: #f06060;
 }
-.fill-neutral-light { /* same color with bacground*/
+.fill-neutral-light { /* same color with background*/
     fill: #f7f7f7;
 }
 

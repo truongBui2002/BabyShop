@@ -35,7 +35,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Scope("protoype")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -68,7 +67,10 @@ public class User implements UserDetails {
 	
 	@Column(name = "gender")
 	private boolean gender;
-
+	
+	@OneToOne(mappedBy = "user")
+	private Customer customer;
+	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new java.util.Date().getTime());
 

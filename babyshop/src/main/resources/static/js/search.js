@@ -102,7 +102,7 @@ function update() {
 
 		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 			document.getElementById("search-product").innerHTML = xhr.responseText;
-			console.log(xhr.responseText);
+			//console.log(xhr.responseText);
 		}
 
 		var imageBlocks = document.querySelectorAll('.image_block');

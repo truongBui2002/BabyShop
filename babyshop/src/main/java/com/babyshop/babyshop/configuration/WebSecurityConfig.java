@@ -54,7 +54,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/user/**").authenticated()
+                        //.requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().permitAll()
                 )
@@ -64,7 +64,7 @@ public class WebSecurityConfig {
                         //Địa chỉ xác thực form (POST)
                         .loginProcessingUrl("/login")// successForwardUrl() địa chỉ xác thực bằng đường dẫn (GET)
                         //Nếu thành công thì chuyển tới
-                        .defaultSuccessUrl("/user/viewprofile")
+                        .successHandler(successHandler)
                         //Tên của biến trong form dùng để gửi khi xác thực (name của input)
                         .usernameParameter("username")
                         .passwordParameter("password")

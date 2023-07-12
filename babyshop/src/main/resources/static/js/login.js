@@ -1,4 +1,3 @@
-
 async function sendata(url, data) {
 	var value;
 	await fetch(url, {
@@ -57,7 +56,7 @@ function phoneAuth(phoneNumber) {
 		});
 
 }
-function confirmOTP(otpValue) {
+function confirmOTP(otpValue) { 
 	return confirmationResult.confirm(otpValue)
 		.then(function (result) {
 			return true;
@@ -184,7 +183,7 @@ function validationFormRegister(e) {
 							sendOTPPhone(account);
 
 							enableIn(otpValue);
-							let countOTP = 4;
+							let countOTP = 3;
 							otpValue.addEventListener('input', function () {
 								console.log(confirmationResult);
 								if (otpValue.value.length === 6 && confirmationResult) {
