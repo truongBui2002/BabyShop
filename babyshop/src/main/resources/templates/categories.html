@@ -25,15 +25,15 @@
         <!--page content-->
         <div id="content" class="content container">
             <div class="bread-crumbs">
-                <a aria-label="homepage" href="/" class="cursor-pointer hv-underline">Home</a>
+                <a aria-label="homepage" th:href="@{/}" class="cursor-pointer hv-underline">Home</a>
                 <span class="mx-3">/</span>
                 <a aria-label="footwear" href="#"
-                    class="cursor-pointer whitespace-nowrap text-neutral-black hv-underline ">Clothing</a>
+                    class="cursor-pointer whitespace-nowrap text-neutral-black hv-underline " th:text = "${category.name}">Clothing</a>
             </div>
-            <h1 class="brand-heading">Clothing</h1>
+            <h1 class="brand-heading" th:text = "${category.name}">Clothing</h1>
             <div class="brand-description">
                 <div class="brand-description-box">
-                    <p>
+                    <p th:text = "${category.description}">
                         At Babyshop you will find lots of lovely children's clothes and baby clothes for girls and boys
                         of all ages. In our fine assortment there is everything from the first wardrobe for the newborn
                         baby to hard-wearing shells, rain and winter clothes, but also of course trousers, sweaters,
@@ -44,38 +44,8 @@
             <div>
                 <div class="link-collection">
                     <div class="mb-4" style="width: 100%;"></div>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>Swimwear & UV Clothing</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
-                    </a>
-                    <a href="#" class="link-collection-elements">
-                        <span>All-in-Ones</span>
+                    <a th:href="@{'/subcategories/' + ${sub.subcategoryId}}" class="link-collection-elements" th:each = "sub : ${category.subcategories}">
+                        <span th:text = "${sub.name}">All-in-Ones</span>
                     </a>
                 </div>
             </div>
@@ -83,7 +53,7 @@
                 <div class="slideshow mb-5 mt-5">
                     <div class="slides">
                         <a aria-label="Summer-fashion-up-to-70" class="slide-link" href="#">
-                            <div class="box-img"><img th:src="@{/image/5108ed15e48fa6fad488ee07e4fa78ac.jpg}" alt="" loading="lazy"
+                            <div class="box-img"><img th:src="${category.getUriImage()}" alt="" loading="lazy"
                                 class="slide___image"></div>
                             <div class="slide-info">
                                 <div class="slide__info">
@@ -105,7 +75,7 @@
             <div class="slider product-slider js-product-list">
                 <div class="mb-12 list-product-slider">
                     <div class="product_header">
-                        <h3 class="product_header_heading">Selected Everyday Wear - UP TO 50%</h3>
+                        <!-- <h3 class="product_header_heading">Selected Everyday Wear - UP TO 50%</h3> -->
                         <button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
                             <svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
                                 height="16">
@@ -124,13 +94,13 @@
                         </button>
                     </div>
                     <div class="slider___items1">
-                        <div th:each="product : ${productsSale}" class="slider-items-list1">
+                        <div th:each="product : ${prodCate}" class="slider-items-list1">
                             <div class="product-card">
                                 <a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
                                     <div class="image_block">
-                                        <img th:src="${product.images.get(0).name}" loading="lazy"> 
-                                        <!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"  -->
-                                            loading="lazy">
+                                        <img th:src="${product.getUriImages().get(0)}" loading="lazy"> 
+                                        <!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy">  -->
+                                            
                                     </div>
                                 </a>
                                 <h3 th:text="${product.brand.name}" class="card_title">
@@ -148,24 +118,36 @@
                                     </div>
                                 </div>
                                 <div class="product_discount_label" th:text="${product.discount + '%'}"></div>
-                                <button aria-label="remove from wishlist" class="add-wishlist">
-                                    <div class="add-wishlist-child">
-                                        <!--  content -->
-                                        <svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
-                                            height="24">
-                                            <path fill-rule="evenodd"
-                                                d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
-                                            </path>
-                                        </svg>
-                                        <!--  border -->
-                                        <svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
-                                            height="24">
-                                            <path fill-rule="evenodd"
-                                                d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                </button>
+                                 <button aria-label="remove from wishlist" class="add-wishlist">
+                            <input type="hidden" th:value = "${product.productId}"/>
+                            	<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div> 
+                            
+								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
+								<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+							</button>
                             </div>
                         </div>
                     </div>
@@ -174,91 +156,16 @@
                     <div class="mb-12">
                         <h3 class="product_header_heading">Selected Categories</h3>
                         <div class="image-grid">
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="A"loading="lazy"
+                            <a th:href="@{'/subcategories/' + ${subcate.subcategoryId}}" aria-label="swimwear-and-uv-clothing" class="image-grid-item" th:each="subcate, iterStat : ${subs}" th:if="${iterStat.index} < 4">
+                                <div class="box-img"><img class="image-grid__image" th:src="${subcate.getUriImage()}" alt="A" loading="lazy"
                                         style="aspect-ratio: 0.666526 / 1;"></div>
-                                <h4 class="image-grid-description">Seele</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="A" loading="lazy"
-                                        style="aspect-ratio: 0.666526 / 1;"></div>
-                                <h4 class="image-grid-description">Asta</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="A" loading="lazy"
-                                        style="aspect-ratio: 0.666526 / 1;"></div>
-                                <h4 class="image-grid-description">March 7th</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="A" loading="lazy"
-                                        style="aspect-ratio: 0.666526 / 1;"></div>
-                                <h4 class="image-grid-description">Bailu</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="mb-12">
-                        <h3 class="product_header_heading">Current Offers</h3>
-                        <div class="image-grid">
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" src="../image/seele.jpg" alt="A" loading="lazy"
-                                        style="aspect-ratio: 1 / 1;"></div>
-                                <h4 class="image-grid-description">Select bikes & accessories - Up to 50%</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" src="../image/asta.jpg" alt="A" loading="lazy"
-                                        style="aspect-ratio: 1 / 1;"></div>
-                                <h4 class="image-grid-description">Garden Party - Up to 50%</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" src="../image/7-3.jpg" alt="A" loading="lazy"
-                                        style="aspect-ratio: 1 / 1;"></div>
-                                <h4 class="image-grid-description">Baby Arrivals 10-15%</h4>
-                                <p class="pt-1 text-center text-base sm:text-lg"></p>
-                            </a>
-                            <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
-                                <div class="box-img"><img class="image-grid__image" src="../image/bailu.jpg" alt="A" loading="lazy"
-                                        style="aspect-ratio: 1 / 1;"></div>
-                                <h4 class="image-grid-description">Summer Days - 50% </h4>
+                                <h4 class="image-grid-description" th:text = "${subcate.name}">Seele</h4>
                                 <p class="pt-1 text-center text-base sm:text-lg"></p>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="slideshow mb-5 mt-5">
-                    <div class="slideshow mb-5 mt-5">
-                        <div class="slides">
-                            <a aria-label="Summer-fashion-up-to-70" class="slide-link" href="#">
-                                <div class="box-img"><img th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="" loading="lazy"
-                                    class="slide___image"></div>
-                                <div class="slide-info">
-                                    <div class="slide__info">
-                                        <div class="slide__info_description">
-                                            <h2>
-                                                Up to 70% - Further Reductions
-                                            </h2>
-                                            <h3>Summer Fashion</h3>
-                                            <div class="slide__info_span">
-                                                <span class="bg-neutral-smoke slide__info__span">SHOP HERE</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="mb-12 list-product-slider">
+                <div class="mb-12 list-product-slider"  th:if = "${brandsCa.size()!=0}">
                     <div class="product_header">
                         <a class="product_header_heading" href="#">
                             <h3 class="product_header_heading">Brands</h3>
@@ -281,19 +188,18 @@
                         </button>
                     </div>
                     <div class="slider___items1">
-                        <div th:each="brand : ${brands}" class="slider-items-list1">
+                        <div th:each="brand : ${brandsCa}" class="slider-items-list1">
                             <div class="product-card">
-                                <a href="#" class="product_image_link">
+                                <a th:href="@{'/brand/details/' + ${brand.brandId}}" class="product_image_link">
                                     <div class="image_block">
-                                        <!-- <img th:src="${brand.image.name}" alt="#"> -->
-                                        <img th:src="@{/image/259427563b0a7b8228d5ee827a6e1992.jpg}" alt="cac" loading="lazy">
+                                        <img th:src="${brand.getUriImage()}" loading="lazy">
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
+                <!-- <div>
                     <div class="mb-12">
                         <div class="image-grid">
                             <a href="#" aria-label="swimwear-and-uv-clothing" class="image-grid-item">
@@ -310,7 +216,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 package com.babyshop.babyshop.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
@@ -11,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service

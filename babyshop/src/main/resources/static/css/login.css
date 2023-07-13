@@ -78,15 +78,6 @@ body {
     width: 100%;
     display: block;
 }
-input[type=password]:disabled {
-	opacity: 0.3;
-}
-input[type=password].active {
-	border: 1px solid green;
-}
-input[type=password].invalid {
-	border: 1px solid red;	
-}
 
 .auth__form .field__input {
     font-size: .875rem;
@@ -128,14 +119,10 @@ input[type=password].invalid {
     font-size: 1.25rem;
 
 }
-button[type=submit].btn-login {
-	opacity: 1;
-}
 
-button:disabled:hover {
-    opacity: 0.5;
+.btn-login:hover {
+    background-color: #97d5c9;
 }
-
 
 .btn-login {
     background-color: #b4e1d8;
@@ -154,6 +141,7 @@ button:disabled:hover {
     right: 11px;
     cursor: pointer;
     font-size: 14px;
+    user-select: none;
 }
 
 .sendOTP:hover {
@@ -265,42 +253,28 @@ button:disabled:hover {
     position: relative;
 }
 
-/* reset password*/
-.rs-pass {
-	cursor: not-allowed;
+.valid-form {
+    border: 1px solid rgba(81, 197, 173, .5);
+
 }
 
-.bs-textbox:disabled {
-	background-color: #f2f2f2;
-	color: #f2f2f2;
-}
-.arlet-input {
-	display: none;
-	font-size: 10px;
-}
-.arlet-input.valid {
-	display: block;
-	margin-top: 10px;
-	color: #229780;
-}
-.arlet-input.active {
-	display: block;
-	color: #dc3456;
-	margin-top: 10px;
+.invalid-form {
+    border: 1px solid rgba(180, 51, 51, 0.5);
+
 }
 
-.arlet-input1 {
-	display: none;
-	font-size: 10px;
-}
-.arlet-input1.valid {
-	display: block;
-	margin-top: 10px;
-	color: #229780;
-}
-.arlet-input1.active {
-	display: block;
-	color: #dc3456;
-	margin-top: 10px;
+.alert {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
+.alert.show {
+    opacity: 1;
+}
+
+
+#alertContainer {
+    position: absolute;
+    top: 24%;
+    left: 42%;
+}

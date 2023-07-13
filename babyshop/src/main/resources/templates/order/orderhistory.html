@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!--login css-->
+
+    <link rel="stylesheet" type="text/css" href="../css/login.css">
+    <link rel="stylesheet" type="text/css" href="../css/viewprofile.css">
+    <link rel="stylesheet" type="text/css" href="../css/change.css">
+    <!-- cdn fown awe some-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Baby Shop</title>
+</head>
+
+<body>
+    <!-- nav - bar -->
+    <div th:insert="~{home :: navbar}"></div>
+
+    <!--view profile-->
+    <div class="container">
+        <div class="row align-items-start gap-5">
+            <div class="sidebar_profile col-md-2">
+                <!--add image information-->
+                <div class="avatar">
+                    <a href="viewprofile" class="avatar_user">
+                        <div class="img__user">
+                            <div class="avatar__placeholder"><i class="fa-solid fa-user"></i></div>
+                            <img th:src="@{/image/seele.jpg}" alt="User Avatar">
+                        </div>
+                    </a>
+                    <div class="avt_description">
+                        <div class="avt_name">Đào Duy</div>
+                        <!--Customer Name-->
+                        <a href="viewprofile">
+
+                            <div class="edit__profile"><i class="fa-solid fa-pen"></i> Edit profile</div>
+                        </a>
+                    </div>
+                </div>
+
+                <nav class="profile-nav">
+                    <ul class=" profile-nav__items">
+                        <li class="profile-nav__item">
+                            <a href="#" class="profile-nav__link">My Account</a>
+                            <!-- hidden menu drop down-->
+                            <div class="stardust-dropdown__item-body stardust-dropdown__item-body--open"
+                                style="opacity: 1;">
+                                <div class="Yu7gVR">
+                                    <a class="FEE-3D" href="#">
+                                        <span class="qyt-aY">Profile</span>
+                                    </a>
+                                    <a class="FEE-3D" href="#">
+                                        <span class="qyt-aY">Payment</span>
+                                    </a>
+                                    <a class="FEE-3D" href="#">
+                                        <span class="qyt-aY">Address</span>
+                                    </a>
+                                    <a class="FEE-3D" href="#">
+                                        <span class="qyt-aY">Change Password</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="profile-nav__item">
+                            <a href="#" class="profile-nav__link">Order History</a>
+                        </li>
+                        <li class="profile-nav__item">
+                            <a href="#" class="profile-nav__link">Notifications</a>
+                        </li>
+                        <li class="profile-nav__item">
+                            <a href="/logout" class="profile-nav__link">Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <main class="view-profile col-md-8">
+                <div class="Hvae38 mt" role="main">
+                    <!-- change here-->
+                    <div style="display: contents;">
+                        <div class="--tO6n">
+                            <div></div>
+                            <div class="VYJdTQ">
+                                <a class="OFl2GI gAImis" title="All Orders" href="#">
+                                    <span class="_20hgQK">All orders</span>
+                                </a>
+                                <a class="OFl2GI" title="Wait for confirmation" href="#">
+                                    <span class="_20hgQK">Wait for confirmation</span>
+                                </a>
+                                <a class="OFl2GI" title="Complete" href="#">
+                                    <span class="_20hgQK">Complete</span>
+                                </a>
+                                <a class="OFl2GI" title="Cancelled" href="#">Cancelled</span>
+                                </a>
+                            </div>
+                            <div></div>
+                            <!-- if no product found, display this-->
+                            <div class="vFPgNG">
+                                <div class="FK6kaK">
+                                    <div class="bi4dk5"></div>
+                                    <div class="dYtuu1">Empty Orders</div>
+                                </div>
+                            </div>
+                            <div class="VrgkXA">
+                                <svg width="19px" height="19px" viewBox="0 0 19 19">
+                                    <g id="Search-New" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)"
+                                            stroke-width="2">
+                                            <g id="Group-32" transform="translate(400.000000, 222.000000)">
+                                                <circle id="Oval-27" cx="7" cy="7" r="7"></circle>
+                                                <path d="M12,12 L16.9799555,16.919354" id="Path-184"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg><input autocomplete="off"
+                                    placeholder="You can search by Shop name, Order ID or Product Name" value="">
+                            </div>
+                            <div>
+                                <!-- list orders-->
+                                <div class="hiXKxx">
+                                    <div>
+                                        <div class="x0QT2k">
+                                            <div class="KrPQEI">
+                                                <div class="EQko8g">
+                                                    <div class="V+w7Xs">Cancelled</div>
+                                                </div>
+                                            </div>
+                                            <div class="FycaKn"></div>
+                                            <a href="#">
+                                                <div class="_0OiaZ-">
+                                                    <div class="FbLutl">
+                                                        <div><span class="x7nENX">
+                                                                <div></div>
+                                                                <div class="aybVBK">
+                                                                    <div class="rGP9Yd">
+                                                                        <div class="image__wrapper">
+                                                                            <div class="shopee-image__place-holder">
+                                                                                <svg enable-background="new 0 0 15 15"
+                                                                                    viewBox="0 0 15 15" x="0" y="0"
+                                                                                    class="shopee-svg-icon icon-loading-image">
+                                                                                    <g>
+                                                                                        <rect fill="none" height="8"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="10" x="1" y="4.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="6.5"
+                                                                                            y2="6.5"></line>
+                                                                                        <rect fill="none" height="3"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="3" x="11" y="6.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="14.5"
+                                                                                            y2="14.5"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="6" x2="6" y1=".5"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="3.5" x2="3.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="8.5" x2="8.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                    </g>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="shopee-image__content">
+                                                                                <img th:src="@{/image/seele.jpg}"
+                                                                                    alt="#">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="_7uZf6Q">
+                                                                        <div>
+                                                                            <div class="iJlxsT">
+                                                                                <span
+                                                                                    class="x5GTyN">Hehehehehehehehehehe</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="vb0b-P">Size: 110cm
+                                                                            </div>
+                                                                            <div class="_3F1-5M">x1</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="_9UJGhr">
+                                                                    <div class="rjqzk1">
+                                                                        <span class="j2En5+">₫55.000</span>
+                                                                        <span class="-x3Dqh OkfGBc">₫55.000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="O2KPzo">
+                                        <div class="mn7INg xFSVYg"> </div>
+                                        <div class="mn7INg EfbgJE"> </div>
+                                    </div>
+                                    <div class="kvXy0c">
+                                        <div class="-78s2g">
+                                            <div class="_0NMXyN">Total Amount:</div>
+                                            <div class="DeWpya">₫55.000</div>
+                                        </div>
+                                    </div>
+                                    <div class="AM4Cxf">
+                                        <div class="qtUncs"><span>Canceled by you</span></div>
+                                        <div class="EOjXew">
+                                            <div class="PF0-AU">
+                                                <button
+                                                    class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hiXKxx">
+                                    <div>
+                                        <div class="x0QT2k">
+                                            <div class="KrPQEI">
+                                                <div class="EQko8g">
+                                                    <div class="V+w7Xs">Complete</div>
+                                                </div>
+                                            </div>
+                                            <div class="FycaKn"></div>
+                                            <a href="#">
+                                                <div class="_0OiaZ-">
+                                                    <div class="FbLutl">
+                                                        <div><span class="x7nENX">
+                                                                <div></div>
+                                                                <div class="aybVBK">
+                                                                    <div class="rGP9Yd">
+                                                                        <div class="image__wrapper">
+                                                                            <div class="shopee-image__place-holder">
+                                                                                <svg enable-background="new 0 0 15 15"
+                                                                                    viewBox="0 0 15 15" x="0" y="0"
+                                                                                    class="shopee-svg-icon icon-loading-image">
+                                                                                    <g>
+                                                                                        <rect fill="none" height="8"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="10" x="1" y="4.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="6.5"
+                                                                                            y2="6.5"></line>
+                                                                                        <rect fill="none" height="3"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="3" x="11" y="6.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="14.5"
+                                                                                            y2="14.5"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="6" x2="6" y1=".5"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="3.5" x2="3.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="8.5" x2="8.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                    </g>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="shopee-image__content">
+                                                                                <img th:src="@{/image/seele.jpg}"
+                                                                                    alt="#">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="_7uZf6Q">
+                                                                        <div>
+                                                                            <div class="iJlxsT">
+                                                                                <span
+                                                                                    class="x5GTyN">Hehehehehehehehehehe</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="vb0b-P">Size: 110cm
+                                                                            </div>
+                                                                            <div class="_3F1-5M">x1</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="_9UJGhr">
+                                                                    <div class="rjqzk1">
+                                                                        <span class="j2En5+">₫55.000</span>
+                                                                        <span class="-x3Dqh OkfGBc">₫55.000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="O2KPzo">
+                                        <div class="mn7INg xFSVYg"> </div>
+                                        <div class="mn7INg EfbgJE"> </div>
+                                    </div>
+                                    <div class="kvXy0c">
+                                        <div class="-78s2g">
+                                            <div class="_0NMXyN">Total Amount:</div>
+                                            <div class="DeWpya">₫55.000</div>
+                                        </div>
+                                    </div>
+                                    <div class="AM4Cxf">
+                                        <div class="qtUncs"><span>Feedback</span></div>
+                                        <div class="EOjXew">
+                                            <div class="PF0-AU">
+                                                <button
+                                                    class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hiXKxx">
+                                    <div>
+                                        <div class="x0QT2k">
+                                            <div class="KrPQEI">
+                                                <div class="EQko8g">
+                                                    <div class="V+w7Xs">Wait for confirmation</div>
+                                                </div>
+                                            </div>
+                                            <div class="FycaKn"></div>
+                                            <a href="#">
+                                                <div class="_0OiaZ-">
+                                                    <div class="FbLutl">
+                                                        <div><span class="x7nENX">
+                                                                <div></div>
+                                                                <div class="aybVBK">
+                                                                    <div class="rGP9Yd">
+                                                                        <div class="image__wrapper">
+                                                                            <div class="shopee-image__place-holder">
+                                                                                <svg enable-background="new 0 0 15 15"
+                                                                                    viewBox="0 0 15 15" x="0" y="0"
+                                                                                    class="shopee-svg-icon icon-loading-image">
+                                                                                    <g>
+                                                                                        <rect fill="none" height="8"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="10" x="1" y="4.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="6.5"
+                                                                                            y2="6.5"></line>
+                                                                                        <rect fill="none" height="3"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="3" x="11" y="6.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="14.5"
+                                                                                            y2="14.5"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="6" x2="6" y1=".5"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="3.5" x2="3.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="8.5" x2="8.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                    </g>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="shopee-image__content">
+                                                                                <img th:src="@{/image/seele.jpg}"
+                                                                                    alt="#">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="_7uZf6Q">
+                                                                        <div>
+                                                                            <div class="iJlxsT">
+                                                                                <span
+                                                                                    class="x5GTyN">Hehehehehehehehehehe</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="vb0b-P">Size: 110cm
+                                                                            </div>
+                                                                            <div class="_3F1-5M">x1</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="_9UJGhr">
+                                                                    <div class="rjqzk1">
+                                                                        <span class="j2En5+">₫55.000</span>
+                                                                        <span class="-x3Dqh OkfGBc">₫55.000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="O2KPzo">
+                                        <div class="mn7INg xFSVYg"> </div>
+                                        <div class="mn7INg EfbgJE"> </div>
+                                    </div>
+                                    <div class="kvXy0c">
+                                        <div class="-78s2g">
+                                            <div class="_0NMXyN">Total Amount:</div>
+                                            <div class="DeWpya">₫55.000</div>
+                                        </div>
+                                    </div>
+                                    <div class="AM4Cxf">
+                                        <div class="qtUncs"><span>No Feedback</span></div>
+                                        <div class="EOjXew">
+                                            <div class="PF0-AU">
+                                                <button
+                                                    class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hiXKxx">
+                                    <div>
+                                        <div class="x0QT2k">
+                                            <div class="KrPQEI">
+                                                <div class="EQko8g">
+                                                    <div class="V+w7Xs">Cancelled</div>
+                                                </div>
+                                            </div>
+                                            <div class="FycaKn"></div>
+                                            <a href="#">
+                                                <div class="_0OiaZ-">
+                                                    <div class="FbLutl">
+                                                        <div><span class="x7nENX">
+                                                                <div></div>
+                                                                <div class="aybVBK">
+                                                                    <div class="rGP9Yd">
+                                                                        <div class="image__wrapper">
+                                                                            <div class="shopee-image__place-holder">
+                                                                                <svg enable-background="new 0 0 15 15"
+                                                                                    viewBox="0 0 15 15" x="0" y="0"
+                                                                                    class="shopee-svg-icon icon-loading-image">
+                                                                                    <g>
+                                                                                        <rect fill="none" height="8"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="10" x="1" y="4.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="6.5"
+                                                                                            y2="6.5"></line>
+                                                                                        <rect fill="none" height="3"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            width="3" x="11" y="6.5">
+                                                                                        </rect>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="1" x2="11" y1="14.5"
+                                                                                            y2="14.5"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="6" x2="6" y1=".5"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="3.5" x2="3.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                        <line fill="none"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-miterlimit="10"
+                                                                                            x1="8.5" x2="8.5" y1="1"
+                                                                                            y2="3"></line>
+                                                                                    </g>
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div class="shopee-image__content">
+                                                                                <img th:src="@{/image/seele.jpg}"
+                                                                                    alt="#">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="_7uZf6Q">
+                                                                        <div>
+                                                                            <div class="iJlxsT">
+                                                                                <span
+                                                                                    class="x5GTyN">Hehehehehehehehehehe</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="vb0b-P">Size: 110cm
+                                                                            </div>
+                                                                            <div class="_3F1-5M">x1</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="_9UJGhr">
+                                                                    <div class="rjqzk1">
+                                                                        <span class="j2En5+">₫55.000</span>
+                                                                        <span class="-x3Dqh OkfGBc">₫55.000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="O2KPzo">
+                                        <div class="mn7INg xFSVYg"> </div>
+                                        <div class="mn7INg EfbgJE"> </div>
+                                    </div>
+                                    <div class="kvXy0c">
+                                        <div class="-78s2g">
+                                            <div class="_0NMXyN">Total Amount:</div>
+                                            <div class="DeWpya">₫55.000</div>
+                                        </div>
+                                    </div>
+                                    <div class="AM4Cxf">
+                                        <div class="qtUncs"><span>Canceled by you</span></div>
+                                        <div class="EOjXew">
+                                            <div class="PF0-AU">
+                                                <button
+                                                    class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    <div th:insert="~{home :: footer}"></div>
+    <script src="../js/change.js"></script>
+</body>
+
+</html>

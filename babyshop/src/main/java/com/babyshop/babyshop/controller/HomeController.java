@@ -18,40 +18,45 @@ import com.babyshop.babyshop.service.SubcategoryService;
 public class HomeController {
 	@Autowired
 	private LoadDataController loadDataController;
-	
+
 	@Autowired
 	BrandService brandService;
-	
+
 	@Autowired
 	SubcategoryService subcategoryService;
-	
+
 	@Autowired
 	ProductService productService;
-	
+
 	@GetMapping("/")
 	public String home(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
 		return "home";
 	}
-	@GetMapping("/categories")
-	public String categories(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		return "categories";
 
-	}
-	@GetMapping("/subcategories")
-	public String subCategories(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		List<Product> products = productService.getAll();
-		
-		modelMap.addAttribute("products", products);
-		return "subcategories";
-
-	}
 	@GetMapping("/afterresetbyphone")
 	public String afterresetpass() {
-		
+
 		return "afterresetbyphone";
 
 	}
+	
+
+	@GetMapping("/cart")
+	public String cart(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "cart";
+	}
+
+	@GetMapping("/purchase")
+	public String purchase(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "purchase";
+	}
+
+	@GetMapping("/error/e1")
+	public String errorE1() {
+		return "error/fourE";
+	}
+	
 }

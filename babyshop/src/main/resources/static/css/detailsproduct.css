@@ -1022,3 +1022,53 @@ h2 {
       stroke: currentColor;
     }
     
+svg:not(:root) {
+    overflow: hidden; 
+}
+
+.shopee-rating-stars {
+    position: relative;
+    display: inline-block;
+}
+
+.shopee-rating-stars__stars {
+    display: flex;
+    align-items: center;
+}
+
+.shopee-rating-stars__star-wrapper {
+    position: relative;
+    margin-right: 1px;
+}
+
+.shopee-rating-stars__star-wrapper>.shopee-rating-stars__lit {
+    overflow: hidden;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.shopee-svg-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    position: relative;
+}
+
+.shopee-rating-stars__primary-star {
+    color: #ee4d2d;
+    stroke: #ee4d2d;
+    display: block;
+    position: absolute;
+    left: 0;
+    overflow-x: hidden;
+}
+    
+.shopee-rating-stars__hollow-star {
+    color: #ee4d2d;
+    display: block;
+    stroke: currentColor;
+}

@@ -29,12 +29,20 @@ public class ImageService {
 	private final Path storageFolderBrand = Paths.get("src/main/resources/static/image/brand-image");
 	// Thư mục lưu trữ avatar người dùng
 	private final Path storageFolderAvatar = Paths.get("avatar");
-
+	// Thư mục lưu trữ ảnh category
+	private final Path storageFolderCategory = Paths.get("src/main/resources/static/image/category-image");
+	// Thư mục lưu trữ ảnh subcategory
+	private final Path storageFolderSubcategory = Paths.get("src/main/resources/static/image/subcategory-image");
+	// Thư mục lưu trữ ảnh feedback
+	private final Path storageFolderFeedback = Paths.get("src/main/resources/static/image/feedback-image");
+	
 	public ImageService() {
 		try {
 			Files.createDirectories(storageFolderProduct);
 			Files.createDirectories(storageFolderBrand);
 			Files.createDirectories(storageFolderAvatar);
+			Files.createDirectories(storageFolderCategory);
+			Files.createDirectories(storageFolderFeedback);
 		} catch (IOException ex) {
 			throw new RuntimeException("Cannot initalize storage", ex);
 		}
@@ -131,6 +139,51 @@ public class ImageService {
 	public byte[] readFileContentAvatar(String fileName) {
 		try {
 			Path file = storageFolderAvatar.resolve(fileName);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				return bytes;
+			} else {
+				throw new RuntimeException("Could not read file: " + fileName);
+			}
+		} catch (IOException exception) {
+			throw new RuntimeException("Could not read file: " + fileName, exception);
+		}
+	}
+	
+	public byte[] readFileContentCategory(String fileName) {
+		try {
+			Path file = storageFolderCategory.resolve(fileName);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				return bytes;
+			} else {
+				throw new RuntimeException("Could not read file: " + fileName);
+			}
+		} catch (IOException exception) {
+			throw new RuntimeException("Could not read file: " + fileName, exception);
+		}
+	}
+	
+	public byte[] readFileContentSubategory(String fileName) {
+		try {
+			Path file = storageFolderSubcategory.resolve(fileName);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				return bytes;
+			} else {
+				throw new RuntimeException("Could not read file: " + fileName);
+			}
+		} catch (IOException exception) {
+			throw new RuntimeException("Could not read file: " + fileName, exception);
+		}
+	}
+	
+	public byte[] readFileContentFeedback(String fileName) {
+		try {
+			Path file = storageFolderFeedback.resolve(fileName);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());

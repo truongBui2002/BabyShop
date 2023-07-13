@@ -15,7 +15,6 @@ import com.babyshop.babyshop.repositories.RoleRepository;
 import com.babyshop.babyshop.repositories.UserRepository;
 import com.babyshop.babyshop.util.Permit;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
@@ -65,11 +64,17 @@ public class UserService implements UserDetailsService{
     	if(role == null) {
     		role = new Role(Permit.CUSTOMER);
     	} 
+    	for (User user1 : role.getUsers()) {
+			System.out.println("Truoc: " +user1.getEmail());
+		}
     	//Build user và lưu vào database
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	user.setRoles(Arrays.asList(role));
     	//merge lại vào trong JPA, lỗi này chịu :))
     	entityManager.merge(role);
+    	for (User user1 : role.getUsers()) {
+			System.out.println("Sau: " + user1.getEmail());
+		}
     	userRepository.save(user); 
     } 
     

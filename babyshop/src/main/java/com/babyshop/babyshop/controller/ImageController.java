@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.babyshop.babyshop.service.ImageService;
@@ -18,7 +17,7 @@ public class ImageController {
 	@Autowired
 	public ImageService imageService;
 	
-	@GetMapping("img/product/{imgName:.+}")
+	@GetMapping("/img/product/{imgName:.+}")
 	public ResponseEntity<byte[]> readDetailFileProduct(@PathVariable String imgName){
 		try {
 			byte[] bytes = imageService.readFileContentProduct(imgName);
@@ -31,7 +30,7 @@ public class ImageController {
 		}
 	}
 	
-	@GetMapping("img/brand/{brandName:.+}")
+	@GetMapping("/img/brand/{brandName:.+}")
 	public ResponseEntity<byte[]> readDetailFileBrand(@PathVariable String brandName){
 		try {
 			byte[] bytes = imageService.readFileContentBrand(brandName);
@@ -43,12 +42,51 @@ public class ImageController {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	@GetMapping("/user/viewprofile/{avatar:.+}")
+	@GetMapping("/img/avatar/{avatar:.+}")
 	public ResponseEntity<byte[]> readDetailFileAvatar(@PathVariable String avatar){
 		try {
 			byte[] bytes = imageService.readFileContentAvatar(avatar);
 			return ResponseEntity
 					.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	
+	@GetMapping("/img/category/{categoryName:.+}")
+	public ResponseEntity<byte[]> readDetailFileCategory(@PathVariable String categoryName){
+		try {
+			byte[] bytes = imageService.readFileContentCategory(categoryName);
+			return ResponseEntity
+					.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	
+	@GetMapping("/img/subcategory/{subcategoryName:.+}")
+	public ResponseEntity<byte[]> readDetailFileSubcategory(@PathVariable String subcategoryName){
+		try {
+			byte[] bytes = imageService.readFileContentSubategory(subcategoryName);
+			return ResponseEntity
+					.ok() 
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(bytes);
+		} catch (Exception e) {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	
+	@GetMapping("/img/feedback/{feedbackName:.+}")
+	public ResponseEntity<byte[]> readDetailFileFeedback(@PathVariable String feedbackName){
+		try {
+			byte[] bytes = imageService.readFileContentFeedback(feedbackName);
+			return ResponseEntity
+					.ok() 
 					.contentType(MediaType.IMAGE_JPEG)
 					.body(bytes);
 		} catch (Exception e) {

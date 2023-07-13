@@ -5,11 +5,10 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
-
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -70,9 +69,11 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 				String avatar = imageService.storeAvatar(urlResource);
 				user.setImage(new Image(avatar));
 				userService.saveUser(user);
-				System.out.print("user: " + user.getEmail());
 			}
 			User user = userService.findByEmail(email);
+			session.setAttribute("user", user);
+		}else if (authentication.getPrincipal() instanceof UserDetails) {
+			User user = (User) authentication.getPrincipal();
 			session.setAttribute("user", user);
 		}
 		redirectUrl = "/user/viewprofile";

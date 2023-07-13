@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.babyshop.babyshop.models.CustomOidcUser;
 import com.babyshop.babyshop.models.User;
-import com.babyshop.babyshop.repositories.UserRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 public class CustomOidcUserService extends OidcUserService {

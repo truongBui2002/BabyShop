@@ -2,71 +2,59 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- cdn boostrap-->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-<!--login css-->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- cdn boostrap-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<!--login css-->
 
-<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-<!-- cdn fown awe some-->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<title>Baby Shop</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+	<!-- cdn fown awe some-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>Baby Shop</title>
 </head>
 
 <body>
 	<div th:if="${openTab2}">
 		<script th:inline="javascript">
-			window.onload = function() {
+			window.onload = function () {
 				showTab(event, '2');
 			};
 		</script>
 	</div>
 	<!-- nav - bar -->
-	<header th:insert="~{home :: navbar}"></header>
+	<div th:insert="~{home :: navbar}"></div>
 	<!-- login form-->
 	<!--notification -->
-	<div id="notice-container"></div>
+	<div id="alertContainer" class="d-flex justify-content-center align-items-center">
+	</div>
 	<div class="container mx-auto login-form">
 		<main class="auth">
 			<div class="tabs">
 				<ul class="tabs__list" role="tablist">
-					<li role="presentation"><a href="#1" id="1-tab"
-						class="tabs__tab is-selected" role="tab" aria-selected="true"
-						onclick="showTab(event, '1')">Login</a></li>
-					<li role="presentation"><a href="#2" id="2-tab"
-						class="tabs__tab " role="tab" aria-selected="false"
-						onclick="showTab(event, '2')">Register</a></li>
+					<li role="presentation"><a href="#1" id="1-tab" class="tabs__tab is-selected" role="tab"
+							aria-selected="true" onclick="showTab(event, '1')">Login</a></li>
+					<li role="presentation"><a href="#2" id="2-tab" class="tabs__tab " role="tab" aria-selected="false"
+							onclick="showTab(event, '2')">Register</a></li>
 				</ul>
 				<section id="1" class="tabs__panel">
 					<!--login form -->
-					<div th:if="${param.error}">
-						<div class="alert alert-danger">Invalid Email or Password
-							!!!</div>
-					</div>
-					<div th:if="${param.success}">
-						<div class="alert alert-success">Successful account registration!!!
-						</div>
-					</div>
 					<main class="auth-login">
 						<form action="/login" method="post" class="auth_form js-auth-form">
 							<div class="field">
-								<label for="email-login" class="field__label">Email or
-									Phone </label> <input type="text" id="email-login" name="username"
-									class="field__input" placeholder="Email or Phone">
+								<label for="email-login" class="field__label">Email
+									address</label> <input type="text" id="email-login" name="username"
+									class="field__input" placeholder="Email">
 							</div>
 							<div class="field">
 								<label for="password-login" class="field__label">Password</label>
-								<input type="password" id="password-login" name="password"
-									class="field__input" placeholder="Password">
+								<input type="password" id="password-login" name="password" class="field__input"
+									placeholder="Password">
 							</div>
 							<div class="field">
 								<button class="btn-login" type="submit" id="btn-login1" disabled>
@@ -81,71 +69,129 @@
 						</form>
 						<div class="auth__links">
 
-							<a th:href="@{/oauth2/authorization/google}"
-								class="google__link link">
-								<div class="google_logo ">
-									<i class="fa-brands fa-google"></i>
-								</div> <span class="google_text ">Login with google</span>
-							</a> <a href="forgotpassword" class="auth__link"
-								style="text-decoration: underline;">Forgot password?</a>
+							<a th:href="@{/oauth2/authorization/google}" class="google__link link">
+								<div class="google_logo "><i class="fa-brands fa-google"></i></div>
+								<span class="google_text ">Login with google</span>
+							</a>
+							<a href="forgotpassword" class="auth__link" style="text-decoration: underline;">Forgot
+								password?</a>
 						</div>
 					</main>
 				</section>
 				<section id="2" class="tabs__panel hidden-tab">
 					<!-- register form-->
 					<main class="auth-register">
-						<form action="/register" method="post"
-							class="auth_form password-form">
+						<!--register by phone-->
+						<div>
+							<ul id="popup-login-tab_list" class="popup-login-tab">
+								<li class="popup-login-tab-item popup-login-tab-login active"><a>Register by Phone</a>
+									<hr>
+								</li>
+								<li class="popup-login-tab-item popup-login-tab-register"><a>Register by Email</a>
+									<hr>
+								</li>
+							</ul>
+						</div>
+						<div class="popup-register-phone js-popup-rgt" style="display: block;">
+							<form action="/register" method="post" class="auth_form password-form">
+								<div class="field input_box">
+									<!-- shouldn't remove of modify label-->
+									<label for="rgt-phone" class="field__label">Phone Number</label>
+									<input type="text" id="rgt-phone" name="rgt-phone" class="field__input js-account"
+										placeholder="Phone Number" maxlength="10">
+									<div id="recaptcha-container"></div>
+									<span class="sendOTP js-otp">Send OTP</span>
+								</div>
+								<div class="field field_otp">
+									<label for="p-otpValue" class="field__label">OTP
+										verification code</label>
+									<input type="text" id="p-otpValue" name="p-otpValue"
+										class="field__input js-otpValue" placeholder="Enter OTP" maxlength="6" disabled>
+								</div>
+								<div class="field field_pass">
+									<label for="p-password" class="field__label">Password</label>
+									<input type="password" id="p-password" name="p-password"
+										class="field__input js-pass" placeholder="Enter password" disabled>
+								</div>
+								<div class="field field_pass">
+									<label for="rp-password" class="field__label">Confirm Password</label>
+									<input type="password" id="rp-password" name="rp-password"
+										class="field__input js-repass" required="" placeholder="Confirm password"
+										disabled>
+								</div>
+								<div class="field field_register">
+									<button class="btn-login js-register" type="submit" disabled>
+										<span>Register account</span>
+									</button>
+								</div>
+								<div class="field other_method_login">
+									<div class="border-before"></div>
+									<span> or </span>
+									<div class="border-before"></div>
+								</div>
+							</form>
+						</div>
+						<div class="popup-register-email js-popup-rgt" style="display: none;">
+							<form action="/register" method="post" class="auth_form password-form">
+								<div class="field input_box">
+									<!-- shouldn't remove of modify label-->
+									<label for="rgt-email" class="field__label">Email address</label>
+									<input type="text" id="rgt-email" name="rgt-email" class="field__input js-account"
+										placeholder="Email address" required="">
+									<div id="recaptcha-container"></div>
+									<span class="sendOTP js-otp">Send OTP</span>
+								</div>
+								<div class="field field_otp">
+									<label for="e-otpValue" class="field__label">OTP
+										verification code</label> <input type="text" id="e-otpValue" name="e-otpValue"
+										required="" class="field__input js-otpValue" placeholder="Enter OTP"
+										maxlength="6" disabled>
+								</div>
+								<div class="field field_pass">
+									<label for="e-password" class="field__label">Password</label>
+									<input type="password" id="e-password" name="e-password"
+										class="field__input js-pass" placeholder="Enter password" disabled>
+								</div>
+								<div class="field field_pass">
+									<label for="re-password" class="field__label">Confirm Password</label>
+									<input type="password" id="re-password" name="re-password"
+										class="field__input js-repass" placeholder="Confirm password" disabled>
+								</div>
+								<div class="field field_register">
+									<button class="btn-login js-register" type="submit" disabled>
+										<span>Register account</span>
+									</button>
+								</div>
+								<div class="field other_method_login">
+									<div class="border-before"></div>
+									<span> or </span>
+									<div class="border-before"></div>
+								</div>
+							</form>
+						</div>
+						<!--login with google-->
+						<div class="auth__links">
 
-							<!--phone-->
-							<div class="field phoneNumber">
-								<label for="phoneNumber" class="field__label">
-									<div id="phoneOrMaiExists" style="color: red; display: none;">Phone
-										is exists</div>
-								</label> <input type="text" id="phoneNumber" name="phoneNumber"
-									class="field__input" required="" placeholder="Phone Number ">
-								<div id="recaptcha-container"></div>
-								<span class="sendOTP" onclick="sendOtp()">Send OTP</span>
-							</div>
-							<!--otp-->
+							<a th:href="@{/oauth2/authorization/google}" class="google__link link">
+								<div class="google_logo "><i class="fa-brands fa-google"></i></div>
+								<span class="google_text ">Login with google</span>
+							</a>
+							<a href="forgotpassword" class="auth__link" style="text-decoration: underline;">Forgot
+								password?</a>
+						</div>
 
-							<div class="field field_otp" style="display: none;">
-								<div id="manyError" style="display: none; color: red;">Exceeded
-									the number of otp entries.</div>
-								<div id="opt_err" style="display: none; color: red;">OTP
-									is incorrect</div>
-								<label for="otpValue" class="field__label">OTP
-									verification code</label> <input type="text" id="otpValue"
-									name="otpValue" class="field__input" placeholder="Enter OTP"
-									maxlength="6">
-							</div>
-							<!--password-->
-							<div class="field field_pass" style="display: none;">
-								<label for="password" class="field__label">Password</label> <input
-									type="password" id="password" name="password"
-									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$"
-									class="field__input" required="" placeholder="Enter password">
-							</div>
-							<!--regiester-->
-							<div class="field field_register" style="display: none;">
-								<button class="btn-login" type="submit">
-									<span>Register account</span>
-								</button>
-							</div>
 
-							<!-- register with google-->
-						</form>
+
 					</main>
 				</section>
 			</div>
 		</main>
 	</div>
-	<footer th:insert="~{home :: footer}"></footer>
-	<script
-		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
-	<script
-		src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
-	<script th:src="@{/js/login.js}"></script>
+	<div th:insert="~{home :: footer}"></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+	<script th:src="@{js/login.js}"></script>
 </body>
 
 </html>

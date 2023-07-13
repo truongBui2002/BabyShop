@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.babyshop.babyshop.controller.ImageController;
 import com.babyshop.babyshop.util.Status;
 
 import jakarta.persistence.CascadeType;
@@ -41,19 +43,19 @@ public class Product {
 	@Column(name = "product_id")
 	private int productId;
 	@Column(name = "name")
-	private String name = "";
+	private String name;
 
 	@Column(name = "price")
-	private double price = 0.0;
+	private double price;
 
 	@Column(name = "description")
-	private String description = "";
+	private String description;
 
 	@Column(name = "specification")
-	private String specification = "";
+	private String specification;
 
 	@Column(name = "discount")
-	private double discount = 0.0;
+	private double discount;
 	
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
@@ -85,17 +87,23 @@ public class Product {
 	//fetch = FetchType.LAZY: được truy vấn khi gọi tới
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id")
-	private Brand brand = new Brand();
+	private Brand brand;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcategory_id")
-	private Subcategory subcategory = new Subcategory();
+	private Subcategory subcategory;
 	
 	@OneToOne(mappedBy = "product")
 	private ProductInfo productInfo;
 	
 	@OneToMany(mappedBy = "product")
 	private List<Variant> variant;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Feedback> feedbacks;
+	
+	@OneToMany(mappedBy = "product")
+	private List<OrderDetails> orderDetails;
 	
 	public int getSalePrice() {
 		if(this.discount==1) return (int)price;
@@ -105,6 +113,20 @@ public class Product {
 		return (int)(discount*100);
 	}
 	public int getPrice() {
+		
 		return (int)price;
+	}
+	public List<String> getUriImages(){
+		if(images!=null) {
+			List<String> uriImages = new ArrayList<>();
+			for (Image image : images) {
+				String imageName = MvcUriComponentsBuilder
+						.fromMethodName(ImageController.class, "readDetailFileProduct", image.getName()).build().toUri()
+						.toString();
+				uriImages.add(imageName);
+			}
+			return uriImages;
+		}
+		return new ArrayList<>();
 	}
 }

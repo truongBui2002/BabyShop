@@ -1,6 +1,7 @@
 package com.babyshop.babyshop.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,13 @@ import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.models.Subcategory;
 import com.babyshop.babyshop.service.BrandService;
 import com.babyshop.babyshop.service.CategoryService;
+import com.babyshop.babyshop.service.CookiesService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class LoadDataController {
@@ -30,18 +36,29 @@ public class LoadDataController {
 	@Autowired
 	SubcategoryService subcategoryService;
 	
+	@Autowired
+	CookiesService cookiesService;
+	
+	@Autowired
+	HttpServletRequest request;
+	
+	@Autowired
+	HttpServletResponse response;
+	
 	public void loadData(ModelMap modelMap) {
 		List<Category> categories = categoryService.getAll();
 		Subcategory subcategoryR1 = subcategoryService.getByName("Dresses");
 		Subcategory subcategoryR2 = subcategoryService.getByName("Coats & Jackets");
 		List<Product> productsSale = productService.getProductBySale(1);
 		List<Brand> brands = brandsService.getAll();
+		List<String> favorites = favorite();
 		
 		modelMap.addAttribute("categories", categories);
 		modelMap.addAttribute("subcategoryR1", subcategoryR1);
 		modelMap.addAttribute("subcategoryR2", subcategoryR2);
 		modelMap.addAttribute("productsSale", productsSale);
 		modelMap.addAttribute("brands", brands);
+		modelMap.addAttribute("favorites", favorites);
 	}
 	
 	public void loadFilter(ModelMap modelMap) {
@@ -118,6 +135,20 @@ public class LoadDataController {
 		genders.add("Girls");
 		genders.add("Unisex");
 		return genders;
+	}
+	
+	public List<String> favorite(){
+		Cookie[] cookies = request.getCookies();
+		String favorites = ""; //chuỗi favorite ở cookie
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("FAVORITE")) {
+					favorites = cookie.getValue();
+				}
+			}
+		}
+		List<String> favorite = Arrays.asList(favorites.split("C"));
+		return favorite;
 	}
 	
 }

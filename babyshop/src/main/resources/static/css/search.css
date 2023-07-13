@@ -626,5 +626,8 @@ article {
     --tw-bg-opacity: 1;
     background-color: rgb(236 234 229 / var(--tw-bg-opacity));
 }
-
+.pagi-fav {
+	
+	width: 100%;
+}
 /* end pagination */

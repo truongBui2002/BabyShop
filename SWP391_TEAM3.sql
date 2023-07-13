@@ -44,14 +44,23 @@ CREATE TABLE `user_role`(
 
 CREATE TABLE `customer` (
   `customer_id` int AUTO_INCREMENT,
+  `user_id` int,
   `full_name` varchar(255),
-  `phone_number` varchar(255),
-  `email` varchar(255),
-  `gender` boolean,
-  `address` varchar(255),
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(customer_id)
+);
+
+CREATE TABLE location (
+  `location_id` int AUTO_INCREMENT,
+  `customer_id` int,
+  `address` varchar(255),
+  `phone_number` varchar(255),
+  `status` varchar(255),
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(location_id)
 );
 
 CREATE TABLE `brand` (
@@ -96,8 +105,8 @@ CREATE TABLE `product_info` (
 CREATE TABLE `category` (
   `category_id` int AUTO_INCREMENT,
   `name` varchar(255),
--- description
--- image_id
+  `description` longtext, -- new
+  `image_id` int, -- new
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(category_id)
@@ -106,8 +115,8 @@ CREATE TABLE `category` (
 CREATE TABLE `subcategory`(
   `subcategory_id` int AUTO_INCREMENT,
   `name` varchar(255),
-  -- description
- -- image_id
+  `description` longtext, -- new
+  `image_id` int, -- new
   `category_id` int,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -124,7 +133,7 @@ CREATE TABLE `variant` (
    PRIMARY KEY(variant_id)
 );
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `order_id` int AUTO_INCREMENT,
   `code` varchar(255),
   `customer_id` int,
@@ -138,10 +147,12 @@ CREATE TABLE `order_details` (
   `order_details_id` int AUTO_INCREMENT,
   `order_id` int,
   `product_id` int,
-  `price` varchar(255),
-  `variant_product` varchar(255),
+  `price` decimal,
+  `variant_id` int,
+  `quantity` int,
   `profit` decimal,
   `discount` decimal,
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(order_details_id)
@@ -155,22 +166,16 @@ CREATE TABLE `session` (
    PRIMARY KEY(session_id)
 );
 
-CREATE TABLE `sub_feedback` (
-  `sub_feedback_id` int AUTO_INCREMENT,
-  `customer_id` int,
-  `session_id` int,
-  `feedback_id` int,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY(sub_feedback_id)
-);
 
 CREATE TABLE `feedback` (
   `feedback_id` int AUTO_INCREMENT,
-  `image_id` int,
   `rate_star` int,
-  `user_id` int,
   `description` longtext,
+  `customer_id` int,
+  `product_id` int,
+  `order_details_id` int,
+  `like` int,
+  `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(feedback_id)
@@ -215,16 +220,24 @@ CREATE TABLE `image_slide` (
   PRIMARY KEY(image_slide_id)
 );
 
+CREATE TABLE `image_feedback` (
+  `image_feedback_id` int AUTO_INCREMENT,
+  `feedback_id` int,
+  `image_id` int,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(image_feedback_id)
+);
+
 ALTER TABLE `user` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
-ALTER TABLE `order` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+ALTER TABLE `orders` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
 
 ALTER TABLE `brand` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
-
 
 ALTER TABLE `product` ADD FOREIGN KEY (`brand_id`) REFERENCES `brand` (`brand_id`);
 
@@ -238,19 +251,17 @@ ALTER TABLE `variant` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`prod
 
 ALTER TABLE `order_details` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
-ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
+ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+
+ALTER TABLE `order_details` ADD FOREIGN KEY (`variant_id`) REFERENCES `variant` (`variant_id`);
 
 ALTER TABLE `session` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
-ALTER TABLE `sub_feedback` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+ALTER TABLE `feedback` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
-ALTER TABLE `sub_feedback` ADD FOREIGN KEY (`session_id`) REFERENCES `session` (`session_id`);
+ALTER TABLE `feedback` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
 
-ALTER TABLE `sub_feedback` ADD FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`);
-
-ALTER TABLE `feedback` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
-ALTER TABLE `feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
+ALTER TABLE `feedback` ADD FOREIGN KEY (`order_details_id`) REFERENCES `order_details` (`order_details_id`);
 
 ALTER TABLE `tip_page` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
@@ -262,17 +273,43 @@ ALTER TABLE `image_slide` ADD FOREIGN KEY (`slide_id`) REFERENCES `slide` (`slid
 
 ALTER TABLE `image_slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
+ALTER TABLE `customer` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+ALTER TABLE `location` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+
+ALTER TABLE `subcategory` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
+
+ALTER TABLE `category` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
+
+ALTER TABLE `image_feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
+
+ALTER TABLE `image_feedback` ADD FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`);
+
 -- SET UTF-8
 ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-
-
 -- INSERT USER
 -- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
-INSERT role(name) VALUES("ROLE_CUSTOMER");
-INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608");
-INSERT user_role(user_id, role_id) VALUES(1, 1);
+INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761607"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16081001@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761609"); -- ROLE_STAFF
+INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654920"); -- ROLE_ADMIN
 
+-- INSERT USER
+INSERT role(name) VALUES("ROLE_CUSTOMER");
+INSERT role(name) VALUES("ROLE_STAFF");
+INSERT role(name) VALUES("ROLE_ADMIN");
+ 
+INSERT user_role(user_id, role_id) VALUES(1, 1);
+INSERT user_role(user_id, role_id) VALUES(2, 1);
+INSERT user_role(user_id, role_id) VALUES(3, 2); 
+INSERT user_role(user_id, role_id) VALUES(3, 3); 
+
+-- INSERT CUSTOMER
+INSERT customer(user_id, full_name) VALUES (1, "Customer Truong 1");
+INSERT customer(user_id, full_name) VALUES (2, "Customer Truong 2");
+
+SELECT * FROM swp391_team3.customer;
 -- INSERT category
 INSERT category(name) VALUES ("Clothing");
 INSERT category(name) VALUES ("Footwear");
@@ -282,9 +319,6 @@ INSERT category(name) VALUES ("Car Seats");
 INSERT category(name) VALUES ("Baby Gear");
 INSERT category(name) VALUES ("Home");
 INSERT category(name) VALUES ("Toys");
-INSERT category(name) VALUES ("Outlet");
-INSERT category(name) VALUES ("Green Page");
--- INSERT category(name) VALUES ("Magazine");
 
 -- INSERT subcategory
 -- Clothing
@@ -361,10 +395,10 @@ INSERT subcategory(name, category_id) VALUES ("Costumes", 8);
 -- INSERT subcategory(name, category_id) VALUES ("Outlet", 9);
 
 -- Green Page
-INSERT subcategory(name, category_id) VALUES ("Recycled Material", 10);
-INSERT subcategory(name, category_id) VALUES ("Responsible Wood", 10);
-INSERT subcategory(name, category_id) VALUES ("Organic Material", 10);
-INSERT subcategory(name, category_id) VALUES ("Responsible Animal Welfare", 10);
+-- INSERT subcategory(name, category_id) VALUES ("Recycled Material", 10);
+-- INSERT subcategory(name, category_id) VALUES ("Responsible Wood", 10);
+-- INSERT subcategory(name, category_id) VALUES ("Organic Material", 10);
+-- INSERT subcategory(name, category_id) VALUES ("Responsible Animal Welfare", 10);
 
 -- Magazine
 -- INSERT subcategory(name, category_id) VALUES ("Magazine", 11);
@@ -1324,7 +1358,188 @@ INSERT variant(product_id, name, quantity) VALUES( 26, '146 cm', 6);
 INSERT variant(product_id, name, quantity) VALUES( 26, '152 cm', 4);
 INSERT variant(product_id, name, quantity) VALUES( 26, '158 cm', 4);
 
-select p.*, pf.age_range, pf.gender, pf.color, pf.style from product p join product_info pf on p.product_id = pf.product_id;
-select * from category;
+-- INSERT Image category 
+INSERT image(name) VALUES ("Clothing.jpg"); --
+INSERT image(name) VALUES ("Footwear.jpg"); --
+INSERT image(name) VALUES ("Accessories.jpg"); --
+INSERT image(name) VALUES ("Strollers.jpg"); --
+INSERT image(name) VALUES ("CarSeats.jpg"); --
+INSERT image(name) VALUES ("BabyGear.jpg"); --
+INSERT image(name) VALUES ("Home.jpg"); --
+INSERT image(name) VALUES ("Toys.jpg"); --
+
+-- Update Category
+UPDATE category set description = "At Babyshop you will find lots of lovely children's clothes and baby clothes for girls and boys of all ages. In our fine assortment there is everything from the first wardrobe for the newborn baby to hard-wearing shells, rain and winter clothes, but also of course trousers, sweaters, tops, dresses and cardigans. In our assortment you will find well-known premium brands such as; Reima, Mini Rodini, Kuling, Buddy & Hope, Ralph Lauren, Liewood, Konges Slöjd, Petit Bateau, Moncler and many more. Buying children's and baby clothes online is easier and more flexible as you can calmly choose what you want for each season. To help you choose the right one, we have created simple size guides and we also have a lovely shop in shop for soft basic garments that are perfect for preschool or school. Babyshop offers the best and most curated range of children's and baby clothes on the market and we are constantly updated with the latest trends and the most interesting brands", image_id = 121  where category_id = 1;
+UPDATE category set description = "At Babyshop you will find a wide range of quality shoes for children and babies. Little children's feet need to take many steps per day and grow quickly, so foot-friendly shoes are the best thing you can invest in. With us you will find a wide range of stylish and practical children's shoes that suit both girls and boys of all ages. Our assortment includes everything from rubber boots and baby shoes to winter shoes, sneakers and sandals from well-known premium brands such as; Kavat, Veja, Viking, Kuling, Reima, Uggs, Moon Boots and Adidas.", image_id = 122  where category_id = 2;
+UPDATE category set description = "At Babyshop you will find a wide range of lovely accessories from well-known premium brands for children and babies. Regardless of whether you are looking for warm winter mittens, winter hats, wool gloves or sunglasses, caps or sun hats for a warmer season, we have it in our range. Our assortment includes quality accessories from well-known premium brands such as; Elodie, Liewood, Izipizi, Kuling, Petit Bateau, Joha and Reima.", image_id = 123  where category_id = 3;
+UPDATE category set description = "Here at Babyshop we offer strollers and car seats from well-known high-quality brands. When you have found the right stroller and car seat you can easily bring your little treasure with you in the car or for a walk. We have a large assortment of car seats, strollers, and accessories so you can get just the right combination for you. If you wish to attach your infant carrier on the stroller chassis we have adapters that are compatible with most strollers and well-known models of infant carriers. We have complete strollers if you’d like a convenient option, and stroller builders if you want to choose between different chassis, seat units, canopies etc., and build the stroller as you want it. Regardless of what stroller and car seat you choose, your baby is sure to travel in a safe and comfortable way when you are on the go. In our carefully sleceted range you will find premium brands such as Bugaboo, Britax Römer, BeSafe, Carena, Axkid, Thule, and UPPAbaby.", image_id = 124  where category_id = 4;
+UPDATE category set description = "Here at Babyshop we offer strollers and car seats from well-known high-quality brands. When you have found the right stroller and car seat you can easily bring your little treasure with you in the car or for a walk. We have a large assortment of car seats, strollers, and accessories so you can get just the right combination for you. If you wish to attach your infant carrier on the stroller chassis we have adapters that are compatible with most strollers and well-known models of infant carriers. We have complete strollers if you’d like a convenient option, and stroller builders if you want to choose between different chassis, seat units, canopies etc., and build the stroller as you want it. Regardless of what stroller and car seat you choose, your baby is sure to travel in a safe and comfortable way when you are on the go. In our carefully sleceted range you will find premium brands such as Bugaboo, Britax Römer, BeSafe, Carena, Axkid, Thule, and UPPAbaby.", image_id = 125  where category_id = 5;
+UPDATE category set description = "Here at Babyshop you will find a well-curated range of popular products for your baby. In our assortment there are lots of lovely products with everything from baby clothes, pacifiers, feeding bottles, babysitters to baby nests, changing beds, changing bags, and baby carriers; simply everything you need for your newborn treasure. In our fine assortment you will find well-known premium brands such as BabyBjörn, Ergobaby, BIBS, Buddy & Hope, Konges Sløjd, Bonpoint, bbhugme, and Liewood. When you're expecting a baby, there's a lot you need to buy, and if you're a first-time parent, we'll be more than happy to help you find what's right for you, and make sure you pack the hospital bag correctly.", image_id = 126  where category_id = 6;
+UPDATE category set description = "Here at Babyshop you will find a wonderful assortment with everything you could possibly need for your nursery, baby room, or kid's room. We love interior design and in our assortment you will find children's furniture, children's beds, dining chairs, interior details, and textiles from well-known premium brands such as Liewood, ferm LIVING, Sebra, Cam Cam Copenhagen, Done by Deer, OYOY, Garbo&Friends, and JOX.", image_id = 127  where category_id = 7;
+UPDATE category set description = "At Babyshop you can find a wide range of toys for kids of all ages from market leading brands. We offer everything from soft toys and building blocks to play tents and rattles. We guarantee you’ll find toys that your child will love both for play time and for inspiration and development. We have baby toys that promotes motor skills and stimulate your baby’s senses, fun toys for outdoor play that encourages movement, plush toys that can be a special friend to hug both during fun times and when your little one needs some extra support. Take a look at our bikes from Stoy, building sets from LEGO, train sets from BRIO and lots more!", image_id = 128  where category_id = 8;
+
+-- INSERT Image subcategory
+-- 1 Clothing
+INSERT image(name) VALUES ("Top.jpg"); 
+INSERT image(name) VALUES ("Dresses.jpg"); 
+INSERT image(name) VALUES ("Bottoms.jpg"); 
+INSERT image(name) VALUES ("ClothingSets.jpg"); 
+
+UPDATE subcategory set description = "Here we’ve collected everything from sweatshirts, hoodies and knitted cardigans to t-shirts, polo shirts, and tank tops. Whether you child needs a cozy knitted sweater to keep warm during cold days or a stylish shirt or blouse for a smart look for a party you can be sure to find something that suits your taste. We have lots of different models and styles from well-known brands like Kuling, Buddy & Hope, Bobo Choses, Ralph Lauren, Louise Misha, Stella McCartney Kids, Molo, Flöss, FUB, and Mini Rodini.", image_id = 129  where subcategory_id = 1;
+UPDATE subcategory set description = "We’re proud to offer a wide range of dresses and skirts so you can find something that suits all types of occasions. Whether it’s time to dress up a little extra for special occasions like Christmas and parties, or a more casual occasion, where a summer dress or a denim skirt works you can find it here. We have brands such as Stella McCartney Kids, Bonpoint, Mini Rodini, Ralph Lauren, Louise Misha, Dolly by Le Petite Tom, and Molo.", image_id = 130 where subcategory_id = 3;
+UPDATE subcategory set description = "In our selection of pants and shorts we’ve collected all types of styles and models. How about a pair of comfy leggings or sweatpants for lazy days at home? Or a pair of stylish jeans or chinos with a versatile design that suits the casual look as well as special occasions. We have everyday shorts and more formal shorts so you can be sure to find something that makes those warm summer days even better. Ta a look to find something that fits your needs from brands like Bobo Choses, Molo, Mini Rodini, Kuling, Buddy & Hope, Mar Mar Copenhagen, Stella McCartney Kids, and Bonpoint.", image_id = 131  where subcategory_id = 2;
+UPDATE subcategory set description = "Here you find our large assortment of comfy baby bodies, footed baby bodies, rompers, and onesies in nice colors and lovely patterns. Versatile items in different materials such as cotton, wool, and bamboo that are gentle against your baby’s sensitive skin. Perfect for both playtime and sleepy time. We have brands like Petit Bateau, Kuling, Buddy & Hope, Bonpoint, Tartine et Chocolat, Ralph Lauren, Mar Mar Copenhagen, Småfolk, and more.", image_id = 132  where subcategory_id = 8;
+-- 2 Footwear
+INSERT image(name) VALUES ("BabyBooties.jpg"); 
+INSERT image(name) VALUES ("ClassicShoes.jpg"); 
+INSERT image(name) VALUES ("Sandals.jpg"); 
+INSERT image(name) VALUES ("SporstFootwear.jpg"); 
+
+UPDATE subcategory set description = "Winter shoes for kids are a must-have for the colder seasons. The good news is that we have gathered warm and lined shoes and boots for your child right here. Remember that it's good to buy shoes that are about 1.5-2 cm (about 0.6-0.7 inches) bigger than your child's foot. This way you can also put on thicker socks when it is cold outside so you can keep your little one cozy and warm while they explore the outdoors. Shop children’s boots and snowboots from Kuling, Kavat, Reima, Wheat, Bisgaard, UGG, Viking, and more.", image_id = 133  where subcategory_id = 15;
+UPDATE subcategory set description = "When your child is learning to walk, you may want to purchase a pair of shoes that are specially designed for your baby's first year when the first tentative steps slowly but steadily become a wandering pace. Walking shoes for babies, or learn-to-walk shoes, often have a high shaft and laces to be extra stable. When the first steps are yet to be done, you do not need much more than a couple of cozy booties to protect your child’s feet from the cold. We have a nice selection from brands like Kuling, Kavat, Little Jalo, Ralph Lauren, Tartine et Chocolat, Donsje Amsterdam, and many more.", image_id = 134  where subcategory_id = 16;
+UPDATE subcategory set description = "Here we have our wide range of kids’ sandals for boys and girls. The assortment includes everything from strappy sandals to flip flops which makes the transition from the city to the beach a breeze. The sandals come from brands like Kuling, Kavat, Reima, Pom d'Api, Donsje Amsterdam,and Bisgaard to name a few.", image_id = 135  where subcategory_id = 14;
+UPDATE subcategory set description = "In this category we have brought together trendy and classic shoe models so you can find the right pair of shoes to reflect your personality. Regardless if your shoe of choice is a glittery ballerina, a pair of black Mary Janes or a pair of sleek loafers, we’ve gathered together a large assortment for you to choose from.", image_id = 136  where subcategory_id = 17;
+
+-- 3 Accessories
+INSERT image(name) VALUES ("GlovesMittens.jpg"); 
+INSERT image(name) VALUES ("Eyewear.jpg"); 
+INSERT image(name) VALUES ("Bags.jpg"); 
+INSERT image(name) VALUES ("Headwear.jpg"); 
+
+UPDATE subcategory set description = "Whether you are looking for ski gloves, regular gloves, or mittens; we have something for every child! Here we have fleece-lined gloves to keep small hands warm on really cold days and unlined versions for the milder days. We have mittens and gloves from famous brands such as Kuling, Reima, Didriksons, Molo, Isbjörn of Sweden, Tretorn and Joha.", image_id = 137  where subcategory_id = 19;
+UPDATE subcategory set description = "Here we have gathered all our children’s eyewear, ranging from sunglasses to ski goggles. Whether you are on your way to the beach and your child needs sunglasses to protect their eyes or about to go skiing and need to find your child some ski goggles to protect their eyes from the elements we have them here.", image_id = 138  where subcategory_id = 23;
+UPDATE subcategory set description = "In our large range of bags you’ll find backpacks, fanny packs, tote bags and all types of children’s bags for every occasion. We have practical backpacks, stylish handbags and convenient suitcases. No matter if it’s the first school day, outdoor adventures, a shopping day, or travel time you’ll be sure to find the perfect bag here. Take a look at our assortment to find a new favorite.", image_id = 139  where subcategory_id = 22;
+UPDATE subcategory set description = "Here you can find our range of hats and beanies for your child. Whether you are looking for something warm and cozy for colder months, a lightweight hat for other times of the year or sun hats and caps for sunny summer days, we have several models to choose from. Our assortment offers well-known brands such as Reima, Molo, Kuling, and Mini Rodini.", image_id = 140  where subcategory_id = 20;
+
+-- 4 Strollers
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); 
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 141  where subcategory_id = 27;
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 142  where subcategory_id = 28; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 143  where subcategory_id = 29; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 144  where subcategory_id = 30; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+
+-- 5 Car Seats
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("StrollerAccessories.jpg"); -- cần thêm ảnh
+
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 145  where subcategory_id = 31; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 146  where subcategory_id = 32; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 147  where subcategory_id = 33; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Here we have the accessories that will complete your stroller, both the necessary ones like adapters but also the fun and practical ones like handwarmers, seat liners, stroller mobiles, and phone holders. You can also check out our selection of footmuffs. Have a look below and see if you can find a new favorite accessory!", image_id = 148  where subcategory_id = 34; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+
+-- 6 Baby Gear
+INSERT image(name) VALUES ("BabyFeeding.jpg"); 
+INSERT image(name) VALUES ("BabyCarries.jpg"); 
+INSERT image(name) VALUES ("BabyCarries.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("BabyCarries.jpg"); -- cần thêm ảnh
+
+UPDATE subcategory set description = "", image_id = 149  where subcategory_id = 8;
+UPDATE subcategory set description = "When you want to carry your child with you a baby carrier or baby wrap is a good choice. A baby carrier is easy to put on and gives support to both you and your baby. If you want something smaller and easy to carry with you, a baby wrap is the option for you. Find the best solution for you and look forward to carrying your baby close to you while freeing up your hands to do something else.", image_id = 150  where subcategory_id = 39; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "When you want to carry your child with you a baby carrier or baby wrap is a good choice. A baby carrier is easy to put on and gives support to both you and your baby. If you want something smaller and easy to carry with you, a baby wrap is the option for you. Find the best solution for you and look forward to carrying your baby close to you while freeing up your hands to do something else.", image_id = 151  where subcategory_id = 40; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "When you want to carry your child with you a baby carrier or baby wrap is a good choice. A baby carrier is easy to put on and gives support to both you and your baby. If you want something smaller and easy to carry with you, a baby wrap is the option for you. Find the best solution for you and look forward to carrying your baby close to you while freeing up your hands to do something else.", image_id = 152  where subcategory_id = 41; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+
+-- 7 Home
+INSERT image(name) VALUES ("Storage.jpg"); 
+INSERT image(name) VALUES ("Bedding.jpg"); 
+INSERT image(name) VALUES ("Furniture.jpg"); 
+INSERT image(name) VALUES ("Furniture.jpg"); -- cần thêm ảnh
+
+UPDATE subcategory set description = "All those toys your kid has, they need a fun and smart solution to keep the children's room clean and organized. Get a few of those fruit-shaped storage baskets from Bloomingville or Jox and some of those storage boxes from Liewood. The textile storage baskets and pockets from Buddy & Hope, Garbo & Friends and Cam Cam Copenhagen will look very stylish and keep it all in one place.", image_id = 153  where subcategory_id = 45;
+UPDATE subcategory set description = "When it’s time for sleep your little one can sleep comfortably with our bedding. We have bed sets, duvets, pillows and fitted sheets in different sizes that are sure to turn the bed into a soft and cozy place. If you want a safe sleeping environment for your baby we have bed bumpers and sleeping bags for a good night’s sleep. We also have canopies that adds something extra to the bedroom. Browse through our selection to make sleepy time better, you will find brands like Garbo & Friends, Liewood, Cam Cam Copenhagen, Konges Sløjd, JOX, Buddy & Hope, Done by Deer, and Filibabba in our nice assortment.", image_id = 154  where subcategory_id = 48;
+UPDATE subcategory set description = "On a hunt for some furniture pieces for the nursery or your kid’s room? Pair an elegant crib with some Scandinavian style shelves and storage units for that flawless clean nursery look. To give a more grown-up kid’s room some personality have a look at a variety of armchairs from Jox in all different colors and shapes, add a headboard to give a bed some character and finish with a nice wooden set of chairs and a table.", image_id = 155  where subcategory_id = 43;
+UPDATE subcategory set description = "On a hunt for some furniture pieces for the nursery or your kid’s room? Pair an elegant crib with some Scandinavian style shelves and storage units for that flawless clean nursery look. To give a more grown-up kid’s room some personality have a look at a variety of armchairs from Jox in all different colors and shapes, add a headboard to give a bed some character and finish with a nice wooden set of chairs and a table.", image_id = 156  where subcategory_id = 44; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+
+-- 8 Toys
+INSERT image(name) VALUES ("FirstToysBabyToys.jpg"); 
+INSERT image(name) VALUES ("FirstToysBabyToys.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("FirstToysBabyToys.jpg"); -- cần thêm ảnh
+INSERT image(name) VALUES ("FirstToysBabyToys.jpg"); -- cần thêm ảnh
+
+UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 157  where subcategory_id = 53;
+UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 158  where subcategory_id = 50; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 159  where subcategory_id = 51; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 160  where subcategory_id = 52; -- cần sửa subcategory_id và description theo ảnh img đã chèn
+
+-- INSERT ORDER
+-- COMPLETED : Hoàn thành
+-- SHIP : Đang giao
+-- WAIT : Chờ xác nhận
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
 
 
+-- ORDER-ID: 1
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (1, 2, 11, 2, 490, 0, 0, "COMPLETED");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (1, 3, 18, 1, 160, 0, 0, "COMPLETED");
+-- ORDER-ID: 2
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (2, 2, 13, 1, 245, 0, 0, "SHIP");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (2, 1, 3, 2, 418, 0, 0, "SHIP");
+-- ORDER-ID: 3
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (3, 4, 30, 1, 160, 0, 0, "WAIT");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (3, 5, 37, 1, 183, 0, 0, "WAIT");
+-- ORDER-ID: 4
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (4, 2, 11, 2, 490, 0, 0, "COMPLETED");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (4, 4, 30, 1, 160, 0, 0, "COMPLETED");
+-- ORDER-ID: 5
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (5, 4, 30, 1, 160, 0, 0, "SHIP");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (5, 2, 13, 1, 245, 0, 0, "SHIP");
+-- ORDER-ID: 6
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (6, 4, 30, 1, 160, 0, 0, "WAIT");
+INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, discount, status) VALUES (6, 2, 11, 2, 490, 0, 0, "WAIT");
+
+
+-- INSERT FEEDBACK
+-- ACTIVE : hoạt động
+-- INACTIVE : Không hoạt động
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 1, "Very good, 9.5 point", 5, 1, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (3, 1, "Temporarily, in general, give 8 points :))", 4, 2, 0, "ACTIVE");
+
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 4, 7, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (4, 2, "The product is pretty bad.", 3, 8, 0, "ACTIVE");
+
+-- INSERT IMAGE FEEDBACK : start image-id: 161
+INSERT image(name) VALUES ("feedback12312412gdf.webp"); 
+INSERT image(name) VALUES ("feedback1241231ew.webp"); 
+INSERT image(name) VALUES ("feedback234892hg.webp"); 
+INSERT image(name) VALUES ("feedback235243qw.webp"); 
+INSERT image(name) VALUES ("feedback23894asd.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 161);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 162);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 163);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 164);
+INSERT image_feedback(feedback_id, image_id) VALUES(1, 165);
+
+INSERT image(name) VALUES ("feedback123124asdjk.webp"); 
+INSERT image(name) VALUES ("feedback12312sdj123.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(2, 166);
+INSERT image_feedback(feedback_id, image_id) VALUES(2, 167);
+
+INSERT image(name) VALUES ("feedback12234asd12.webp"); 
+INSERT image(name) VALUES ("feedback12430sd32a.webp"); 
+INSERT image_feedback(feedback_id, image_id) VALUES(4, 168);
+INSERT image_feedback(feedback_id, image_id) VALUES(4, 169);
+
+--  UPDATE avater user
+INSERT image(name) VALUES ("avatarwibu1.webp"); 
+INSERT image(name) VALUES ("avatarwibu2.jpg"); 
+UPDATE user SET image_id = 170 where user_id = 1;
+UPDATE user SET image_id = 171 where user_id = 1;
+
+SELECT * FROM swp391_team3.order_details;
+SELECT * FROM swp391_team3.variant;
+SELECT * FROM swp391_team3.product;
+SELECT * FROM swp391_team3.orders;
+SELECT * FROM swp391_team3.feedback;
+SELECT * FROM swp391_team3.image;
+SELECT * FROM swp391_team3.image_feedback;

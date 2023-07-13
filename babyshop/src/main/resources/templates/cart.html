@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/cart.css">
+    <!-- cdn fown awe some-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Cart | Baby Shop</title>
+</head>
+
+<body>
+    <!-- nav - bar -->
+    <header th:insert="~{home :: navbar}"></header>
+    <div>
+        <!--page content-->
+        <div id="content" class="content container">
+            <div class="discount_label_notification">
+                <svg height="12" viewBox="0 0 20 12" width="20" class="svg-icon icon-free-shipping">
+                    <g fill="none" fill-rule="evenodd" transform="">
+                        <rect fill="#00bfa5" fill-rule="evenodd" height="9" rx="1" width="12" x="4"></rect>
+                        <rect height="8" rx="1" stroke="#00bfa5" width="11" x="4.5" y=".5"></rect>
+                        <rect fill="#00bfa5" fill-rule="evenodd" height="7" rx="1" width="7" x="13" y="2"></rect>
+                        <rect height="6" rx="1" stroke="#00bfa5" width="6" x="13.5" y="2.5"></rect>
+                        <circle cx="8" cy="10" fill="#00bfa5" r="2"></circle>
+                        <circle cx="15" cy="10" fill="#00bfa5" r="2"></circle>
+                        <path
+                            d="m6.7082481 6.7999878h-.7082481v-4.2275391h2.8488017v.5976563h-2.1405536v1.2978515h1.9603297v.5800782h-1.9603297zm2.6762505 0v-3.1904297h.6544972v.4892578h.0505892c.0980164-.3134765.4774351-.5419922.9264138-.5419922.0980165 0 .2276512.0087891.3003731.0263672v.6210938c-.053751-.0175782-.2624312-.038086-.3762568-.038086-.5122152 0-.8758247.3017578-.8758247.75v1.8837891zm3.608988-2.7158203c-.5027297 0-.8536919.328125-.8916338.8261719h1.7390022c-.0158092-.5009766-.3446386-.8261719-.8473684-.8261719zm.8442065 1.8544922h.6544972c-.1549293.571289-.7050863.9228515-1.49238.9228515-.9864885 0-1.5903965-.6269531-1.5903965-1.6464843 0-1.0195313.6165553-1.6669922 1.5872347-1.6669922.9580321 0 1.5366455.6064453 1.5366455 1.6083984v.2197266h-2.4314412v.0351562c.0221328.5595703.373095.9140625.9169284.9140625.4110369 0 .6924391-.1376953.8189119-.3867187zm2.6224996-1.8544922c-.5027297 0-.853692.328125-.8916339.8261719h1.7390022c-.0158091-.5009766-.3446386-.8261719-.8473683-.8261719zm.8442064 1.8544922h.6544972c-.1549293.571289-.7050863.9228515-1.49238.9228515-.9864885 0-1.5903965-.6269531-1.5903965-1.6464843 0-1.0195313.6165553-1.6669922 1.5872347-1.6669922.9580321 0 1.5366455.6064453 1.5366455 1.6083984v.2197266h-2.4314412v.0351562c.0221328.5595703.373095.9140625.9169284.9140625.4110369 0 .6924391-.1376953.8189119-.3867187z"
+                            fill="#fff"></path>
+                        <path d="m .5 8.5h3.5v1h-3.5z" fill="#00bfa5"></path>
+                        <path d="m0 10.15674h3.5v1h-3.5z" fill="#00bfa5"></path>
+                        <circle cx="8" cy="10" fill="#047565" r="1"></circle>
+                        <circle cx="15" cy="10" fill="#047565" r="1"></circle>
+                    </g>
+                </svg>
+                <span class="discount_label_description">Anh yêu em!</span>
+            </div>
+            <div class="total_cart_product">
+                <div class="cart-checkbox">
+                    <label class="stardust-checkbox">
+                        <input class="stardust-checkbox__input" type="checkbox">
+                        <div class="stardust-checkbox__box"></div>
+                    </label>
+                </div>
+                <div class="total_number_product">Name Product</div>
+                <div class="total_price">Price</div>
+                <div class="total_quantity">Quantity</div>
+                <div class="total_amount">Total Amount</div>
+                <div class="edit_product_cart">Edit</div>
+            </div>
+            <!-- list product in cart-->
+            <div class="product-added-cart">
+                <div class="product-added-cart-info">
+                    <div class="product-added-cart__info">
+                        <div class="product-added_cart__info">
+                            <div class="cart-checkbox">
+                                <label class="stardust-checkbox">
+                                    <input class="stardust-checkbox__input" type="checkbox">
+                                    <div class="stardust-checkbox__box"></div>
+                                </label>
+                            </div>
+
+                            <div class="product-added_cart-main">
+                                <div class="product-added_cart__main">
+                                    <a title="Product Image" href="#">
+                                        <!-- image product-->
+                                        <div class="product_cart_image">
+                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
+                                        </div>
+                                    </a>
+                                    <div class="product_cart__des">
+                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
+                                        <a class="product_cart__des__link" title="#" href="#">
+                                            Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
+                                        <div class="product_cart_des_size">110cm</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-cart-price">
+                                <div>
+                                    <span class="product-cart-b_price">₫60.000</span>
+                                    <span class="product-cart__price">₫55.000</span>
+                                </div>
+                            </div>
+                            <div class="product-cart-input-quantity">
+                                <div class="input-quantity">
+                                    <button class="btn-quantity input-quantity-decrease">
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="svg-icon">
+                                            <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" aria-valuenow="1"
+                                        value="1">
+                                    <button class="btn-quantity input-quantity-increase">
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="svg-icon icon-plus-sign">
+                                            <polygon
+                                                points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="product-cart_total_amount" aria-label="55000">
+                                <span>₫55.000</span>
+                            </div>
+                            <div class="product-cart-edit">
+                                <button class="remove-item-from-cart neutral-mist">
+                                    <svg class="fill-black stroke-none fill-neutral-microwave" viewBox="0 0 24 24"
+                                        width="20" height="20">
+                                        <path fill-rule="evenodd"
+                                            d="M9.75 1.5A2.25 2.25 0 0 0 7.5 3.75v.75H3.75a.75.75 0 0 0 0 1.5h.75v13.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V6h.75a.75.75 0 0 0 0-1.5H16.5v-.75a2.25 2.25 0 0 0-2.25-2.25h-4.5Zm5.25 3v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75v.75h6ZM8.25 6H6v13.5h12V6H8.25Zm1.5 3a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6A.75.75 0 0 1 9.75 9ZM15 15.75v-6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-added-cart">
+                <div class="product-added-cart-info">
+                    <div class="product-added-cart__info">
+                        <div class="product-added_cart__info">
+                            <div class="cart-checkbox">
+                                <!-- het hang thi xoa cho nay di-->
+                            </div>
+                            <div class="product-added_cart-main">
+                                <div class="product-added_cart__main">
+                                    <a title="Lót chuột cỡ lớn 80x30cm dày dặn 3mm chuyên game chống trơn trượt siêu bền siêu rẻ"
+                                        href="#">
+                                        <!-- image product-->
+                                        <div class="product_cart_image">
+                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
+                                        </div>
+
+                                    </a>
+                                    <div class="product_cart__des">
+                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
+                                        <a class="product_cart__des__link" title="#" href="#">
+                                            Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
+                                        <div class="product_cart_des_size">110cm</div>
+                                        <div><span class="Jjmw4R">Out of stock</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-cart-price">
+                                <div>
+                                    <span class="product-cart__price">₫0</span>
+
+                                </div>
+                            </div>
+                            <div class="product-cart-input-quantity">
+                                <div class="input-quantity">
+                                    <button class="btn-quantity input-quantity-decrease" disabled>
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="svg-icon">
+                                            <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" aria-valuenow="1" disabled
+                                        value="1">
+                                    <button class="btn-quantity input-quantity-increase" disabled>
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="shopee-svg-icon icon-plus-sign">
+                                            <polygon
+                                                points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="product-cart_total_amount" aria-label="55000">
+                                <span>₫0</span>
+                            </div>
+                            <div class="product-cart-edit">
+                                <button class="remove-item-from-cart neutral-mist">
+                                    <svg class="fill-black stroke-none fill-neutral-microwave" viewBox="0 0 24 24"
+                                        width="20" height="20">
+                                        <path fill-rule="evenodd"
+                                            d="M9.75 1.5A2.25 2.25 0 0 0 7.5 3.75v.75H3.75a.75.75 0 0 0 0 1.5h.75v13.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V6h.75a.75.75 0 0 0 0-1.5H16.5v-.75a2.25 2.25 0 0 0-2.25-2.25h-4.5Zm5.25 3v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75v.75h6ZM8.25 6H6v13.5h12V6H8.25Zm1.5 3a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6A.75.75 0 0 1 9.75 9ZM15 15.75v-6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="product-added-cart">
+                <div class="product-added-cart-info">
+                    <div class="product-added-cart__info">
+                        <div class="product-added_cart__info">
+                            <div class="cart-checkbox">
+                                <label class="stardust-checkbox">
+                                    <input class="stardust-checkbox__input" type="checkbox">
+                                    <div class="stardust-checkbox__box"></div>
+                                </label>
+                            </div>
+                            <div class="product-added_cart-main">
+                                <div class="product-added_cart__main">
+                                    <a title="Lót chuột cỡ lớn 80x30cm dày dặn 3mm chuyên game chống trơn trượt siêu bền siêu rẻ"
+                                        href="#">
+                                        <!-- image product-->
+                                        <div class="product_cart_image">
+                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
+                                        </div>
+                                    </a>
+                                    <div class="product_cart__des">
+                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
+                                        <a class="product_cart__des__link" title="#" href="#">
+                                            Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
+                                        <div class="product_cart_des_size">110cm</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-cart-price">
+                                <div>
+                                    <span class="product-cart-b_price">₫60.000</span>
+                                    <span class="product-cart__price">₫55.000</span>
+                                </div>
+                            </div>
+                            <div class="product-cart-input-quantity">
+                                <div class="input-quantity">
+                                    <button class="btn-quantity input-quantity-decrease">
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="svg-icon">
+                                            <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" aria-valuenow="1"
+                                        value="1">
+                                    <button class="btn-quantity input-quantity-increase">
+                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
+                                            class="shopee-svg-icon icon-plus-sign">
+                                            <polygon
+                                                points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5">
+                                            </polygon>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="OEPrn5 product-left" aria-valuemax="5" >5 product left</div>
+                            </div>
+                            <div class="product-cart_total_amount" aria-label="55000">
+                                <span>₫55.000</span>
+                            </div>
+                            <div class="product-cart-edit">
+                                <button class="remove-item-from-cart neutral-mist">
+                                    <svg class="fill-black stroke-none fill-neutral-microwave" viewBox="0 0 24 24"
+                                        width="20" height="20">
+                                        <path fill-rule="evenodd"
+                                            d="M9.75 1.5A2.25 2.25 0 0 0 7.5 3.75v.75H3.75a.75.75 0 0 0 0 1.5h.75v13.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V6h.75a.75.75 0 0 0 0-1.5H16.5v-.75a2.25 2.25 0 0 0-2.25-2.25h-4.5Zm5.25 3v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75v.75h6ZM8.25 6H6v13.5h12V6H8.25Zm1.5 3a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6A.75.75 0 0 1 9.75 9ZM15 15.75v-6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- payment-->
+            <div class="payment">
+                <div class="product-discount">
+                    <div class="discount-code">
+                        <form action="#" class="product-discount-form">
+                            <input type="text" name="discount-code" class="product-discount-text"
+                                placeholder="Discount code" value>
+                            <button class="btn__discount bg-neutral-smoke" type="submit"><span>Add</span></button>
+                        </form>
+                        <div class="total_discount">-₫0</div>
+                    </div>
+                </div>
+                <div class="product-discount">
+                    <div class="gift-card ">
+                        <form action="#" class="product-discount-form">
+                            <input type="text" name="gift-card" class="product-discount-text" placeholder="Gift card"
+                                value>
+                            <button class="btn__discount bg-neutral-smoke" type="submit"><span>Add</span></button>
+                        </form>
+                        <div class="total_discount">-₫0</div>
+                    </div>
+                </div>
+                <div class="s1Gxkq c2pfrq">
+                    <div class="s1Gxkq1">
+                        <div class="cart-checkbox">
+                            <label class="stardust-checkbox">
+                                <input class="stardust-checkbox__input" type="checkbox">
+                                <div class="stardust-checkbox__box"></div>
+                            </label>
+                        </div>
+                        <button class="iGlIrs clear-btn-style">Add all</button>
+                        <div class="product-cart-edit">
+                            <button class="remove-item-from-cart neutral-mist">
+                                <svg class="fill-black stroke-none fill-neutral-microwave" viewBox="0 0 24 24"
+                                    width="20" height="20">
+                                    <path fill-rule="evenodd"
+                                        d="M9.75 1.5A2.25 2.25 0 0 0 7.5 3.75v.75H3.75a.75.75 0 0 0 0 1.5h.75v13.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V6h.75a.75.75 0 0 0 0-1.5H16.5v-.75a2.25 2.25 0 0 0-2.25-2.25h-4.5Zm5.25 3v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75v.75h6ZM8.25 6H6v13.5h12V6H8.25Zm1.5 3a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6A.75.75 0 0 1 9.75 9ZM15 15.75v-6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0Z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="s1Gxkq2">
+                        <div class="UQv8V6">
+                            <div class="fyYBP1">
+                                <div class="aiyQAr">
+                                    <div class="p-total-amount-des">Total Payment:</div>
+                                    <div class="p-total-amount">₫0</div>
+                                </div>
+                            </div>
+                            <div class="onR5FG"></div>
+                        </div>
+                        <button class="button-solid button-solid--primary">
+                            <span class="TTXpRG">Purchase</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- if empty cart-->
+            <div class="empty-cart">
+                <div class="empty-cart-des"></div>
+                <div class="empty-cart__des">Your shopping cart is empty</div>
+                <a class="empty-cart-link" href="/"><span>buy now</span></a>
+            </div>
+        </div>
+    </div>
+    <!--footer-->
+    <footer th:insert="~{home :: footer}"></footer>
+    <div th:insert="~{home :: uptop}"></div>
+</body>
+<script th:src="@{/js/cart.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+</html>

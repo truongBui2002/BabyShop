@@ -66,16 +66,6 @@ public class UserController {
 	@GetMapping("/user/viewprofile")
 	public String viewProfile(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-		if (session.getAttribute("user") == null) {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if (authentication.getPrincipal() instanceof UserDetails) {
-				User user = (User) authentication.getPrincipal();
-				session.setAttribute("user", user);
-			}
-		}
-		User user = (User)session.getAttribute("user");
-		System.out.print("GENDER: " + user.isGender());
-
 		return "viewprofile";
 	}
 
@@ -150,7 +140,6 @@ public class UserController {
 	public String updateEmail(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
 		
-		
 		return "email";
 	}
 	
@@ -178,7 +167,7 @@ public class UserController {
 	
 	@PostMapping("/fogotpass/email")
 	public String fogotByEmail(ModelMap modelMap, @RequestParam(name = "email") String email) {
-		
+		loadDataController.loadData(modelMap);
 		User user = userService.findByEmail(email);
 		if(user!=null) {
 			RandomKey rd = new RandomKey();
@@ -193,4 +182,33 @@ public class UserController {
 		return "forgotbyemail";
 	}
 	
+	@GetMapping("/user/viewprofile/address")
+	public String changeAddress(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "/profile/changeaddress";
+	}
+	
+	@GetMapping("/user/viewprofile/changepass")
+	public String changepass(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "/profile/changepass";
+	}
+	
+	@GetMapping("/user/viewprofile/payment")
+	public String proPayment(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "/profile/profilepayment";
+	}
+	
+	@GetMapping("/user/viewprofile/noti")
+	public String proNoti(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "/profile/notification";
+	}
+
+	@GetMapping("/user/viewprofile/order/orderhistory")
+	public String orderhistory(ModelMap modelMap) {
+		loadDataController.loadData(modelMap);
+		return "/order/orderhistory";
+	}
 }

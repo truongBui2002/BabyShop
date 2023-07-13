@@ -22,11 +22,13 @@
 
 <body>
 	<!-- nav - bar -->
-	<header th:insert="~{home :: navbar}"></header>
+	<div th:insert="~{home :: navbar}"></div>
+
 	<!--view profile-->
-	<div class="container" th:with = "user = ${session.user}">
+	<div class="container" th:with="user = ${session.user}">
 		<div class="row align-items-start gap-5">
-			<div class="sidebar_profile col-md-2">
+		<div class="col-2">
+					<div class="sidebar_profile" th:fragment="sidebar">
 				<!--add image information-->
 				<div class="avatar">
 					<a href="viewprofile" class="avatar_user">
@@ -36,7 +38,8 @@
 						</div>
 					</a>
 					<div class="avt_description">
-						<div class="avt_name" th:text="${user.getfullNameIfExistOrNot()}">Đào Duy</div> <!--Customer Name-->
+						<div class="avt_name" th:text="${user.getfullNameIfExistOrNot()}">Đào Duy</div>
+						<!--Customer Name-->
 						<a href="viewprofile">
 
 							<div class="edit__profile"><i class="fa-solid fa-pen"></i> Edit profile</div>
@@ -46,58 +49,69 @@
 
 				<nav class="profile-nav">
 					<ul class=" profile-nav__items">
-						<li class="profile-nav__item is-selected">
+						<li class="profile-nav__item">
 							<a th:href="@{/user/viewprofile}" class="profile-nav__link">My Account</a>
+							<!-- hidden menu drop down-->
+							<div class="stardust-dropdown__item-body stardust-dropdown__item-body--open"
+								style="opacity: 1;">
+								<div class="Yu7gVR">
+									<a class="FEE-3D tH0d6d" th:href="@{/user/viewprofile}">
+										<span class="qyt-aY">Profile</span>
+									</a>
+									<a class="FEE-3D" th:href="@{/user/viewprofile/payment}">
+										<span class="qyt-aY">Payment</span>
+									</a>
+									<a class="FEE-3D" th:href="@{/user/viewprofile/address}">
+										<span class="qyt-aY">Address</span>
+									</a>
+									<a class="FEE-3D" th:href="@{/user/viewprofile/changepass}">
+										<span class="qyt-aY">Change Password</span>
+									</a>
+								</div>
+							</div>
 						</li>
 						<li class="profile-nav__item">
 							<a href="#" class="profile-nav__link">Order History</a>
 						</li>
 						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Return & Exchange</a>
+							<a href="#" class="profile-nav__link">Notifications</a>
 						</li>
 						<li class="profile-nav__item">
-							<a th:href="@{/user/resetpass}" class="profile-nav__link">Reset password</a>
-						</li>
-						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Newsletter</a>
-						</li>
-						<li class="profile-nav__item">
-							<a th:href="@{/logout}" class="profile-nav__link">Logout</a>
+							<a href="/logout" class="profile-nav__link">Logout</a>
 						</li>
 					</ul>
 				</nav>
 			</div>
+	
+		</div>
+			
 			<main class="view-profile col-md-6">
 				<div class="view-profile__infor">
 					<h1 class="view-profile__heading d-md-block">My Account</h1>
 					<div class="view-profile__content">
-						<form action="/user/update/profile" class="profile-info" method="post" enctype="multipart/form-data">
+						<form action="" class="profile-info" method="post">
 							<h2 class="form__section-heading">Customer Details</h2>
 							<!-- disable information-->
 							<div class="field rel__span">
 								<label for="email" class="field__label">Email address</label>
 								<input type="email" id="email" name="email"
-									class="field__input field__input--email disable__input" th:value = "${user.email}"
+									class="field__input field__input--email disable__input" th:value="${user.email}"
 									disabled>
-								<span id="email_span" class="field__span">
-								<a href="/user/update/email" th:if = "${user.email!=null}">Change Email</a>
-								<a href="/user/update/email" th:if = "${user.email==null}">New Email</a>
-								</span>
+								<span id="email_span" class="field__span"><a href="email">Change Email</a></span>
 							</div>
 							<!-- change phone number-->
 							<div class="field phoneNumber">
 								<label for="phoneNumber" class="field__label">Phone Number</label>
 								<input type="text" id="phoneNumber" name="phoneNumber"
-									class="field__input disable__input" th:value = "${user.phoneNumber}" disabled>
-								<span id="phoneNumber_span" class="field__span">
-								<a href="phone" th:if = "${user.phoneNumber!=null}">Change PhoneNumber</a>
-								<a href="phone" th:if = "${user.phoneNumber==null}">New Phone Number</a>
-								</span>
+									class="field__input disable__input" th:value="${user.phoneNumber}" disabled>
+								<span id="phoneNumber_span" class="field__span"><a href="phone">Change Phone
+										Number</a></span>
 							</div>
 					</div>
 					<div class="field">
 						<label for="first-name" class="field__label">Your Name</label>
-						<input type="text" id="first-name" name="firstName" class="field__input mb__input" th:value="${user.getfullNameIfExistOrNot()}">
+						<input type="text" id="first-name" name="firstName" class="field__input mb__input"
+							th:value="${user.getfullNameIfExistOrNot()}">
 					</div>
 					<div class="field">
 						<label for="address" class="field__label">Your Address</label>
@@ -108,13 +122,13 @@
 						<label>Date of Birth</label>
 						<div class="dob_fields d-flex justify-content-between">
 							<div class="dob__inputs">
-								<select id="day" name="day" class="dropdown__entry"></select>
+								<select id="day" class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="month" name="month" class="dropdown__entry"></select>
+								<select id="month" class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="year" name="year" class="dropdown__entry"></select>
+								<select id="year" class="dropdown__entry"></select>
 							</div>
 
 						</div>
@@ -122,14 +136,12 @@
 					<div class="gender-option js-gender-option">
 						<label class="gender-option__label gender-option-trigger">
 							Female
-							<input name="gender" type="radio" class="gender-option__input" id="female" value="0"
-							th:checked = "${user.gender}">
+							<input name="gender" type="radio" class="gender-option__input" id="female" value="0">
 							<span class="gender-option__checkmark"></span>
 						</label>
 						<label class="gender-option__label gender-option-trigger">
 							Male
-							<input name="gender" type="radio" class="gender-option__input" id="male" value="1"
-							th:checked = "${user.gender}">
+							<input name="gender" type="radio" class="gender-option__input" id="male" value="1">
 							<span class="gender-option__checkmark"></span>
 						</label>
 					</div>
@@ -138,16 +150,17 @@
 							<span>Update profile</span>
 						</button>
 					</div>
-					<!--  -->
+					</form>
 				</div>
 			</main>
 			<!-- change user avatar-->
 			<div class="view-profile_image col-md-2">
 				<div class="view-profile__image">
 					<div class="image__placehoder">
-						<img class="image__link" th:src="${user.getUriAvatar()}" alt=""> <!-- avatar co r thi lay tu database r hien vao day-->
+						<img class="image__link" th:src="${user.getUriAvatar()}" alt="">
+						<!-- avatar co r thi lay tu database r hien vao day-->
 					</div>
-					<input name="avatar" type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					<input type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
 					<button class="btn_avatar">Chọn ảnh</button>
 					<div class="avt__description">
 						<p>Định lượng file tối đa 1 MB</p>
@@ -155,10 +168,9 @@
 					</div>
 				</div>
 			</div>
-			</form>
 		</div>
 	</div>
-	<footer th:insert="~{home :: footer}"></footer>
+	<div th:insert="~{home :: footer}"></div>
 	<script th:src="@{/js/viewprofile.js}"></script>
 </body>
 
