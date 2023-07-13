@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
+import com.babyshop.babyshop.controller.ImageController;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,7 +57,7 @@ public class Feedback {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
-	private Product product;
+	private Product product = new Product();
 	
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
@@ -62,7 +66,7 @@ public class Feedback {
             joinColumns = {@JoinColumn(name = "feedback_id", referencedColumnName = "feedback_id")},
             inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "image_id")}
     )
-	private List<Image> images = new ArrayList<>();
+	private List<Image> images;
 	
 	@Column(name = "status")
 	private String status;
@@ -79,4 +83,18 @@ public class Feedback {
 	        return formattedDate;
 	}
 	
+	public List<String> getUriImages(){
+		if(images!=null) {
+			List<String> uriImages = new ArrayList<>();
+			for (Image image : images) {
+				String imageName = MvcUriComponentsBuilder
+				.fromMethodName(ImageController.class, "readDetailFileFeedback", image.getName()).build().toUri()
+				.toString();
+				uriImages.add(imageName);
+			}
+			return uriImages;
+		}
+		return new ArrayList<>();
+	}
+
 }

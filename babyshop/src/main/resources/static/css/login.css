@@ -252,3 +252,29 @@ body {
 .input_box {
     position: relative;
 }
+
+.valid-form {
+    border: 1px solid rgba(81, 197, 173, .5);
+
+}
+
+.invalid-form {
+    border: 1px solid rgba(180, 51, 51, 0.5);
+
+}
+
+.alert {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.alert.show {
+    opacity: 1;
+}
+
+
+#alertContainer {
+    position: absolute;
+    top: 24%;
+    left: 42%;
+}

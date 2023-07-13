@@ -183,8 +183,6 @@ function wishListInSearch() {
 	// click heart
 
 	function addOrRemoveFavorite(productId) {
-	
-		//Thêm request ở đây
 		var xhr = new XMLHttpRequest();
 		xhr.open("PUT", "/product/favorite/" + productId);
 		xhr.send();

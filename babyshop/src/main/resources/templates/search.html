@@ -330,7 +330,7 @@
                     <div class="product-card">
                         <a th:href="@{'/product/details/' + ${product.productId}}" class="product_image_link">
                             <div class="image_block">
-                                <img th:src="${product.images.get(0).name}" loading = "lazy">
+                                <img th:src="${product.getUriImages.get(0)}" loading = "lazy">
                                 
                             </div>
                         </a>

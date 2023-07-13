@@ -35,9 +35,6 @@ public class Variant {
 	@Column(name = "quantity")
 	private int quantity;
 	
-	@OneToOne(mappedBy = "variant")
-	private OrderDetails orderDetails;
-	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
 

@@ -46,7 +46,7 @@ public class Role {
 	private Timestamp updateAt = new Timestamp(new Date().getTime());
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private List<User> users = new ArrayList<>(); 
+    private List<User> users; 
 	
 	public Role(String name){
 		this.name = name;

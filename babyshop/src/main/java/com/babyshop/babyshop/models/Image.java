@@ -29,7 +29,7 @@ public class Image {
 	private int imageId;
 	
 	@Column(name = "name")
-	private String name = "";
+	private String name;
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
 

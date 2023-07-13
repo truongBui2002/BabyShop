@@ -1505,7 +1505,7 @@ INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, 
 INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 1, "Very good, 9.5 point", 5, 1, 0, "ACTIVE");
 INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (3, 1, "Temporarily, in general, give 8 points :))", 4, 2, 0, "ACTIVE");
 
-INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 5, 7, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 4, 7, 0, "ACTIVE");
 INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (4, 2, "The product is pretty bad.", 3, 8, 0, "ACTIVE");
 
 -- INSERT IMAGE FEEDBACK : start image-id: 161

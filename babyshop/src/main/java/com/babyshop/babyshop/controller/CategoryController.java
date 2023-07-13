@@ -36,9 +36,9 @@ public class CategoryController {
 		loadDataController.loadData(modelMap);
 		Category category = categoryService.getById(id);
 		
-		for (Subcategory sub : category.getSubcategories()) {
-			subcategoryService.addLinkImage(sub);
-		}
+//		for (Subcategory sub : category.getSubcategories()) {
+//			subcategoryService.addLinkImage(sub);
+//		}
 		List<Subcategory> subs = new ArrayList<>();
 		for (Subcategory subcate : category.getSubcategories()) {
 			if(subcate.getImage()!=null) {
@@ -48,9 +48,9 @@ public class CategoryController {
 		List<Brand> brandsCa = categoryService.getBrands(category);
 		
 		List<Product> prodCate = categoryService.getProducts(category);
-		for (Product product : prodCate) {
-			productService.addLinkImage(product);
-		}
+//		for (Product product : prodCate) {
+//			productService.addLinkImage(product);
+//		}
 		
 		modelMap.addAttribute("category", category);
 		modelMap.addAttribute("subs", subs);

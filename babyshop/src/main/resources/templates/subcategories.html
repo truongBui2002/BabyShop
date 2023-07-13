@@ -61,7 +61,7 @@
                     <div class="product-card">
                         <a th:href="@{'/product/details/' + ${product.productId}}" class="product_image_link">
                             <div class="image_block">
-                                <img th:src="${product.images.get(0).name}"> 
+                                <img th:src="${product.getUriImages.get(0)}"> 
                                 <!--  <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy">-->
                             </div>
                         </a>

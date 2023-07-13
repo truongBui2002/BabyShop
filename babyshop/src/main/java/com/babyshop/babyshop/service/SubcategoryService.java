@@ -5,11 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import com.babyshop.babyshop.controller.ImageController;
 import com.babyshop.babyshop.models.Brand;
-import com.babyshop.babyshop.models.Image;
 import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.models.Subcategory;
 import com.babyshop.babyshop.repositories.ImageRepository;
@@ -42,17 +39,12 @@ public class SubcategoryService {
 
 	public Subcategory getByName(String name) {
 		Subcategory subcategory = subcategoryRepository.findByName(name);
-		addLinkImage(subcategory);
-		List<Product> products = subcategory.getProducts();
-		for (Product product : products) {
-			productService.addLinkImage(product);
-		}
 		return subcategory;
 	}
 
 	public Subcategory getById(int id) {
 		Subcategory subcategory = subcategoryRepository.findById(id).get();
-		addLinkImage(subcategory);
+		//addLinkImage(subcategory);
 		return subcategory;
 	}
 
@@ -72,17 +64,4 @@ public class SubcategoryService {
 		return brands;
 	}
 
-	public void addLinkImage(Subcategory subcategory) {
-		if (subcategory.getImage() == null)
-			return;
-		Image image = subcategory.getImage();
-		entityManager.detach(image);
-		Image img = imageRepository.findById(image.getImageId()).get();
-		String imageName = MvcUriComponentsBuilder
-				.fromMethodName(ImageController.class, "readDetailFileSubcategory", img.getName()).build().toUri()
-				.toString();
-
-		image.setName(imageName);
-		subcategory.setImage(image);
-	}
 }

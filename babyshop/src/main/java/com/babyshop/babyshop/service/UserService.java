@@ -15,7 +15,6 @@ import com.babyshop.babyshop.repositories.RoleRepository;
 import com.babyshop.babyshop.repositories.UserRepository;
 import com.babyshop.babyshop.util.Permit;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 

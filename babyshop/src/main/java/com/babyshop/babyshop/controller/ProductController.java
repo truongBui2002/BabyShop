@@ -1,5 +1,6 @@
 package com.babyshop.babyshop.controller;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.models.Variant;
 import com.babyshop.babyshop.service.CookiesService;
 import com.babyshop.babyshop.service.FeedbackService;
+import com.babyshop.babyshop.service.OrderDetailsService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
 
@@ -49,6 +51,9 @@ public class ProductController {
 	
 	@Autowired
 	FeedbackService feedbackService;
+	
+	@Autowired
+	OrderDetailsService orderDetailsService;
 
 	@GetMapping("/search/product")
 	public String search(ModelMap modelMap, @RequestParam(name = "page", defaultValue = "1") int page,
@@ -146,14 +151,27 @@ public class ProductController {
 										.stream().filter(pro -> {
 											return pro.getProductId()!= product.getProductId();
 										}).toList();
+		double avgSt =0;
+		if(!feedbacks.isEmpty()) {
+			avgSt = ((double)feedbacks.stream().mapToInt(fb ->fb.getRateStar())
+												 .sum())/feedbacks.size();
+		}
+		DecimalFormat df = new DecimalFormat("#.##");
+		String avgStar = df.format(avgSt);
+		//System.out.println((int)(avgSt*100%100));
+		
+		int totalSold = orderDetailsService.getTotalProductSold(product);
+		
 		modelMap.addAttribute("product", product);
 		modelMap.addAttribute("feedbacks", feedbacks);
 		modelMap.addAttribute("productsSimilar", productsSimilar);
+		modelMap.addAttribute("avgStar", avgStar);
+		modelMap.addAttribute("totalSold", totalSold);
 		return "detailsproduct";
 	}
 
 	@GetMapping("/product/favorite")
-	public String favorite(ModelMap modelMap) {
+	public String favorite(ModelMap modelMap) { 
 		loadDataController.loadData(modelMap);
 		Cookie[] cookies = request.getCookies();
 		String favorites = ""; // chuỗi favorite ở cookie

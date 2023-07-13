@@ -19,70 +19,71 @@ import jakarta.servlet.http.HttpSession;
 public class AccountRestController {
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
-	SendMailService sendMailService; 
-	  
-	@PostMapping("/login/checkexist/email") 
-	public String checkEmailExists(@RequestBody String email){
-		
+	SendMailService sendMailService;
+
+	@PostMapping("/login/email/exists")
+	public String code(@RequestBody String email) {
+
 		String emailEx = email.trim().replace("\"", "");
 		if (userService.userIsExists(emailEx)) {
-			return "exists"; 
-		} else { 
+			return "exists";
+		} else {
 			return "not exists";
-		}    
-	}   
+		}
+	}
+
 	@PostMapping("/login/sendcode/email")
 	public String sendCodeEmail(@RequestBody String email) {
 		String emailEx = email.trim().replace("\"", "");
 		RandomKey randomKey = new RandomKey();
 		String code = randomKey.getNumber(6);
-		System.out.println("code: " + code);
 		sendMailService.sendCode(emailEx, code);
-		session.setAttribute("code", code);  
-		session.setAttribute("emailVerifier", emailEx); 
+		session.setAttribute("code", code);
+		session.setAttribute("emailVerifier", emailEx);
 		LocalDateTime start = LocalDateTime.now();
 		session.setAttribute("start", start);
 		return "success";
 	}
-	
+
 	@PostMapping("/login/checkexits")
-	public String verifierCode (@RequestBody String phone){
+	public String verifierCode(@RequestBody String phone) {
 		if (userService.userIsExists(phone.trim().replace("\"", ""))) {
 			return "exists";
 		} else {
 			return "not exists";
 		}
 	}
-	
+
 	@PostMapping("/login/authen/email")
 	public String autenEmail(@RequestBody String data) {
 		ObjectMapper obj = new ObjectMapper();
 		String[] array; // index 1 : email, index2: code;
 		try {
 			array = obj.readValue(data, String[].class);
-			String email = (String)session.getAttribute("emailVerifier");
-			String code = (String)session.getAttribute("code");
-			LocalDateTime start = (LocalDateTime)session.getAttribute("start");
-			if(email!=null&&code!=null&&start!=null) {
+			String email = (String) session.getAttribute("emailVerifier");
+			String code = (String) session.getAttribute("code");
+			System.out.println(code);
+			LocalDateTime start = (LocalDateTime) session.getAttribute("start");
+			if (email != null && code != null && start != null) {
 				LocalDateTime end = LocalDateTime.now();
 				Duration delay = Duration.between(start, end);
 				// có hiệu lực 5 phút
-				if(delay.getSeconds()<5*60) {
-					if(email.equals(array[0])&& code.equals(array[1])) {
+				if (delay.getSeconds() < 5 * 60) {
+					if (email.equals(array[0]) && code.equals(array[1])) {
 						return "true";
 					}
-				}	
+				}
 			}
 		} catch (JsonProcessingException e) {
-			
+
 			e.printStackTrace();
 		}
 		return "false";
 	}
-	
+
 }

@@ -43,19 +43,19 @@ public class Product {
 	@Column(name = "product_id")
 	private int productId;
 	@Column(name = "name")
-	private String name = "";
+	private String name;
 
 	@Column(name = "price")
-	private double price = 0.0;
+	private double price;
 
 	@Column(name = "description")
-	private String description = "";
+	private String description;
 
 	@Column(name = "specification")
-	private String specification = "";
+	private String specification;
 
 	@Column(name = "discount")
-	private double discount = 0.0;
+	private double discount;
 	
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
@@ -87,11 +87,11 @@ public class Product {
 	//fetch = FetchType.LAZY: được truy vấn khi gọi tới
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id")
-	private Brand brand = new Brand();
+	private Brand brand;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcategory_id")
-	private Subcategory subcategory = new Subcategory();
+	private Subcategory subcategory;
 	
 	@OneToOne(mappedBy = "product")
 	private ProductInfo productInfo;
@@ -116,14 +116,17 @@ public class Product {
 		
 		return (int)price;
 	}
-//	public List<String> getImages(){
-//		List<String> uriImages = new ArrayList<>();
-//		for (Image image : images) {
-//			String imageName = MvcUriComponentsBuilder
-//					.fromMethodName(ImageController.class, "readDetailFileProduct", image.getName()).build().toUri()
-//					.toString();
-//			uriImages.add(imageName);
-//		}
-//		return uriImages;
-//	}
+	public List<String> getUriImages(){
+		if(images!=null) {
+			List<String> uriImages = new ArrayList<>();
+			for (Image image : images) {
+				String imageName = MvcUriComponentsBuilder
+						.fromMethodName(ImageController.class, "readDetailFileProduct", image.getName()).build().toUri()
+						.toString();
+				uriImages.add(imageName);
+			}
+			return uriImages;
+		}
+		return new ArrayList<>();
+	}
 }

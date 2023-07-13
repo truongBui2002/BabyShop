@@ -53,7 +53,7 @@
                 <div class="slideshow mb-5 mt-5">
                     <div class="slides">
                         <a aria-label="Summer-fashion-up-to-70" class="slide-link" href="#">
-                            <div class="box-img"><img th:src="${category.image.name}" alt="" loading="lazy"
+                            <div class="box-img"><img th:src="${category.getUriImage()}" alt="" loading="lazy"
                                 class="slide___image"></div>
                             <div class="slide-info">
                                 <div class="slide__info">
@@ -98,7 +98,7 @@
                             <div class="product-card">
                                 <a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
                                     <div class="image_block">
-                                        <img th:src="${product.images.get(0).name}" loading="lazy"> 
+                                        <img th:src="${product.getUriImages().get(0)}" loading="lazy"> 
                                         <!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy">  -->
                                             
                                     </div>
@@ -157,7 +157,7 @@
                         <h3 class="product_header_heading">Selected Categories</h3>
                         <div class="image-grid">
                             <a th:href="@{'/subcategories/' + ${subcate.subcategoryId}}" aria-label="swimwear-and-uv-clothing" class="image-grid-item" th:each="subcate, iterStat : ${subs}" th:if="${iterStat.index} < 4">
-                                <div class="box-img"><img class="image-grid__image" th:src="${subcate.image.name}" alt="A" loading="lazy"
+                                <div class="box-img"><img class="image-grid__image" th:src="${subcate.getUriImage()}" alt="A" loading="lazy"
                                         style="aspect-ratio: 0.666526 / 1;"></div>
                                 <h4 class="image-grid-description" th:text = "${subcate.name}">Seele</h4>
                                 <p class="pt-1 text-center text-base sm:text-lg"></p>
@@ -192,7 +192,7 @@
                             <div class="product-card">
                                 <a th:href="@{'/brand/details/' + ${brand.brandId}}" class="product_image_link">
                                     <div class="image_block">
-                                        <img th:src="${brand.image.name}" loading="lazy">
+                                        <img th:src="${brand.getUriImage()}" loading="lazy">
                                     </div>
                                 </a>
                             </div>
