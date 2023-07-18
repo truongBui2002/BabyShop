@@ -1,7 +1,7 @@
 
 // product listing 
 var listProductSliders = document.querySelectorAll('.list-product-slider');
-console.log(listProductSliders);
+//console.log(listProductSliders);
 
 listProductSliders.forEach((listProductSlider) => {
 
@@ -19,8 +19,8 @@ listProductSliders.forEach((listProductSlider) => {
   arrowProductLists.forEach(
     icon => {
       icon.addEventListener('click', () => {
-        console.log(icon);
-        console.log('sliderItems.scrollLeft', sliderItems.scrollLeft);
+        //console.log(icon);
+        //console.log('sliderItems.scrollLeft', sliderItems.scrollLeft);
         sliderItems.scrollLeft += icon.classList.contains('scroll_carousel_left') ? -firstItemWidth * 2 : firstItemWidth * 2;
         setTimeout(() => showHideIcons(), 30);
       });
@@ -70,7 +70,7 @@ imageBlocks.forEach((e) => {
   }
 });
 var boxImgs = document.querySelectorAll('.box-img');
-console.log('boxImgs', boxImgs);
+//console.log('boxImgs', boxImgs);
 boxImgs.forEach((e) => {
   const img = e.querySelector('img');
   function loaded() {
@@ -138,7 +138,7 @@ function addedWishlist() {
 // click heart
 
 function addOrRemoveFavorite(productId){
-	console.log("Đã bấm vào favorite: " + productId );
+	//console.log("Đã bấm vào favorite: " + productId );
 	//Thêm request ở đây
 	var xhr = new XMLHttpRequest();
 	xhr.open("PUT", "/product/favorite/" + productId);

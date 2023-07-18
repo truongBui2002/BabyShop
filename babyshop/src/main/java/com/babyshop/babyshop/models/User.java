@@ -6,10 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Scope;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import com.babyshop.babyshop.controller.ImageController;
 import com.babyshop.babyshop.util.Status;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,8 +30,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -41,6 +40,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
+@Where(clause = "status = 'UNLOCK'")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,7 +68,9 @@ public class User implements UserDetails {
 	@Column(name = "gender")
 	private boolean gender;
 	
-	@OneToOne(mappedBy = "user")
+	@JsonManagedReference
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@EqualsAndHashCode.Exclude
 	private Customer customer;
 	
 	@Column(name = "created_at")
@@ -89,9 +91,8 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles.stream().map(role -> {
-			return new SimpleGrantedAuthority(role.getName());
-		}).collect(Collectors.toList());
+		return roles.stream().
+				map(role ->new SimpleGrantedAuthority(role.getName())).toList();
 	}
 
 	public String getUriAvatar() {
@@ -141,7 +142,9 @@ public class User implements UserDetails {
 		return true;
 	}
 	public LocalDate getDob() {
-		return this.dob.toLocalDate();
+		if(dob!=null) {
+			return this.dob.toLocalDate();
+		}
+		return null;
 	}
-
 }

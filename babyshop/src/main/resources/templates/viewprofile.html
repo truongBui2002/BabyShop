@@ -31,7 +31,7 @@
 					<div class="sidebar_profile" th:fragment="sidebar">
 				<!--add image information-->
 				<div class="avatar">
-					<a href="viewprofile" class="avatar_user">
+					<a th:href="@{/user/viewprofile}" class="avatar_user">
 						<div class="img__user">
 							<div class="avatar__placeholder"><i class="fa-solid fa-user"></i></div>
 							<img th:src="${user.getUriAvatar()}" alt="User Avatar">
@@ -40,7 +40,7 @@
 					<div class="avt_description">
 						<div class="avt_name" th:text="${user.getfullNameIfExistOrNot()}">Đào Duy</div>
 						<!--Customer Name-->
-						<a href="viewprofile">
+						<a th:href="@{/user/viewprofile}">
 
 							<div class="edit__profile"><i class="fa-solid fa-pen"></i> Edit profile</div>
 						</a>
@@ -55,26 +55,26 @@
 							<div class="stardust-dropdown__item-body stardust-dropdown__item-body--open"
 								style="opacity: 1;">
 								<div class="Yu7gVR">
-									<a class="FEE-3D tH0d6d" th:href="@{/user/viewprofile}">
+									<a th:class="${color=='profile'}? 'FEE-3D tH0d6d' : 'FEE-3D'" th:href="@{/user/viewprofile}">
 										<span class="qyt-aY">Profile</span>
 									</a>
-									<a class="FEE-3D" th:href="@{/user/viewprofile/payment}">
+									<a th:class="${color=='payment'}? 'FEE-3D tH0d6d' : 'FEE-3D'" th:href="@{/user/viewprofile/payment}">
 										<span class="qyt-aY">Payment</span>
 									</a>
-									<a class="FEE-3D" th:href="@{/user/viewprofile/address}">
+									<a th:class="${color=='address'}? 'FEE-3D tH0d6d' : 'FEE-3D'" th:href="@{/user/viewprofile/address}">
 										<span class="qyt-aY">Address</span>
 									</a>
-									<a class="FEE-3D" th:href="@{/user/viewprofile/changepass}">
+									<a th:class="${color=='changepass'}? 'FEE-3D tH0d6d' : 'FEE-3D'" th:href="@{/user/viewprofile/changepass}">
 										<span class="qyt-aY">Change Password</span>
 									</a>
 								</div>
 							</div>
 						</li>
 						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Order History</a>
+							<a th:href="@{/user/viewprofile/order/orderhistory}" class="profile-nav__link">Order History</a>
 						</li>
 						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Notifications</a>
+							<a th:href="@{/user/viewprofile/noti}" class="profile-nav__link">Notifications</a>
 						</li>
 						<li class="profile-nav__item">
 							<a href="/logout" class="profile-nav__link">Logout</a>
@@ -113,10 +113,6 @@
 						<input type="text" id="first-name" name="firstName" class="field__input mb__input"
 							th:value="${user.getfullNameIfExistOrNot()}">
 					</div>
-					<div class="field">
-						<label for="address" class="field__label">Your Address</label>
-						<input type="text" id="address" name="address" class="field__input mb__input">
-					</div>
 					<!-- add date of birth-->
 					<div class="field">
 						<label>Date of Birth</label>
@@ -141,7 +137,7 @@
 						</label>
 						<label class="gender-option__label gender-option-trigger">
 							Male
-							<input name="gender" type="radio" class="gender-option__input" id="male" value="1">
+							<input name="gender" type="radio" class="gender-option__input" id="male" value="1"> 
 							<span class="gender-option__checkmark"></span>
 						</label>
 					</div>

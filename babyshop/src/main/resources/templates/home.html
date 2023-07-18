@@ -70,8 +70,11 @@
 							<div class="header__links col">
 								<a class="header_link header_favorites color-hover " th:href="@{/product/favorite}">Favorites</a>
 							</div>
-							<div class="header__links col">
-								<a class="header_link header_cart color-hover " th:href="@{/cart}">Shopping
+							<div class="header__links col cart_h">
+								<div class="top_menu_unseen fhs_center_center" style="visibility: visible;" th:if = "${sizeCart}!=null"> <!-- th:if="${session.user!=null} -->
+									<span class="cartmini_qty" style="visibility: visible;" th:text = "${sizeCart}">1</span>
+								</div>
+								<a class="header_link header_cart color-hover " th:href="@{/user/cart}">Shopping
 									Bag</a>
 							</div>
 						</div>

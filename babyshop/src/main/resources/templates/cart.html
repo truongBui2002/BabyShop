@@ -23,7 +23,7 @@
     <div>
         <!--page content-->
         <div id="content" class="content container">
-            <div class="discount_label_notification">
+            <div class="discount_label_notification" th:if = "${cartItems.size()}!=0">
                 <svg height="12" viewBox="0 0 20 12" width="20" class="svg-icon icon-free-shipping">
                     <g fill="none" fill-rule="evenodd" transform="">
                         <rect fill="#00bfa5" fill-rule="evenodd" height="9" rx="1" width="12" x="4"></rect>
@@ -41,9 +41,9 @@
                         <circle cx="15" cy="10" fill="#047565" r="1"></circle>
                     </g>
                 </svg>
-                <span class="discount_label_description">Anh yêu em!</span>
+                <span class="discount_label_description">Freeship</span>
             </div>
-            <div class="total_cart_product">
+            <div class="total_cart_product" th:if = "${cartItems.size()}!=0">
                 <div class="cart-checkbox">
                     <label class="stardust-checkbox">
                         <input class="stardust-checkbox__input" type="checkbox">
@@ -57,9 +57,10 @@
                 <div class="edit_product_cart">Edit</div>
             </div>
             <!-- list product in cart-->
-            <div class="product-added-cart">
+            <div class="product-added-cart" th:if = "${cartItems.size()}!=0" th:each = "item : ${cartItems}">
+            	<input type="hidden" th:id="${item.cartItemId}"/>
                 <div class="product-added-cart-info">
-                    <div class="product-added-cart__info">
+                    <div class="product-added-cart__info"> 
                         <div class="product-added_cart__info">
                             <div class="cart-checkbox">
                                 <label class="stardust-checkbox">
@@ -70,24 +71,26 @@
 
                             <div class="product-added_cart-main">
                                 <div class="product-added_cart__main">
-                                    <a title="Product Image" href="#">
+                                    <a title="Product Image" th:href="@{'/product/details/' + ${item.variant.product.productId}}">
                                         <!-- image product-->
                                         <div class="product_cart_image">
-                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
+                                            <img th:src="${item.variant.product.getUriImages().get(0)}" alt="#" width="80" height="80">
                                         </div>
                                     </a>
                                     <div class="product_cart__des">
-                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
-                                        <a class="product_cart__des__link" title="#" href="#">
+                                        <div class="product_cart_des_brand"><a th:href="@{'/brand/details/' + ${item.variant.product.brand.brandId}}"
+                                        th:text="${item.variant.product.brand.name}">Kuling</a></div>
+                                        <a class="product_cart__des__link" title="#" th:href="@{'/product/details/' + ${item.variant.product.productId}}"
+                                        th:text = "${item.variant.product.name}">
                                             Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
-                                        <div class="product_cart_des_size">110cm</div>
+                                        <div class="product_cart_des_size" th:text ="${item.variant.name}">110cm</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-cart-price">
                                 <div>
-                                    <span class="product-cart-b_price">₫60.000</span>
-                                    <span class="product-cart__price">₫55.000</span>
+                                    <span class="product-cart-b_price" th:if ="${item.variant.product.discount!=100}" th:text="${'₫'+item.variant.product.price + '.000'}">₫60.000</span>
+                                    <span class="product-cart__price"  th:text ="${'₫' + item.variant.product.getSalePrice() + '.000'}">₫55.000</span>
                                 </div>
                             </div>
                             <div class="product-cart-input-quantity">
@@ -99,8 +102,8 @@
                                             </polygon>
                                         </svg>
                                     </button>
-                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" aria-valuenow="1"
-                                        value="1">
+                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" th:aria-valuenow="${item.quantity}"
+                                        th:value="${item.quantity}">
                                     <button class="btn-quantity input-quantity-increase">
                                         <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
                                             class="svg-icon icon-plus-sign">
@@ -110,10 +113,10 @@
                                         </svg>
                                     </button>
                                 </div>
-
+								<div class="OEPrn5 product-left" th:aria-valuemax="${item.variant.quantity}" >[[${item.variant.quantity}]] product left</div>
                             </div>
-                            <div class="product-cart_total_amount" aria-label="55000">
-                                <span>₫55.000</span>
+                            <div class="product-cart_total_amount" th:aria-label="${item.quantity * item.variant.product.getSalePrice() + '000'}">
+                                <span th:text = "'₫'+${item.quantity * item.variant.product.getSalePrice() + '.000'}">₫55.000</span>
                             </div>
                             <div class="product-cart-edit">
                                 <button class="remove-item-from-cart neutral-mist">
@@ -129,18 +132,19 @@
                     </div>
                 </div>
             </div>
-            <div class="product-added-cart">
+            <!-- SẢN PHẨM CÒN TRONG GIỎ HÀNG NHƯNG ĐÃ BỊ BÁN HẾT  -->
+<!--             <div class="product-added-cart" th:if = "${cartItems.size()}!=0" style="display: none">
                 <div class="product-added-cart-info">
                     <div class="product-added-cart__info">
                         <div class="product-added_cart__info">
                             <div class="cart-checkbox">
-                                <!-- het hang thi xoa cho nay di-->
+                                het hang thi xoa cho nay di
                             </div>
                             <div class="product-added_cart-main">
                                 <div class="product-added_cart__main">
                                     <a title="Lót chuột cỡ lớn 80x30cm dày dặn 3mm chuyên game chống trơn trượt siêu bền siêu rẻ"
                                         href="#">
-                                        <!-- image product-->
+                                        image product
                                         <div class="product_cart_image">
                                             <img src="../image/seele.jpg" alt="#" width="80" height="80">
                                         </div>
@@ -200,86 +204,13 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="product-added-cart">
-                <div class="product-added-cart-info">
-                    <div class="product-added-cart__info">
-                        <div class="product-added_cart__info">
-                            <div class="cart-checkbox">
-                                <label class="stardust-checkbox">
-                                    <input class="stardust-checkbox__input" type="checkbox">
-                                    <div class="stardust-checkbox__box"></div>
-                                </label>
-                            </div>
-                            <div class="product-added_cart-main">
-                                <div class="product-added_cart__main">
-                                    <a title="Lót chuột cỡ lớn 80x30cm dày dặn 3mm chuyên game chống trơn trượt siêu bền siêu rẻ"
-                                        href="#">
-                                        <!-- image product-->
-                                        <div class="product_cart_image">
-                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                        </div>
-                                    </a>
-                                    <div class="product_cart__des">
-                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
-                                        <a class="product_cart__des__link" title="#" href="#">
-                                            Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
-                                        <div class="product_cart_des_size">110cm</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-cart-price">
-                                <div>
-                                    <span class="product-cart-b_price">₫60.000</span>
-                                    <span class="product-cart__price">₫55.000</span>
-                                </div>
-                            </div>
-                            <div class="product-cart-input-quantity">
-                                <div class="input-quantity">
-                                    <button class="btn-quantity input-quantity-decrease">
-                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
-                                            class="svg-icon">
-                                            <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5">
-                                            </polygon>
-                                        </svg>
-                                    </button>
-                                    <input class="btn-quantity ts9OWN btn-quantity-input" type="text" role="spinbutton" aria-valuenow="1"
-                                        value="1">
-                                    <button class="btn-quantity input-quantity-increase">
-                                        <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0"
-                                            class="shopee-svg-icon icon-plus-sign">
-                                            <polygon
-                                                points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5">
-                                            </polygon>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="OEPrn5 product-left" aria-valuemax="5" >5 product left</div>
-                            </div>
-                            <div class="product-cart_total_amount" aria-label="55000">
-                                <span>₫55.000</span>
-                            </div>
-                            <div class="product-cart-edit">
-                                <button class="remove-item-from-cart neutral-mist">
-                                    <svg class="fill-black stroke-none fill-neutral-microwave" viewBox="0 0 24 24"
-                                        width="20" height="20">
-                                        <path fill-rule="evenodd"
-                                            d="M9.75 1.5A2.25 2.25 0 0 0 7.5 3.75v.75H3.75a.75.75 0 0 0 0 1.5h.75v13.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V6h.75a.75.75 0 0 0 0-1.5H16.5v-.75a2.25 2.25 0 0 0-2.25-2.25h-4.5Zm5.25 3v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75v.75h6ZM8.25 6H6v13.5h12V6H8.25Zm1.5 3a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6A.75.75 0 0 1 9.75 9ZM15 15.75v-6a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0Z">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            </div> -->
 
             <!-- payment-->
-            <div class="payment">
-                <div class="product-discount">
+            <div class="payment" th:if = "${cartItems.size()}!=0" >
+                <div class="product-discount" > 
                     <div class="discount-code">
-                        <form action="#" class="product-discount-form">
+                        <form action="#" class="product-discount-form" >
                             <input type="text" name="discount-code" class="product-discount-text"
                                 placeholder="Discount code" value>
                             <button class="btn__discount bg-neutral-smoke" type="submit"><span>Add</span></button>
@@ -327,18 +258,22 @@
                             </div>
                             <div class="onR5FG"></div>
                         </div>
-                        <button class="button-solid button-solid--primary">
+                        <button class="button-solid button-solid--primary btn--purchase">
                             <span class="TTXpRG">Purchase</span>
                         </button>
                     </div>
                 </div>
             </div>
             <!-- if empty cart-->
-            <div class="empty-cart">
+            <div class="empty-cart" th:if = "${cartItems.size()}==0">
                 <div class="empty-cart-des"></div>
                 <div class="empty-cart__des">Your shopping cart is empty</div>
                 <a class="empty-cart-link" href="/"><span>buy now</span></a>
             </div>
+        </div>
+    </div>
+    <div id="popup">
+        <div class="pop__up">
         </div>
     </div>
     <!--footer-->

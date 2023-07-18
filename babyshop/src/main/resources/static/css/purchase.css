@@ -6,6 +6,12 @@ button {
     border: 0px;
 }
 
+img {
+    width: 80px;
+    height: 80px;
+}
+
+
 .address-user {
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
     background: #fff;
@@ -94,7 +100,9 @@ button {
 .popup-address:hover {
     color: #b4e1d8;
 }
-
+.box__address {
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+}
 
 .list-purchase {
     margin-bottom: 20px;
@@ -496,7 +504,7 @@ h3.Tc17Ac.XIEGGF {
     --tw-bg-opacity: 1;
     background-color: rgb(35 33 33 / var(--tw-bg-opacity));
     opacity: 1;
-    
+
 
 }
 
@@ -506,4 +514,60 @@ h3.Tc17Ac.XIEGGF {
 
 .C-NSr- a {
     color: #05a;
+}
+
+/* pop-up address */
+.overlay__popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.pop_up_address {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    z-index: 9000;
+    box-shadow: 0 2px 4px rgba(0,0,0,.54);
+}
+
+.G-rPVC {
+    z-index: 1;
+    width: 500px;
+    height: 700px;
+}
+
+.btn-box {
+    padding: 50px  0 20px 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 8px 12px;
+    background-color: none;
+    text-align: center;
+    line-height: 24px;
+    letter-spacing: 1;
+    margin: 0 10px;
+    border-radius: .25rem;
+    transition: all .2s ease-in;
+    
+}
+.btn-confirm:hover, .btn-cancel:hover {
+    opacity: .7;
+}
+.btn-confirm {
+    background-color: #ee4d2d;
+    color: #fff;
+}
+.RnMqRZ {
+    border: 0;
 }

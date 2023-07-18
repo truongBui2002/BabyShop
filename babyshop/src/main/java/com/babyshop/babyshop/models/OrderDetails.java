@@ -2,6 +2,8 @@ package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
 
+import com.babyshop.babyshop.util.Status;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +28,7 @@ public class OrderDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_details_id")
-	private int orderId;
+	private int orderDeTailsId;
 	
 	@Column(name = "price")
 	private double price;
@@ -47,16 +49,16 @@ public class OrderDetails {
 	private Product product; 
 	
 	@Column(name = "profit")
-	private String profit;
+	private String profit = "0";
 	
 	@Column(name = "discount")
-	private double discount;
+	private double discount = 0;
 	
 	@OneToOne(mappedBy = "orderDetails")
 	private Feedback feedback;
 	
 	@Column(name = "status")
-	private String status;
+	private String status = Status.WAIT;
 	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new java.util.Date().getTime());

@@ -2,230 +2,185 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- cdn boostrap-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/purchase.css}">
-    <!-- cdn fown awe some-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Purchase | Baby Shop</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- cdn boostrap-->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" th:href="@{/css/change.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/purchase.css}">
+<!-- cdn fown awe some-->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Purchase | Baby Shop</title>
 </head>
 
 <body>
-    <!-- nav - bar -->
-    <header th:insert="~{home :: navbar}"></header>
-    <div>
-        <!--page content-->
-        <div id="content" class="content container">
-            <!-- address user-->
-            <div class="address-user">
-                <div class="line-throught"></div>
-                <div class="address-user-main">
-                    <div class="address-user-title">
-                        <div class="address-user-svg">
-                            <svg height="16" viewBox="0 0 12 16" width="12" class="icon-location-marker">
+	<!-- nav - bar -->
+	<header th:insert="~{home :: navbar}"></header>
+	<div>
+		<!--page content-->
+		<div id="content" class="content container">
+			<!-- address user-->
+			<div class="address-user" th:if = "${customer.locations.size()} != 0">
+				<div class="line-throught"></div>
+				<div class="address-user-main">
+					<div class="address-user-title">
+						<div class="address-user-svg">
+							<svg height="16" viewBox="0 0 12 16" width="12"
+								class="icon-location-marker">
                                 <path
-                                    d="M6 3.2c1.506 0 2.727 1.195 2.727 2.667 0 1.473-1.22 2.666-2.727 2.666S3.273 7.34 3.273 5.867C3.273 4.395 4.493 3.2 6 3.2zM0 6c0-3.315 2.686-6 6-6s6 2.685 6 6c0 2.498-1.964 5.742-6 9.933C1.613 11.743 0 8.498 0 6z"
-                                    fill-rule="evenodd"></path>
+									d="M6 3.2c1.506 0 2.727 1.195 2.727 2.667 0 1.473-1.22 2.666-2.727 2.666S3.273 7.34 3.273 5.867C3.273 4.395 4.493 3.2 6 3.2zM0 6c0-3.315 2.686-6 6-6s6 2.685 6 6c0 2.498-1.964 5.742-6 9.933C1.613 11.743 0 8.498 0 6z"
+									fill-rule="evenodd"></path>
                             </svg>
-                        </div>
-                        <h2>Delivery Address</h2>
-                    </div>
-                    <div class="address-user-info">
-                        <div class="address-user__info">
-                            <div class="address-user-name">Đào Quang Duy (+84) 829853338</div>
-                            <div class="address__user">Miếu Vàng Thôn Vàng, Xã Cửu Cao, Huyện Văn Giang, Hưng Yên</div>
-                            <div class="address-default">Default</div>
-                        </div>
-                        <button class="popup-address">Change</button>
-                    </div>
-                </div>
-            </div>
-            <div class="_3cPNXP">
-                <div class="V-sVj2">
-                    <div class="jNp+ZB ktatB-">
-                        <h2 class="_6HCfS6">Product</h2>
-                    </div>
-                    <div class="jNp+ZB _04sLFc"></div>
-                    <div class="jNp+ZB">Price</div>
-                    <div class="jNp+ZB">Quantity</div>
-                    <div class="jNp+ZB LBqTli">Total Amount</div>
-                </div>
-            </div>
-            <div>
-                <div class="list-purchase">
-                    <div class="list__purchase">
-                        <div class="purchase__info">
-                            <!-- new -->
-                            <div class="h3ONzh EOqcX3">
-                                <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                <span class="oEI3Ln">
-                                    <span class="gHbVhc">Hehehehehehehehehe</span>
-                                </span>
-                            </div>
-                            <div class="h3ONzh Le31ox"><span class="dVLwMH">Size: 110cm</span></div>
-                            <div class="h3ONzh">₫55.000</div>
-                            <div class="h3ONzh">1</div>
-                            <div class="h3ONzh fHRPUO">₫55.000</div>
-                        </div>
-                    </div>
-                    <div class="Nivkv-">
-                        <div class="ULZMSb">
-                            <div class="z10ZuQ">Total Amount:</div>
-                            <div class="_9F3E9v">₫55.000</div>
-                        </div>
-                    </div>
-                </div>
+						</div>
+						<h2>Delivery Address</h2>
+					</div>
+					<div class="address-user-info" th:each = "location : ${customer.locations}" th:if = "${location.status =='DEFAULT'}">
+						<div class="address-user__info">
+							<div class="address-user-name" >
+							[[${customer.fullName}]] (+84)[[${location.phoneNumber}]]
+							</div>
+							<div class="address__user" th:text = "${location.address}">Miếu Vàng Thôn Vàng, Xã Cửu Cao,
+								Huyện Văn Giang, Hưng Yên</div>
 
-                <div class="list-purchase">
-                    <div class="list__purchase">
-                        <div class="purchase__info">
-                            <!-- new -->
-                            <div class="h3ONzh EOqcX3">
-                                <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                <span class="oEI3Ln">
-                                    <span class="gHbVhc">Hehehehehehehehehe</span>
-                                </span>
-                            </div>
-                            <div class="h3ONzh Le31ox"><span class="dVLwMH">Size: 110cm</span></div>
-                            <div class="h3ONzh">₫55.000</div>
-                            <div class="h3ONzh">1</div>
-                            <div class="h3ONzh fHRPUO">₫55.000</div>
-                        </div>
-                    </div>
-                    <div class="Nivkv-">
-                        <div class="ULZMSb">
-                            <div class="z10ZuQ">Total Amount:</div>
-                            <div class="_9F3E9v">₫55.000</div>
-                        </div>
-                    </div>
-                </div>
+						</div>
+						<button class="popup-address">Change</button>
+					</div>
+				</div>
+			</div>
+			<div class="_3cPNXP">
+				<div class="V-sVj2">
+					<div class="jNp+ZB ktatB-">
+						<h2 class="_6HCfS6">Product</h2>
+					</div>
+					<div class="jNp+ZB _04sLFc"></div>
+					<div class="jNp+ZB">Price</div>
+					<div class="jNp+ZB">Quantity</div>
+					<div class="jNp+ZB LBqTli">Total Amount</div>
+				</div>
+			</div>
+			<div>
 
-                <div class="list-purchase">
-                    <div class="list__purchase">
-                        <div class="purchase__info">
-                            <!-- new -->
-                            <div class="h3ONzh EOqcX3">
-                                <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                <span class="oEI3Ln">
-                                    <span class="gHbVhc">Hehehehehehehehehe</span>
-                                </span>
-                            </div>
-                            <div class="h3ONzh Le31ox"><span class="dVLwMH">Size: 110cm</span></div>
-                            <div class="h3ONzh">₫55.000</div>
-                            <div class="h3ONzh">1</div>
-                            <div class="h3ONzh fHRPUO">₫55.000</div>
-                        </div>
-                    </div>
-                    <div class="Nivkv-">
-                        <div class="ULZMSb">
-                            <div class="z10ZuQ">Total Amount:</div>
-                            <div class="_9F3E9v">₫55.000</div>
-                        </div>
-                    </div>
-                </div>
+				<div class="list-purchase" th:each = "item : ${purchaseItem}">
+				<input type="hidden" th:id = "${item.cartItemId}"/>
+					<div class="list__purchase">
+						<div class="purchase__info">
+							<!-- new -->
+							<div class="h3ONzh EOqcX3">
+								<img th:src="${item.variant.product.getUriImages().get(0)}" alt="#" width="80" height="80">
+								<span class="oEI3Ln"> <span class="gHbVhc" 
+								th:text = "${item.variant.product.name}">Product Name</span>
+								</span>
+							</div>
+							<div class="h3ONzh Le31ox">
+								<span class="dVLwMH" th:text = "${item.variant.name}">Size: 110cm</span>
+							</div>
+							<div class="h3ONzh" th:text = "${item.variant.product.getSalePrice() + '.000VND'}">₫55.000</div>
+							<div class="h3ONzh" th:text= "${item.quantity}">1</div>
+							<div class="h3ONzh fHRPUO" th:text = "${item.variant.product.getSalePrice()*item.quantity + '.000VND'}">₫55.000</div>
+						</div>
+					</div>
+					<div class="Nivkv-">
+						<div class="ULZMSb">
+							<div class="z10ZuQ">Total Amount:</div>
+							<div class="_9F3E9v" th:text = "${item.variant.product.getSalePrice()*item.quantity + '.000VND'}">₫55.000</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- payment-->
+			<div class="DS2ZYY">
+				<div class="KQyCj0" aria-live="polite">
+					<h3 class="Tc17Ac XIEGGF cGuAa1">Total payment:</h3>
+					<div class="Tc17Ac kC0GSn mCEcIy cGuAa1" th:text = "${totalAmount + '.000VND'}">₫450.000</div>
+					<div class="uTFqRt">
+						<button class="button-solid button-solid--primary">
+							<span class="TTXpRG">Order</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="list-purchase">
-                    <div class="list__purchase">
-                        <div class="purchase__info">
-                            <!-- new -->
-                            <div class="h3ONzh EOqcX3">
-                                <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                <span class="oEI3Ln">
-                                    <span class="gHbVhc">Hehehehehehehehehe</span>
-                                </span>
-                            </div>
-                            <div class="h3ONzh Le31ox"><span class="dVLwMH">Size: 110cm</span></div>
-                            <div class="h3ONzh">₫55.000</div>
-                            <div class="h3ONzh">1</div>
-                            <div class="h3ONzh fHRPUO">₫55.000</div>
-                        </div>
-                    </div>
-                    <div class="Nivkv-">
-                        <div class="ULZMSb">
-                            <div class="z10ZuQ">Total Amount:</div>
-                            <div class="_9F3E9v">₫55.000</div>
-                        </div>
-                    </div>
-                </div>
+		<div id="popup">
+			<div class="pop__up"></div>
+			<div class="pop_up_address">
+				<div
+					class="G-rPVC d-flex flex-column justify-content-between bg-white">
+					<div class="stardust-spinner--hidden stardust-spinner">
+						<div class="stardust-spinner__background">
+							<div class="stardust-spinner__main" role="img">
+								<svg width="34" height="12" viewBox="-1 0 33 12">
+                                <circle
+										class="stardust-spinner__spinner" cx="4" cy="6" r="4"
+										fill="#EE4D2D"></circle>
+                                <circle
+										class="stardust-spinner__spinner" cx="16" cy="6" r="4"
+										fill="#EE4D2D"></circle>
+                                <circle
+										class="stardust-spinner__spinner" cx="28" cy="6" r="4"
+										fill="#EE4D2D"></circle>
+                            </svg>
+							</div>
+						</div>
+					</div>
+					<div class="EHan+5 pb-3">
+						<div class="GsuIol">Address</div>
+						<div class="box__address" th:each = "location : ${customer.locations}">
+							<input type="radio" th:id="${location.locationId}" name="address" th:value="${location.locationId}" th:checked = "${location.status == 'DEFAULT'}">
+							<label th:for="${location.locationId}">
+								<div class="RnMqRZ OIBd-J">
+									<div class="_70j3aj">
+										<div role="heading" class="_7lC5y1 fVHv1Z">
+											<div
+												id="address-card_9dcf0617-ed87-4c9d-8f2c-8bdada061819_header"
+												class="XBSydm DikMLj">
+												<span class="Tv2wKj uBRQwt">
+													<div class="YD3W3V fristA" th:text = "${customer.fullName}">Đào Quang Duy</div>
+												</span>
+												<div class="xbIya3"></div>
+												<div role="row" class="Ayh0hN L8KYK3 IsnjAd fristA" th:text= "${location.phoneNumber}">(+84)
+													829853338</div>
+											</div>
 
-                <div class="list-purchase">
-                    <div class="list__purchase">
-                        <div class="purchase__info">
-                            <!-- new -->
-                            <div class="h3ONzh EOqcX3">
-                                <img src="../image/seele.jpg" alt="#" width="80" height="80">
-                                <span class="oEI3Ln">
-                                    <span class="gHbVhc">Hehehehehehehehehe</span>
-                                </span>
-                            </div>
-                            <div class="h3ONzh Le31ox"><span class="dVLwMH">Size: 110cm</span></div>
-                            <div class="h3ONzh">₫55.000</div>
-                            <div class="h3ONzh">1</div>
-                            <div class="h3ONzh fHRPUO">₫55.000</div>
-                        </div>
-                    </div>
-                    <div class="Nivkv-">
-                        <div class="ULZMSb">
-                            <div class="z10ZuQ">Total Amount:</div>
-                            <div class="_9F3E9v">₫55.000</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- payment-->
-            <div class="DS2ZYY">
-                <div class="DQ7t9K">
-                    <div>
-                        <div class="checkout-payment-method-view__current checkout-payment-setting">
-                            <div class="checkout-payment-method-view__current-title">Payment Method</div>
-                            <div class="checkout-payment-setting__payment-methods-tab">
-                                <div role="radiogroup">
-                                    <span>
-                                        <button class="product-variation product-variation--selected" tabindex="0"
-                                            role="radio" aria-label="Pay when the buyer receives the goods"
-                                            aria-disabled="false" aria-checked="true">
-                                            Pay when the buyer receives the goods
-                                        </button>
-                                    </span>
-                                </div>
-                                <div aria-live="polite"></div>
-                            </div>
-                        </div>
-                        <div class="checkout-payment-setting__payment-method-options"></div>
-                    </div>
-                </div>
-                <div class="KQyCj0" aria-live="polite">
-                    <h3 class="Tc17Ac XIEGGF BcITa9">Total amount of goods</h3>
-                    <div class="Tc17Ac mCEcIy BcITa9">₫400.000</div>
-                    <h3 class="Tc17Ac XIEGGF RY9Grr">Delivery Fee</h3>
-                    <div class="Tc17Ac mCEcIy RY9Grr">₫50.000</div>
-                    <h3 class="Tc17Ac XIEGGF cGuAa1">Total payment:</h3>
-                    <div class="Tc17Ac kC0GSn mCEcIy cGuAa1">₫450.000</div>
-                    <div class="uTFqRt">
-                        <div class="k4VpYA">
-                            <div class="C-NSr-">
-                                Clicking "Order" means that you agree to comply
-                                <a href="#" target="_blank" rel="noopener noreferrer">Baby Shop Terms</a>
-                            </div>
-                        </div>
-                        <button class="button-solid button-solid--primary">
-                            <span class="TTXpRG">Order</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+										</div>
+										<div
+											id="address-card_9dcf0617-ed87-4c9d-8f2c-8bdada061819_content"
+											role="heading" class="_7lC5y1 fVHv1Z">
+											<div class="XBSydm DikMLj">
+												<div class="tiDOor">
+													<div role="row" class="IsnjAd secondA" th:text = "${location.address}">Miếu Vàng Thôn
+														Vàng</div>
+													
+												</div>
+											</div>
 
-        </div>
-        <!--footer-->
-        <footer th:insert="~{home :: footer}"></footer>
-        <div th:insert="~{home :: uptop}"></div>
+										</div>
+
+									</div>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="btn-box">
+						<button class="btn-cancel">Cancel</button>
+						<button class="btn-confirm">Confirm</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--footer-->
+	<footer th:insert="~{home :: footer}"></footer>
+	<div th:insert="~{home :: uptop}"></div>
 </body>
 <script th:src="@{/js/purchase.js}"></script>
 <script th:src="@{/js/script.js}"></script>

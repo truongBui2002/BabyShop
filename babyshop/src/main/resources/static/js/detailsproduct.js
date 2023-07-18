@@ -74,192 +74,195 @@ feedbacks.forEach((feedback) => {
 
 	listImages.style.transition = "all 0ms ease 0s";
 	listImages.style.width = '0px';
-
-	imageWrappers.forEach(function(imageWrapper) {
-		imageWrapper.addEventListener('click', function() {
-			imageWrappers.forEach(function(img1) {
-				if (img1 !== imageWrapper) {
-					img1.classList.remove('rating-media-list__image-wrapper--active');
-					img1.classList.add('rating-media-list__image-wrapper--inactive');
+	if (imageWrappers.length > 0) {
+		imageWrappers.forEach(function(imageWrapper) {
+			imageWrapper.addEventListener('click', function() {
+				imageWrappers.forEach(function(img1) {
+					if (img1 !== imageWrapper) {
+						img1.classList.remove('rating-media-list__image-wrapper--active');
+						img1.classList.add('rating-media-list__image-wrapper--inactive');
+					}
+				});
+				if (imageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
+					imageWrapper.classList.remove('rating-media-list__image-wrapper--active');
+					imageWrapper.classList.add('rating-media-list__image-wrapper--inactive');
+				} else {
+					imageWrapper.classList.add('rating-media-list__image-wrapper--active');
+					imageWrapper.classList.remove('rating-media-list__image-wrapper--inactive');
+				}
+				//active zoom in property
+				if (imageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
+					imageZoomed.classList.add('rating-media-list__zoomed-image--active');
+				} else {
+					imageZoomed.classList.remove('rating-media-list__zoomed-image--active');
 				}
 			});
-			if (imageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
-				imageWrapper.classList.remove('rating-media-list__image-wrapper--active');
-				imageWrapper.classList.add('rating-media-list__image-wrapper--inactive');
-			} else {
-				imageWrapper.classList.add('rating-media-list__image-wrapper--active');
-				imageWrapper.classList.remove('rating-media-list__image-wrapper--inactive');
-			}
-			//active zoom in property
-			if (imageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
-				imageZoomed.classList.add('rating-media-list__zoomed-image--active');
-			} else {
-				imageZoomed.classList.remove('rating-media-list__zoomed-image--active');
-			}
 		});
-	});
 
-	var imgSpecZoomed = feedback.querySelectorAll('.rating-media-list-image-carousel__item');
+		var imgSpecZoomed = feedback.querySelectorAll('.rating-media-list-image-carousel__item');
 
-	imageWrappers.forEach(function(img) {
-		img.addEventListener('click', zoomEv);
-	});
-	function zoomEv() {
-		if (imageWrappers.length === imgSpecZoomed.length) {
+		imageWrappers.forEach(function(img) {
+			img.addEventListener('click', zoomEv);
+		});
+		function zoomEv() {
+			if (imageWrappers.length === imgSpecZoomed.length) {
+				for (var i = 0; i < imageWrappers.length; i++) {
+					if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
+
+						listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
+						ratingListImage.style.marginLeft = -(imgSpecZoomed[i].clientWidth) * i + 'px';
+						marginLeftRatingImage = -(imgSpecZoomed[i].clientWidth) * i;
+					}
+				}
+
+			}
+
+		}
+		imageWrappers.forEach(function(e) {
+			e.addEventListener('click', resetRatingMediaList);
+		});
+
+		var firstImageWrapper = imageWrappers[0];
+		var lastImageWrapper = imageWrappers[imageWrappers.length - 1];
+
+
+		firstImageWrapper.addEventListener('click', hiddenPrev);
+		function hiddenPrev() {
+			if (arrowPrev.style.visibility === 'visible') {
+				arrowPrev.style.visibility = 'hidden';
+				arrowNext.style.visibility = 'visible';
+			}
+		}
+		lastImageWrapper.addEventListener('click', hiddenNext);
+		function hiddenNext() {
+			if (arrowNext.style.visibility === 'visible') {
+				arrowNext.style.visibility = 'hidden';
+				arrowPrev.style.visibility = 'visible';
+			}
+		}
+
+
+		function resetRatingMediaList() {
+			if (!imageZoomed.classList.contains('rating-media-list__zoomed-image--active')) {
+				marginLeftRatingImage = 0;
+				ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
+			}
+			for (var i = 1; i < imageWrappers.length - 1; i++) {
+				arrowPrev.style.visibility = 'visible';
+				arrowNext.style.visibility = 'visible';
+			}
+		}
+
+
+		// make left and right click for zoomed image
+		arrowPrev.addEventListener('click', arrowPrevClick);
+		arrowPrev.addEventListener('click', firstImgZoomed);
+
+		function arrowPrevClick() {
+			arrowNext.style.visibility = 'visible';
 			for (var i = 0; i < imageWrappers.length; i++) {
-				if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
+				if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active')) {
 
-					listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
-					ratingListImage.style.marginLeft = -(imgSpecZoomed[i].clientWidth) * i + 'px';
-					marginLeftRatingImage = -(imgSpecZoomed[i].clientWidth) * i;
+					imageWrappers[i].classList.remove('rating-media-list__image-wrapper--active');
+					imageWrappers[i].classList.add('rating-media-list__image-wrapper--inactive');
+					imageWrappers[i - 1].classList.add('rating-media-list__image-wrapper--active');
+					imageWrappers[i - 1].classList.remove('rating-media-list__image-wrapper--inactive');
+					break;
 				}
 			}
-
-		}
-
-	}
-	imageWrappers.forEach(function(e) {
-		e.addEventListener('click', resetRatingMediaList);
-	});
-
-	var firstImageWrapper = imageWrappers[0];
-	var lastImageWrapper = imageWrappers[imageWrappers.length - 1];
+			if (imageWrappers.length === imgSpecZoomed.length) {
+				for (var i = 0; i < imageWrappers.length; i++) {
+					if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
 
 
-	firstImageWrapper.addEventListener('click', hiddenPrev);
-	function hiddenPrev() {
-		if (arrowPrev.style.visibility === 'visible') {
-			arrowPrev.style.visibility = 'hidden';
-			arrowNext.style.visibility = 'visible';
-		}
-	}
-	lastImageWrapper.addEventListener('click', hiddenNext);
-	function hiddenNext() {
-		if (arrowNext.style.visibility === 'visible') {
-			arrowNext.style.visibility = 'hidden';
-			arrowPrev.style.visibility = 'visible';
-		}
-	}
-
-
-	function resetRatingMediaList() {
-		if (!imageZoomed.classList.contains('rating-media-list__zoomed-image--active')) {
-			marginLeftRatingImage = 0;
-			ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
-		}
-		for (var i = 1; i < imageWrappers.length - 1; i++) {
-			arrowPrev.style.visibility = 'visible';
-			arrowNext.style.visibility = 'visible';
-		}
-	}
-
-
-	// make left and right click for zoomed image
-	arrowPrev.addEventListener('click', arrowPrevClick);
-	arrowPrev.addEventListener('click', firstImgZoomed);
-
-	function arrowPrevClick() {
-		arrowNext.style.visibility = 'visible';
-		for (var i = 0; i < imageWrappers.length; i++) {
-			if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active')) {
-
-				imageWrappers[i].classList.remove('rating-media-list__image-wrapper--active');
-				imageWrappers[i].classList.add('rating-media-list__image-wrapper--inactive');
-				imageWrappers[i - 1].classList.add('rating-media-list__image-wrapper--active');
-				imageWrappers[i - 1].classList.remove('rating-media-list__image-wrapper--inactive');
-				break;
-			}
-		}
-		if (imageWrappers.length === imgSpecZoomed.length) {
-			for (var i = 0; i < imageWrappers.length; i++) {
-				if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
-
-
-					listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
-					marginLeftRatingImage = marginLeftRatingImage + imgSpecZoomed[i].clientWidth;
-					ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
-				}
-			}
-		}
-	}
-	function firstImgZoomed() {
-		if (firstImageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
-			arrowNext.style.visibility = 'visible';
-			arrowPrev.style.visibility = 'hidden';
-		}
-	}
-
-	//next
-	arrowNext.addEventListener('click', arrowNextClick);
-	arrowNext.addEventListener('click', arrowNextSmallImg);
-	arrowNext.addEventListener('click', lastImgZoomed);
-
-	function arrowNextClick() {
-		arrowPrev.style.visibility = 'visible';
-		if (imageWrappers.length === imgSpecZoomed.length) {
-			for (var i = 0; i < imageWrappers.length; i++) {
-				if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
-					// console.log('Index:', i);
-					// console.log('Element 1:', imageWrappers[i]);
-					// console.log('Element 2:', imgSpecZoomed[i].clientWidth);
-
-					listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
-					marginLeftRatingImage = marginLeftRatingImage - imgSpecZoomed[i].clientWidth;
-					ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
+						listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
+						marginLeftRatingImage = marginLeftRatingImage + imgSpecZoomed[i].clientWidth;
+						ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
+					}
 				}
 			}
 		}
-	}
-	function arrowNextSmallImg() {
-		for (var i = 0; i < imageWrappers.length; i++) {
-			if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active')) {
-				imageWrappers[i].classList.remove('rating-media-list__image-wrapper--active');
-				imageWrappers[i].classList.add('rating-media-list__image-wrapper--inactive');
-				imageWrappers[i + 1].classList.add('rating-media-list__image-wrapper--active');
-				imageWrappers[i + 1].classList.remove('rating-media-list__image-wrapper--inactive');
-				break;
+		function firstImgZoomed() {
+			if (firstImageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
+				arrowNext.style.visibility = 'visible';
+				arrowPrev.style.visibility = 'hidden';
 			}
 		}
-	}
-	function lastImgZoomed() {
-		if (lastImageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
-			arrowNext.style.visibility = 'hidden';
+
+		//next
+		arrowNext.addEventListener('click', arrowNextClick);
+		arrowNext.addEventListener('click', arrowNextSmallImg);
+		arrowNext.addEventListener('click', lastImgZoomed);
+
+		function arrowNextClick() {
 			arrowPrev.style.visibility = 'visible';
+			if (imageWrappers.length === imgSpecZoomed.length) {
+				for (var i = 0; i < imageWrappers.length; i++) {
+					if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active') && imgSpecZoomed[i].classList.contains('rating-media-list-image-carousel__item')) {
+						// console.log('Index:', i);
+						// console.log('Element 1:', imageWrappers[i]);
+						// console.log('Element 2:', imgSpecZoomed[i].clientWidth);
+
+						listImages.style.width = imgSpecZoomed[i].clientWidth + 'px';
+						marginLeftRatingImage = marginLeftRatingImage - imgSpecZoomed[i].clientWidth;
+						ratingListImage.style.marginLeft = marginLeftRatingImage + 'px';
+					}
+				}
+			}
 		}
-	}
+		function arrowNextSmallImg() {
+			for (var i = 0; i < imageWrappers.length; i++) {
+				if (imageWrappers[i].classList.contains('rating-media-list__image-wrapper--active')) {
+					imageWrappers[i].classList.remove('rating-media-list__image-wrapper--active');
+					imageWrappers[i].classList.add('rating-media-list__image-wrapper--inactive');
+					imageWrappers[i + 1].classList.add('rating-media-list__image-wrapper--active');
+					imageWrappers[i + 1].classList.remove('rating-media-list__image-wrapper--inactive');
+					break;
+				}
+			}
+		}
+		function lastImgZoomed() {
+			if (lastImageWrapper.classList.contains('rating-media-list__image-wrapper--active')) {
+				arrowNext.style.visibility = 'hidden';
+				arrowPrev.style.visibility = 'visible';
+			}
+		}
 
 
-	var carouselArrowMouseIn = feedback.querySelector(".rating-media-list-image-carousel__item-list-wrapper");
-	var carouselArrowMouseIns = feedback.querySelectorAll('.rating-media-list-carousel-arrow');
-	var carouselArrows = feedback.querySelectorAll(".rating-media-list-carousel-arrow");
+		var carouselArrowMouseIn = feedback.querySelector(".rating-media-list-image-carousel__item-list-wrapper");
+		var carouselArrowMouseIns = feedback.querySelectorAll('.rating-media-list-carousel-arrow');
+		var carouselArrows = feedback.querySelectorAll(".rating-media-list-carousel-arrow");
 
-	carouselArrowMouseIns.forEach(function(e) {
-		e.addEventListener("mousemove", function() {
+		carouselArrowMouseIns.forEach(function(e) {
+			e.addEventListener("mousemove", function() {
+				carouselArrows.forEach(function(carouselArrow) {
+					carouselArrow.classList.remove('rating-media-list-carousel-arrow--hint');
+				});
+			});
+		});
+		carouselArrowMouseIns.forEach(function(e) {
+			e.addEventListener("mouseout", function() {
+				carouselArrows.forEach(function(carouselArrow) {
+					carouselArrow.classList.add('rating-media-list-carousel-arrow--hint');
+				});
+			});
+		});
+
+		carouselArrowMouseIn.addEventListener("mousemove", function() {
+
 			carouselArrows.forEach(function(carouselArrow) {
 				carouselArrow.classList.remove('rating-media-list-carousel-arrow--hint');
 			});
 		});
-	});
-	carouselArrowMouseIns.forEach(function(e) {
-		e.addEventListener("mouseout", function() {
+
+		carouselArrowMouseIn.addEventListener("mouseout", function() {
 			carouselArrows.forEach(function(carouselArrow) {
 				carouselArrow.classList.add('rating-media-list-carousel-arrow--hint');
 			});
 		});
-	});
+	}
 
-	carouselArrowMouseIn.addEventListener("mousemove", function() {
 
-		carouselArrows.forEach(function(carouselArrow) {
-			carouselArrow.classList.remove('rating-media-list-carousel-arrow--hint');
-		});
-	});
-
-	carouselArrowMouseIn.addEventListener("mouseout", function() {
-		carouselArrows.forEach(function(carouselArrow) {
-			carouselArrow.classList.add('rating-media-list-carousel-arrow--hint');
-		});
-	});
 
 	//button like
 	var likeBtn = feedback.querySelector('.product-rating__like-button');
@@ -359,19 +362,88 @@ listProductSliders.forEach((listProductSlider) => {
 //     if(arrowProductLists[1].scrollLeft)
 // }
 
+
+//Set default size checked
+var size = document.querySelectorAll('input[name="size"][type="radio"]');
+var i = 1; //checked cái đầu tiên
+size.forEach(sz => {
+	if (!sz.disabled && i == 1) {
+		sz.setAttribute('checked', 'true')
+		i++;
+	}
+});
 // add to cart
 var submitToCart = document.querySelector('#submit-button');
-console.log('abc');
+
+// i=1 -> toàn bộ là disable -> tất cả các size đều hết hàng -> không bấm được add to cart
+if (i == 1) {
+	submitToCart.style.pointerEvents = 'none';
+}
 submitToCart.addEventListener('click', () => {
-	var size = document.querySelector('input[name="size"][type="radio"]:checked');
-	//console.log(size)
-	console.log(size.id);
-	addToCart();
+	var variantId = document.querySelector('input[name="size"][type="radio"]:checked').id; //variantId
+	//var productId = document.querySelector('input[name="productId"]').value; //productId
+	authen().then(result => {
+		if (result == 'true') {
+			comfirmAddToCart(variantId);
+		} else {
+			location.href = '/login';
+		}
+	}).catch(error => {
+		console.log(error);
+	});
+
+
 });
-function addToCart() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/product/cart");
-	xhr.send();
+function comfirmAddToCart(variantId) {
+	var quantityCart = document.querySelector('.cartmini_qty');
+	var limited = document.querySelector('.limited');
+	addToCart(variantId).then(result=>{
+		var data = JSON.parse(result);
+		console.log(data);
+		var stLimited = data[0]; //kiểu boolean: trả về xem sản phẩm vừa bấm đã tới giới hạn chưa
+		var stquantityCart = data[1]
+		//cần xử lí khi đạt giới hạn ở đây
+		if(stLimited){
+			limited.innerHTML = "The number of products has reached the limit."; 
+		}else{
+			limited.innerHTML ="";
+		}
+		quantityCart.innerHTML = stquantityCart;
+	});
+}
+function addToCart(variantId) {
+	return new Promise((resolve, reject) => {
+		var xhr = new XMLHttpRequest();
+		xhr.open("PUT", "/product/cart");
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+				resolve(xhr.response);// 
+				console.log(xhr.response);
+			}
+		};
+		xhr.onerror = function() {
+			reject(xhr.statusText);// xảy ra nếu lỗi
+		};
+		xhr.send(variantId);
+	})
+}
+function authen() {
+	//Promise: đối tượng xử lí bất đồng bộ
+	return new Promise((resolve, reject) => {
+		var url = location.href;
+		var xhr = new XMLHttpRequest();
+		xhr.open("PUT", "/product/cart/authen");
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+				resolve(xhr.response);// 
+				//console.log(xhr.response);
+			}
+		};
+		xhr.onerror = function() {
+			reject(xhr.statusText);// xảy ra nếu lỗi
+		};
+		xhr.send(url);
+	});
 }
 
 

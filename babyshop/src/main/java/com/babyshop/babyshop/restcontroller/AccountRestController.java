@@ -1,8 +1,9 @@
-package com.babyshop.babyshop.controller;
+package com.babyshop.babyshop.restcontroller;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,7 +68,6 @@ public class AccountRestController {
 			array = obj.readValue(data, String[].class);
 			String email = (String) session.getAttribute("emailVerifier");
 			String code = (String) session.getAttribute("code");
-			System.out.println(code);
 			LocalDateTime start = (LocalDateTime) session.getAttribute("start");
 			if (email != null && code != null && start != null) {
 				LocalDateTime end = LocalDateTime.now();

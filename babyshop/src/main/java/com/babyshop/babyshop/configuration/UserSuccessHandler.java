@@ -1,10 +1,12 @@
 package com.babyshop.babyshop.configuration;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,7 +57,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		RandomKey randomKey = new RandomKey();
-		String redirectUrl = null;
+		String redirectUrl ="/user/viewprofile";;
 		if (authentication.getPrincipal() instanceof OidcUser) {
 			CustomOidcUser customOidcUser = (CustomOidcUser) authentication.getPrincipal();
 			String email = customOidcUser.getEmail();
@@ -76,10 +78,15 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 			User user = (User) authentication.getPrincipal();
 			session.setAttribute("user", user);
 		}
-		redirectUrl = "/user/viewprofile";
-
+		String urlProductPre = (String)session.getAttribute("urlProductPre");
+		if(urlProductPre!=null) {
+			redirectUrl = urlProductPre;
+		}
+//		List<SimpleGrantedAuthority> list = (List<SimpleGrantedAuthority>)authentication.getAuthorities();
+//		System.out.println("ROLE: " + list.get(0).getAuthority());
 		// chuyển tiếp tới địa chỉ
-		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
+		response.sendRedirect(redirectUrl);
+		//new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 //	"sub": ID của người dùng trên Google
 //	"name": Tên đầy đủ của người dùng

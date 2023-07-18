@@ -13,6 +13,8 @@ import com.babyshop.babyshop.service.BrandService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping(path = "")
 public class HomeController {
@@ -40,13 +42,6 @@ public class HomeController {
 		return "afterresetbyphone";
 
 	}
-	
-
-	@GetMapping("/cart")
-	public String cart(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		return "cart";
-	}
 
 	@GetMapping("/purchase")
 	public String purchase(ModelMap modelMap) {
@@ -57,6 +52,14 @@ public class HomeController {
 	@GetMapping("/error/e1")
 	public String errorE1() {
 		return "error/fourE";
+	}
+	
+	@RequestMapping("/xyz123")
+	public String yourMethod(HttpServletRequest request, ModelMap modelMap) {
+	    String referer = request.getHeader("Referer");
+	    System.out.println("referer: " + referer);
+	    loadDataController.loadData(modelMap);
+		return "home";
 	}
 	
 }
