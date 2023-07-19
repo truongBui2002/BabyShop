@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import com.babyshop.babyshop.controller.ImageController;
 import com.babyshop.babyshop.util.Status;
 
+import org.hibernate.annotations.Where;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
@@ -37,6 +39,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product")
+@Where(clause = "status = 'UNLOCK'") // <> là dấu khác
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,6 +97,7 @@ public class Product {
 	private Subcategory subcategory;
 	
 	@OneToOne(mappedBy = "product")
+	@EqualsAndHashCode.Exclude
 	private ProductInfo productInfo;
 	
 	@OneToMany(mappedBy = "product")
@@ -101,7 +105,7 @@ public class Product {
 	
 	@OneToMany(mappedBy = "product")
 	private List<Feedback> feedbacks;
-	
+	 
 	@OneToMany(mappedBy = "product")
 	private List<OrderDetails> orderDetails;
 	

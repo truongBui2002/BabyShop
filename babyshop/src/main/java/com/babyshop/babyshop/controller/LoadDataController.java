@@ -9,18 +9,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import com.babyshop.babyshop.models.Brand;
+import com.babyshop.babyshop.models.Cart;
+import com.babyshop.babyshop.models.CartItem;
 import com.babyshop.babyshop.models.Category;
+import com.babyshop.babyshop.models.Customer;
 import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.models.Subcategory;
+import com.babyshop.babyshop.models.User;
 import com.babyshop.babyshop.service.BrandService;
 import com.babyshop.babyshop.service.CategoryService;
 import com.babyshop.babyshop.service.CookiesService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
+import com.babyshop.babyshop.service.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Component
 public class LoadDataController {
@@ -45,6 +51,12 @@ public class LoadDataController {
 	@Autowired
 	HttpServletResponse response;
 	
+	@Autowired
+	HttpSession session;
+	
+	@Autowired
+	UserService userService;
+	
 	public void loadData(ModelMap modelMap) {
 		List<Category> categories = categoryService.getAll();
 		Subcategory subcategoryR1 = subcategoryService.getByName("Dresses");
@@ -52,6 +64,7 @@ public class LoadDataController {
 		List<Product> productsSale = productService.getProductBySale(1);
 		List<Brand> brands = brandsService.getAll();
 		List<String> favorites = favorite();
+		String sizeCart = loadSizeCart();
 		
 		modelMap.addAttribute("categories", categories);
 		modelMap.addAttribute("subcategoryR1", subcategoryR1);
@@ -59,6 +72,7 @@ public class LoadDataController {
 		modelMap.addAttribute("productsSale", productsSale);
 		modelMap.addAttribute("brands", brands);
 		modelMap.addAttribute("favorites", favorites);
+		modelMap.addAttribute("sizeCart", sizeCart);
 	}
 	
 	public void loadFilter(ModelMap modelMap) {
@@ -145,10 +159,26 @@ public class LoadDataController {
 				if (cookie.getName().equals("FAVORITE")) {
 					favorites = cookie.getValue();
 				}
-			}
+			} 
 		}
 		List<String> favorite = Arrays.asList(favorites.split("C"));
 		return favorite;
 	}
-	
+	public String loadSizeCart() {
+		User user = (User)session.getAttribute("user");
+		if(user!=null) {
+			user = userService.getUserById(user.getUserId());
+			Customer customer = user.getCustomer();
+			if(customer!=null) {
+				Cart cart = customer.getCart();
+				if(cart!=null) {
+					List<CartItem> cartItems = cart.getCartItem();
+					if(!cartItems.isEmpty()) {
+						return cartItems.size() +"";
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

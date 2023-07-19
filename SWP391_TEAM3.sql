@@ -28,7 +28,7 @@ CREATE TABLE `user` (
   `full_name` varchar(255) CHARSET utf8mb4, 
   `image_id` int,
   `dob` date,
-  `status` varchar(255),
+  `status` varchar(255) DEFAULT "UNLOCK",
   `gender` boolean DEFAULT false,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -83,7 +83,7 @@ CREATE TABLE `product` (
   `brand_id` int,
   `subcategory_id` int,
   `discount` double,
-  `status` varchar(255) DEFAULT "UNLOCK",
+  `status` varchar(255) DEFAULT "UNLOCK", -- LOCK
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(product_id)
@@ -137,6 +137,7 @@ CREATE TABLE `orders` (
   `order_id` int AUTO_INCREMENT,
   `code` varchar(255),
   `customer_id` int,
+  `location_id` int,
   `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -229,6 +230,24 @@ CREATE TABLE `image_feedback` (
   PRIMARY KEY(image_feedback_id)
 );
 
+CREATE TABLE `cart` (
+	`cart_id` int AUTO_INCREMENT,
+    `customer_id`int,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+    `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(cart_id)
+);
+
+CREATE TABLE `cart_item`(
+	`cart_item_id` int AUTO_INCREMENT,
+    `cart_id` int,
+	`variant_id`int,
+    `quantity`int,
+    `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+    `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(cart_item_id)
+);
+
 ALTER TABLE `user` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `user_role` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
@@ -237,12 +256,14 @@ ALTER TABLE `user_role` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`
 
 ALTER TABLE `orders` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
 
+ALTER TABLE `orders` ADD FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`);
+
 ALTER TABLE `brand` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `product` ADD FOREIGN KEY (`brand_id`) REFERENCES `brand` (`brand_id`);
 
 ALTER TABLE `product` ADD FOREIGN KEY (`subcategory_id`) REFERENCES `subcategory` (`subcategory_id`);
---
+
 ALTER TABLE `product_info` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 ALTER TABLE `subcategory` ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
@@ -285,15 +306,23 @@ ALTER TABLE `image_feedback` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`i
 
 ALTER TABLE `image_feedback` ADD FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`);
 
+ALTER TABLE `cart` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+
+ALTER TABLE `cart_item` ADD FOREIGN KEY (`variant_id`) REFERENCES `variant` (`variant_id`);
+
+ALTER TABLE `cart_item` ADD FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`);
+
 -- SET UTF-8
 ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- INSERT USER
 -- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
-INSERT user(email, password, phone_number) VALUES("buivantruong16082002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608"); -- ROLE_CUSTOMER
-INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761607"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082000@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654920"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0387958478"); -- ROLE_CUSTOMER
 INSERT user(email, password, phone_number) VALUES("buivantruong16081001@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761609"); -- ROLE_STAFF
-INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654920"); -- ROLE_ADMIN
+INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654921"); -- ROLE_ADMIN
+-- INSERT user(email, password, phone_number) VALUES("buivantruong16082004@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761617"); -- ROLE_CUSTOMER
+-- INSERT user(email, password, phone_number) VALUES("buivantruong16082005@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761627"); -- ROLE_CUSTOMER
 
 -- INSERT USER
 INSERT role(name) VALUES("ROLE_CUSTOMER");
@@ -391,20 +420,6 @@ INSERT subcategory(name, category_id) VALUES ("Stationery", 8);
 INSERT subcategory(name, category_id) VALUES ("First Toys & Baby Toys", 8);
 INSERT subcategory(name, category_id) VALUES ("Costumes", 8);
 
--- Outlet
--- INSERT subcategory(name, category_id) VALUES ("Outlet", 9);
-
--- Green Page
--- INSERT subcategory(name, category_id) VALUES ("Recycled Material", 10);
--- INSERT subcategory(name, category_id) VALUES ("Responsible Wood", 10);
--- INSERT subcategory(name, category_id) VALUES ("Organic Material", 10);
--- INSERT subcategory(name, category_id) VALUES ("Responsible Animal Welfare", 10);
-
--- Magazine
--- INSERT subcategory(name, category_id) VALUES ("Magazine", 11);
-
-
-
 -- INSERT 6 PRODUCT
 INSERT image(name) VALUES ("Absorba.jpg");
 
@@ -432,7 +447,6 @@ INSERT image_product(product_id, image_id) VALUES(1, 5);
 
 -- product_info
 INSERT product_info(product_id, age_range, gender, color, style) VALUES(1, '0-3 months', 'Unisex', 'Cream', '');
-
 
 -- variant
 INSERT variant(product_id, name, quantity) VALUES( 1, '50 cm', 2);
@@ -1466,17 +1480,22 @@ UPDATE subcategory set description = "Newborn toys and baby toys need to be chos
 UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 159  where subcategory_id = 51; -- cần sửa subcategory_id và description theo ảnh img đã chèn
 UPDATE subcategory set description = "Newborn toys and baby toys need to be chosen carefully and be safe for your child. We have a wide selection for any age to make sure your little ones have the perfect toys to encourage their development. Whether you are looking for a playmat, a cuddly blanket, a music toy or a classic wooden toy for you or for a gift we got you covered!", image_id = 160  where subcategory_id = 52; -- cần sửa subcategory_id và description theo ảnh img đã chèn
 
+-- INSERT LOCAIION
+INSERT location(customer_id, address, phone_number, status) VALUES(1, '(nhà nghỉ đồi sim)  Thôn 2 - Tân Xã - Thạch Thất - Hà Nội', '0384761608', 'DEFAULT');
+INSERT location(customer_id, address, phone_number, status) VALUES(2, 'Phố Đông Phong - Phường Nam Bình - Thành Phố Ninh Bình', '0359654920', 'DEFAULT');
 -- INSERT ORDER
 -- COMPLETED : Hoàn thành
 -- SHIP : Đang giao
 -- WAIT : Chờ xác nhận
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 1, "");
+INSERT cart(customer_id) VALUES (1);
+INSERT cart(customer_id) VALUES (2);
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 1, 1, "");
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 1, 1, "");
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 1, 1, "");
 
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
-INSERT `orders` (code, customer_id, status) VALUES ("CODE_ABC", 2, "");
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 2, 2, "");
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 2, 2, "");
+INSERT `orders` (code, customer_id, location_id, status) VALUES ("CODE_ABC", 2, 2, "");
 
 
 -- ORDER-ID: 1
@@ -1535,7 +1554,6 @@ INSERT image(name) VALUES ("avatarwibu1.webp");
 INSERT image(name) VALUES ("avatarwibu2.jpg"); 
 UPDATE user SET image_id = 170 where user_id = 1;
 UPDATE user SET image_id = 171 where user_id = 1;
-
 SELECT * FROM swp391_team3.order_details;
 SELECT * FROM swp391_team3.variant;
 SELECT * FROM swp391_team3.product;

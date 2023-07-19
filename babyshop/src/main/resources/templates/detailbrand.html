@@ -35,14 +35,14 @@
             <h1 class="brand-heading" th:text = "${brand.name}">1+ in the family</h1>
             <div class="brand-description">
                 <div class="brand-description-box">
-                    <p th:text = "${brand.desciption}">
+                    <p th:text = "${brand.description}">
                         1+ IN THE FAMILY is a brand that specializes in creating comfortable, stylish, and versatile
                         garments for children. The brand's minimalistic designs and simple patterns are perfect for
                         small kids. Each collection is made with sustainable materials like organic cotton, lyocell, and
                         linen. Shop 1+ IN THE FAMILY for high-quality, sustainable fashion for your little ones.
                     </p>
                 </div>
-            </div>
+            </div> 
             <div class="total-product">
                 <p>Total: </p>
                 <span>[[${products.size()}]] products</span>
@@ -52,7 +52,7 @@
                     <div class="product-card">
                         <a th:href="@{'/product/details/' + ${product.productId}}" class="product_image_link">
                             <div class="image_block">
-                                <img th:src="${product.images.get(0)}"> 
+                                <img th:src="${product.getUriImages().get(0)}"> 
                                 <!--  <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy">-->
                             </div>
                         </a>

@@ -14,6 +14,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -48,5 +49,6 @@ public class ProductInfo {
 	
 	@OneToOne
 	@JoinColumn(name = "product_id")
+	@EqualsAndHashCode.Exclude
 	private Product product;
 }

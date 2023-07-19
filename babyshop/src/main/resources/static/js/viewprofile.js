@@ -2,7 +2,7 @@
 var maleOption = document.getElementById('male');
 var femaleOption = document.getElementById('female');
 
-femaleOption.setAttribute("checked", "true");
+//femaleOption.setAttribute("checked", "true");
 
 const femaleFunc = (e) => {
     femaleOption.setAttribute("checked", "true");
@@ -58,9 +58,9 @@ for (var i = 1; i <= 31; i++) {
 // Populate the month dropdown
 var monthDropdown = document.getElementById("month");
 var months = [
-    "January", "February", "March", "April",
-    "May", "June", "July", "August",
-    "September", "October", "November", "December"
+    "1", "2", "3", "4",
+    "5", "6", "7", "8",
+    "9", "10", "11", "12"
 ];
 for (var j = 0; j < months.length; j++) {
     var option = document.createElement("option");
@@ -79,19 +79,18 @@ for (var k = currentYear; k >= 1900; k--) {
 
 
 //avatar
-
 const fileInput = document.querySelector('.type__image');
 const avatarPreview = document.querySelector('.image__link');
 
 fileInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
-
+	console.log(file);
     // Check if file size is within the limit (1MB)
     if (file && file.size <= 1024 * 1024) {
         const reader = new FileReader();
 
         reader.onload = function (event) {
-            //avatarPreview.style.backgroundImage = `url(${event.target.result})`;
+            //avatarPreview.style.backgroundImage = url(${event.target.result});
             avatarPreview.src = reader.result;
         };
 
@@ -109,6 +108,8 @@ const selectButton = document.querySelector('.btn_avatar');
 selectButton.addEventListener('click', function () {
     fileInput.click();
 });
+
+/* end avatar*/
 
 var a = document.querySelectorAll('.FEE-3D');
 console.log(a);

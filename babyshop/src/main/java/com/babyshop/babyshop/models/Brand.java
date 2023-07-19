@@ -1,10 +1,10 @@
 package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.Where;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
@@ -33,6 +33,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "brand")
+@Where(clause = "status = 'UNLOCK'")
 public class Brand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +44,10 @@ public class Brand {
 	private String name;
 	
 	@Column(name = "description")
-	private String desciption;
+	private String description;
 	
 	@Column(name = "status")
-	private String status ;
+	private String status = Status.UNLOCK;
 	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());
@@ -64,7 +65,7 @@ public class Brand {
 
 	public Brand(String name, String desciption, Image image) {
 		this.name = name;
-		this.desciption = desciption;
+		this.description = desciption;
 		this.image = image;
 	}
 	
@@ -79,5 +80,4 @@ public class Brand {
 		}
 		return "";
 	}
-
 }

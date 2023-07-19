@@ -80,6 +80,7 @@
                     </div>
                 </div>
                 <div class="main-product-info col-5">
+                <input type="hidden" name="productId" th:value="${product.productId}"/>
                     <div class="product-short-info">
                         <div class="product-discount">
                             <div class="discount_info" th:if = "${product.discount!=100}" th:text = "${product.discount + '%'}">40%</div>
@@ -233,11 +234,11 @@
                             </h2>
                             <div class="row row-cols-4 text-center size-switches" >
                                 <div class="col" th:each = "size : ${product.variant}">
-                                    <input type="radio" th:id="${size.name}" name="size" value="M" th:if = "${size.quantity} != 0" />
-                                    <label class="size-btn-box" th:for="${size.name}" th:if = "${size.quantity} != 0" th:text = "${size.name}">22 EU</label>
+                                    <input type="radio" th:id="${size.variantId}" name="size" th:value="${size.name}" th:if = "${size.quantity} != 0" />
+                                    <label class="size-btn-box" th:for="${size.variantId}"  th:if = "${size.quantity} != 0" th:text = "${size.name}">22 EU</label>
                                     
-                                    <input type="radio" th:id="${size.name}" name="size" value="M" disabled  th:if = "${size.quantity} == 0"/>
-                                    <label class="size-btn-box" th:for="${size.name}" th:if = "${size.quantity} == 0">[[${size.name}]]
+                                    <input type="radio" th:id="${size.variantId}" name="size" th:value="${size.name}" disabled  th:if = "${size.quantity} == 0"/>
+                                    <label class="size-btn-box" th:for="${size.variantId}" th:if = "${size.quantity} == 0">[[${size.name}]]
                                         <span class="size-disabled" ></span>
                                     </label>
                                 </div>
@@ -245,6 +246,7 @@
 
                         </div>
                     </div>
+                    <div class="limited" style="color: red;" ></div>
                     <button id="submit-button" class="btn-add-cart btn-hover ">
                         Add to cart
                     </button>
@@ -386,9 +388,9 @@
                 <div class="feedback-product__list" style="opacity: 1;"> <!-- change feedback make opactiy 0.6-->
                     <div class="product-comment-list" >
                     
-                    <!--   <div class="feedback-product_comment" th:each = "feedback : ${feedbacks}">
+                     <div class="feedback-product_comment" th:each = "feedback : ${feedbacks}">
                             <div class="product_comment__avatar">
-                            th:src="${feedback.customer.user.getUriAvatar()}"
+                           <!--  th:src="${feedback.customer.user.getUriAvatar()}" -->
                                 <img th:src="${feedback.customer.user.getUriAvatar()}" alt="Avatar User" width=50; height=50;>
                             </div>
                             <div class="product_comment__main">
@@ -400,7 +402,7 @@
 											      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
 											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
 											    </svg>
-											    Sao không đổi màu
+											    <!-- Sao không đổi màu -->
 											    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating" th:each="iteration : ${#numbers.sequence(1, 5-feedback.rateStar)}">
 											      <polygon fill="none" points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
 											        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
@@ -416,7 +418,7 @@
                                 <div class="product_rating_date" th:text = "${feedback.getTime()}"><span>2023-6-20 2:33PM</span></div>
                                 <div class="product_rating__comments">
                                     <div class="detail__comments" th:text = "${feedback.description}">
-                                        San pham dep qua
+                                       <!--  San pham dep qua -->
                                     </div>
                                 </div>
                                 <div class="product_rating_image_wrapper" >
@@ -424,7 +426,7 @@
                                         <div class="rating_image_list__container " >
                                             <div
                                                 class="rating-media-list__image-wrapper rating-media-list__image-wrapper--inactive"  th:if="${feedback.getUriImages().size()} != 0"  th:each = "image : ${feedback.getUriImages()}">
-                                                1 the nay la 1 anh
+                                               <!--  1 the nay la 1 anh -->
                                                 <div class="rating-media-list-image__wrapper">
                                                     <div class="rating-media-list-image__place-holder">
                                                         <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
@@ -464,11 +466,11 @@
                                         </div>
                                         <div class="rating-media-list__zoomed-image">
                                             <div class="rating-media-list-image-carousel">
-                                                width based on image element
+                                               <!--  width based on image element -->
                                                 <div class="rating-media-list-image-carousel__item-list-wrapper">
                                                     <ul class="rating-media-list-image-carousel__item-list"
                                                         style="margin-top: 0px; transition: all 500ms ease 0s;">
-                                                        change margin left if change image position
+                                                        <!-- change margin left if change image position -->
                                                         <li class="rating-media-list-image-carousel__item rating-media-list-image-carousel__item--fluid"
                                                             style="padding: 0px 0.625rem;"  th:if="${feedback.getUriImages().size()} != 0" th:each = "image : ${feedback.getUriImages()}">
                                                             <img th:src="${image}"
@@ -525,7 +527,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 
                 </div>
@@ -553,7 +555,7 @@
                 <div class="slider___items1">
                     <div class="slider-items-list1"  th:each = "proSl : ${productsSimilar}"> <!-- 1 the nay la 1 san pham-->
                         <div class="product-card">
-                            <a href="#" class="product_image_link">
+                            <a th:href="@{'/product/details/' +${proSl.productId}}" class="product_image_link">
                                 <div class="image_block">
                                     <img th:src="${proSl.getUriImages.get(0)}" alt="cac">
                                 </div>

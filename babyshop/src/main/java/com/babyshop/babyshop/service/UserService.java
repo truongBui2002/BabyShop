@@ -1,6 +1,7 @@
 package com.babyshop.babyshop.service;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -64,21 +65,15 @@ public class UserService implements UserDetailsService{
     	if(role == null) {
     		role = new Role(Permit.CUSTOMER);
     	} 
-    	for (User user1 : role.getUsers()) {
-			System.out.println("Truoc: " +user1.getEmail());
-		}
     	//Build user và lưu vào database
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	user.setRoles(Arrays.asList(role));
     	//merge lại vào trong JPA, lỗi này chịu :))
     	entityManager.merge(role);
-    	for (User user1 : role.getUsers()) {
-			System.out.println("Sau: " + user1.getEmail());
-		}
     	userRepository.save(user); 
     } 
     
-    public void save(User user) {
+    public void updatePass(User user) {
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	userRepository.save(user);
     }
@@ -87,5 +82,14 @@ public class UserService implements UserDetailsService{
     	User user1 = findByEmail(key);
     	User user2 = findByPhone(key);
     	return user1 != null || user2 != null ;
+    }
+    
+    public User getUserById(int userId) {
+    	Optional<User> user = userRepository.findById(userId);
+    	if(user.isPresent()) return user.get();
+    	return null;
+    }
+    public void save(User user) {
+    	userRepository.save(user);
     }
 }

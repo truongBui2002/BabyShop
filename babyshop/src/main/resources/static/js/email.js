@@ -37,7 +37,7 @@ function sendOTP() {
                     else {
                         otpInvalid.style.display = 'block';
                     }
-                })
+                }) 
             }
         }
     );

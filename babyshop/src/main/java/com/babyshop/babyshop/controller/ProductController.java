@@ -139,7 +139,7 @@ public class ProductController {
 		
 		session.setAttribute("products", listProByPage);
 
-		return "search :: search-product";
+		return "response/search";
 	}
 
 	@GetMapping("/product/details/{id}")
@@ -199,7 +199,7 @@ public class ProductController {
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);
 				}
-			}
+			} 
 		}
 		String newFavorites = cookiesService.addOrRemoveProductId(favorites, productId);
 		Cookie fvr = new Cookie("FAVORITE", newFavorites);

@@ -14,15 +14,14 @@ async function sendata(url, data) {
 	});
 	return value;
 }
-
 const firebaseConfig = {
-	apiKey: "AIzaSyBk8Rd-TIwUuwUoxjtcEqpiz043pcZVikE",
-	authDomain: "localhost",
-	projectId: "otp-project-9efb7",
-	storageBucket: "otp-project-9efb7.appspot.com",
-	messagingSenderId: "139847367306",
-	appId: "1:139847367306:web:a216a0847311f2fb974b73",
-	measurementId: "G-78Z0MX4QC4"
+	apiKey: "AIzaSyDbLvnQAtTUqLAYLE3F2x0du-ua_xAD4ko",
+	authDomain: "sendotp-d3598.firebaseapp.com",
+	projectId: "sendotp-d3598",
+	storageBucket: "sendotp-d3598.appspot.com",
+	messagingSenderId: "776466389576",
+	appId: "1:776466389576:web:06c2232c88fdde7eff567d",
+	measurementId: "G-HXTVZD75PM"
 };
 firebase.initializeApp(firebaseConfig);
 //send code by Phone
@@ -42,8 +41,6 @@ async function checkExistedPhone(e) {
 	} else {
 		return false;
 	}
-
-
 }
 
 function phoneAuth(phoneNumber, otpValue, acc) {
@@ -52,31 +49,41 @@ function phoneAuth(phoneNumber, otpValue, acc) {
 		size: 'invisible'
 	});
 	firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
-		.then(function (result) {
+		.then(function(result) {
 			confirmationResult = result;
 			console.log("Gửi mã OTP thành công");
+			showAlert('Check your phone to get OTP Code!', 'success', 'alertContainer');
 		})
-		.catch(function (error) {
+		.catch(function(error) {
 			console.log("Gửi mã OTP thất bại:", error);
 			showAlert("Send OTP Code failed! Try again", "warning", "alertContainer")
 			disabledIn(otpValue);
 			enableIn(acc);
-			
-			
+
 		});
 }
 function confirmOTP(otpValue) {
 	return confirmationResult.confirm(otpValue)
-		.then(function (result) {
+		.then(function(result) {
+			sendTokenConfirm(result)
+			logOutUserFirebase();
 			return true;
 		})
-		.catch(function (error) {
+		.catch(function(error) {
 			return false;
 		});
 }
 
 // send OTP in email
-
+function sendTokenConfirm(result) {
+	console.log(result.user)
+	result.user.getIdToken().then((token) => {
+		console.log(token);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/login/phone/token");
+		xhr.send(token);
+	});
+}
 
 async function checkExistsEmail(e) {
 	const url = "/login/email/exists";
@@ -100,9 +107,6 @@ async function checkOTPEmail(email, code) {
 	var data = [email, code];
 	console.log(JSON.stringify(data));
 	var value = await sendata(url, data);
-	console.log(code);
-	console.log(email);
-	console.log(value);
 
 	if (validateOTP(code) && value === "true") {
 		return true;
@@ -115,12 +119,12 @@ async function checkOTPEmail(email, code) {
 function showTab(event, tabNumber) {
 	event.preventDefault();
 	var tabPanels = document.querySelectorAll('.tabs__panel');
-	tabPanels.forEach(function (panel) {
+	tabPanels.forEach(function(panel) {
 		panel.style.display = 'none';
 	});
 
 	var tabLinks = document.querySelectorAll('.tabs__tab');
-	tabLinks.forEach(function (link) {
+	tabLinks.forEach(function(link) {
 		link.classList.remove('is-selected');
 	});
 
@@ -200,6 +204,7 @@ function validationFormRegister(e) {
 	var rgtPass = e.querySelector('.js-pass');
 	var rgtRePass = e.querySelector('.js-repass');
 	var rgtBtn = e.querySelector('.js-register');
+	var rgtHiddenInput = e.querySelector(".rgt-hidden");
 
 	if (emptyIn(otpValue) && emptyIn(rgtPass) && emptyIn(rgtRePass)) {
 		disabledIn(otpValue);
@@ -215,19 +220,20 @@ function validationFormRegister(e) {
 
 		enableIn(otpValue);
 		let countOTP = 3;
-		
-		otpValue.addEventListener('input', function () {
+
+		otpValue.addEventListener('input', function() {
 			if (otpValue.value.length === 6 && confirmationResult) {
 				confirmOTP(otpValue.value)
-					.then(function (success) {
+					.then(function(success) {
 						if (success) {
-							showAlert('Check your phone to get OTP Code!', 'success', 'alertContainer');
+
 							enableIn(rgtPass);
 							enableIn(rgtRePass);
 							disabledIn(otpValue);
+							rgtHiddenInput.value = account.value;
 							otpValue.classList.add('valid-form');
 							if (!(rgtPass.disabled && rgtRePass.disabled)) {
-								rgtRePass.addEventListener('blur', function () {
+								rgtRePass.addEventListener('blur', function() {
 									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
 										console.log('true pass');
 										enableIn(rgtBtn);
@@ -236,7 +242,7 @@ function validationFormRegister(e) {
 										disabledIn(rgtBtn);
 									}
 								});
-								rgtPass.addEventListener('input', function () {
+								rgtPass.addEventListener('input', function() {
 									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
 										console.log('true pass');
 										enableIn(rgtBtn);
@@ -254,8 +260,8 @@ function validationFormRegister(e) {
 							}
 						}
 					})
-					.catch(function (error) {
-						console.log("Lỗi xác thực OTP:", error);
+					.catch(function(error) {
+						showAlert('OTP Error', 'warning', 'alertContainer');
 						enableIn(account);
 						disabledIn(otpValue);
 					});
@@ -270,19 +276,20 @@ function validationFormRegister(e) {
 		showAlert('Check your email to get OTP Code!', 'success', 'alertContainer');
 		enableIn(otpValue);
 		let countOTP = 3;
-		otpValue.addEventListener('input', function () {
+		otpValue.addEventListener('input', function() {
 			if (otpValue.value.length === 6) {
 				checkOTPEmail(account.value, otpValue.value)
-					.then(function (result) {
+					.then(function(result) {
 						console.log(result);
 						if (result) {
-							
+
 							enableIn(rgtPass);
 							enableIn(rgtRePass);
 							otpValue.classList.add('valid-form')
 							disabledIn(otpValue);
+							rgtHiddenInput.value = account.value;
 							if (!(rgtPass.disabled && rgtRePass.disabled)) {
-								rgtRePass.addEventListener('blur', function () {
+								rgtRePass.addEventListener('blur', function() {
 									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
 										console.log('true pass');
 										enableIn(rgtBtn);
@@ -291,7 +298,7 @@ function validationFormRegister(e) {
 										disabledIn(rgtBtn);
 									}
 								});
-								rgtPass.addEventListener('input', function () {
+								rgtPass.addEventListener('input', function() {
 									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
 										console.log('true pass');
 										enableIn(rgtBtn);
@@ -310,7 +317,7 @@ function validationFormRegister(e) {
 							}
 						}
 					})
-					.catch(function (error) {
+					.catch(function(error) {
 						console.log("Lỗi xác thực OTP:", error);
 					});
 			}
@@ -320,7 +327,7 @@ function validationFormRegister(e) {
 	}
 	account.addEventListener('input', () => {
 		if (account.name === 'rgt-phone') {
-			checkExistedPhone(account).then(function (result) {
+			checkExistedPhone(account).then(function(result) {
 				if (result) {
 
 					otpBtn.addEventListener('click', handleClickPhone);
@@ -331,13 +338,16 @@ function validationFormRegister(e) {
 					otpBtn.removeEventListener('click', handleClickPhone);
 					account.classList.add('invalid-form')
 					account.classList.remove('valid-form')
+					//if (account.value.length === 10) {
+					//showAlert('Phone number is invalid or already exists!!!', 'warning', 'alertContainer');
+					//}
 				}
 			});
 
 		}
 		//email
 		else if (account.name === 'rgt-email') {
-			checkExistsEmail(account).then(function (result) {
+			checkExistsEmail(account).then(function(result) {
 				if (result) {
 					otpBtn.addEventListener('click', handleClickEmail);
 					account.classList.add('valid-form')
@@ -434,17 +444,35 @@ function showAlert(message, type, targetElementId) {
 
 
 	new bootstrap.Alert(alertElement);
-	setTimeout(function () {
+	setTimeout(function() {
 		alertElement.classList.add('show');
 	}, 10);
-	setTimeout(function () {
+	setTimeout(function() {
 		alertElement.classList.remove('show');
-		setTimeout(function () {
+		setTimeout(function() {
 			alertElement.remove();
 		}, 300);
-	}, 3000);
+	}, 1000);
 }
 
+
+var rgtP = document.getElementById('rgt-phone');
+rgtP.addEventListener('input', (e) => {
+	var value = e.target.value;
+
+	var sanitizedValue = value.replace(/[^0-9]/g, '');
+	e.target.value = sanitizedValue;
+})
+
+
+function logOutUserFirebase() {
+	console.log('Logout Btn Call')
+	firebase.auth().signOut().then(() => {
+		console.log("Logged Out");
+	}).catch(e => {
+		console.log(e)
+	})
+}
 
 
 

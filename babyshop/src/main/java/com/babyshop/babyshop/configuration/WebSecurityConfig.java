@@ -33,6 +33,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import com.babyshop.babyshop.models.CustomOidcUser;
 import com.babyshop.babyshop.models.User;
 import com.babyshop.babyshop.service.CustomOidcUserService;
+import com.babyshop.babyshop.util.Permit;
 
 
 @Configuration
@@ -52,10 +53,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()//Tắt tính năng bảo mật mặc đinh
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/registration/**").permitAll()
-                        .requestMatchers("/login/**").permitAll()
-                        //.requestMatchers("/user/**").authenticated()
-                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("CUSTOMER")
+                        //.requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form

@@ -188,13 +188,11 @@ public class ProductService {
 
 	}
 
-	public List<Product> getAll() {
-		List<Product> products = productRepository.findAll();
-//		for (Product product : products) {
-//			addLinkImage(product);
-//		}
-		return products;
-	}
+//	public List<Product> getAll() {
+//		List<Product> products = productRepository.findAll();
+//		
+//		return products;
+//	}
 
 	public Product getProductById(int productid) {
 		Optional<Product> product = productRepository.findById(productid);
