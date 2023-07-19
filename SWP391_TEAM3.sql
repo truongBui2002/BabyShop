@@ -317,12 +317,12 @@ ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- INSERT USER
 -- $2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW : 123
-INSERT user(email, password, phone_number) VALUES("buivantruong16082000@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761608"); -- ROLE_CUSTOMER
-INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761607"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082000@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654920"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0387958478"); -- ROLE_CUSTOMER
 INSERT user(email, password, phone_number) VALUES("buivantruong16081001@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761609"); -- ROLE_STAFF
 INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654921"); -- ROLE_ADMIN
-INSERT user(email, password, phone_number) VALUES("buivantruong16082004@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761617"); -- ROLE_CUSTOMER
-INSERT user(email, password, phone_number) VALUES("buivantruong16082005@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761627"); -- ROLE_CUSTOMER
+-- INSERT user(email, password, phone_number) VALUES("buivantruong16082004@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761617"); -- ROLE_CUSTOMER
+-- INSERT user(email, password, phone_number) VALUES("buivantruong16082005@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761627"); -- ROLE_CUSTOMER
 
 -- INSERT USER
 INSERT role(name) VALUES("ROLE_CUSTOMER");

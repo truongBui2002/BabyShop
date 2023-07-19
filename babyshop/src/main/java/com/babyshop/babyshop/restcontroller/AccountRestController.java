@@ -27,6 +27,22 @@ public class AccountRestController {
 	@Autowired
 	SendMailService sendMailService;
 
+	@PostMapping("/login/checkexits")
+	public String verifierCode(@RequestBody String phone) {
+		if (userService.userIsExists(phone.trim().replace("\"", ""))) {
+			return "exists";
+		} else {
+			return "not exists";
+		}
+	}
+	
+	@PostMapping("/login/phone/token")
+	public String saveToke(@RequestBody String token) {
+		session.setAttribute("tokenPhone", token);
+		System.out.println("tokenPhone: " + token) ;
+		return "";
+	}
+	
 	@PostMapping("/login/email/exists")
 	public String code(@RequestBody String email) {
 
@@ -37,7 +53,7 @@ public class AccountRestController {
 			return "not exists";
 		}
 	}
-
+	
 	@PostMapping("/login/sendcode/email")
 	public String sendCodeEmail(@RequestBody String email) {
 		String emailEx = email.trim().replace("\"", "");
@@ -49,15 +65,6 @@ public class AccountRestController {
 		LocalDateTime start = LocalDateTime.now();
 		session.setAttribute("start", start);
 		return "success";
-	}
-
-	@PostMapping("/login/checkexits")
-	public String verifierCode(@RequestBody String phone) {
-		if (userService.userIsExists(phone.trim().replace("\"", ""))) {
-			return "exists";
-		} else {
-			return "not exists";
-		}
 	}
 
 	@PostMapping("/login/authen/email")
@@ -75,6 +82,7 @@ public class AccountRestController {
 				// có hiệu lực 5 phút
 				if (delay.getSeconds() < 5 * 60) {
 					if (email.equals(array[0]) && code.equals(array[1])) {
+						session.setAttribute("emailConfirm", email);
 						return "true";
 					}
 				}

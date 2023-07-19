@@ -1,6 +1,5 @@
 package com.babyshop.babyshop.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
-@Where(clause = "status = 'UNLOCK'")
+@Where(clause = "status != 'LOCK'")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +59,7 @@ public class User implements UserDetails {
 	private String fullName;
 
 	@Column(name = "dob")
-	private Date dob;
+	private LocalDate dob;
 
 	@Column(name = "status")
 	private String status = Status.UNLOCK;
@@ -140,11 +139,5 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}
-	public LocalDate getDob() {
-		if(dob!=null) {
-			return this.dob.toLocalDate();
-		}
-		return null;
 	}
 }

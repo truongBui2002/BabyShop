@@ -44,4 +44,10 @@ public class AdminController {
 		
 		return "dashboard/feedbacklist";
 	}
+	
+	@GetMapping("/admin/list-product")
+	public String listProduct() {
+		
+		return "dashboard/list-product";
+	}
 }

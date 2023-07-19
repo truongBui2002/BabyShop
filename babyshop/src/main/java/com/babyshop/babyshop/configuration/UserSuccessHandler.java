@@ -23,6 +23,7 @@ import com.babyshop.babyshop.repositories.UserRepository;
 import com.babyshop.babyshop.service.ImageService;
 import com.babyshop.babyshop.service.UserService;
 import com.babyshop.babyshop.util.RandomKey;
+import com.babyshop.babyshop.util.Status;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +50,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Autowired
 	ImageService imageService;
-	
+
 	@Autowired
 	HttpSession session;
 
@@ -57,7 +58,11 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		RandomKey randomKey = new RandomKey();
-		String redirectUrl ="/user/viewprofile";;
+		String redirectUrl = "/user/viewprofile";
+		String urlProductPre = (String) session.getAttribute("urlProductPre");
+		if (urlProductPre != null) {
+			redirectUrl = urlProductPre;
+		}
 		if (authentication.getPrincipal() instanceof OidcUser) {
 			CustomOidcUser customOidcUser = (CustomOidcUser) authentication.getPrincipal();
 			String email = customOidcUser.getEmail();
@@ -70,23 +75,26 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 				UrlResource urlResource = new UrlResource(customOidcUser.getPicture());
 				String avatar = imageService.storeAvatar(urlResource);
 				user.setImage(new Image(avatar));
+				user.setStatus(Status.NOT_PASSWORD);
 				userService.saveUser(user);
 			}
 			User user = userService.findByEmail(email);
-			session.setAttribute("user", user);
-		}else if (authentication.getPrincipal() instanceof UserDetails) {
+			if (user != null) {
+				session.setAttribute("user", user);
+			} else {
+				redirectUrl = "/login";
+			}
+
+		} else if (authentication.getPrincipal() instanceof UserDetails) {
 			User user = (User) authentication.getPrincipal();
 			session.setAttribute("user", user);
 		}
-		String urlProductPre = (String)session.getAttribute("urlProductPre");
-		if(urlProductPre!=null) {
-			redirectUrl = urlProductPre;
-		}
+
 //		List<SimpleGrantedAuthority> list = (List<SimpleGrantedAuthority>)authentication.getAuthorities();
 //		System.out.println("ROLE: " + list.get(0).getAuthority());
 		// chuyển tiếp tới địa chỉ
 		response.sendRedirect(redirectUrl);
-		//new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
+		// new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 //	"sub": ID của người dùng trên Google
 //	"name": Tên đầy đủ của người dùng

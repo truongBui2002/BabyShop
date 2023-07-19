@@ -89,7 +89,7 @@
 				<div class="view-profile__infor">
 					<h1 class="view-profile__heading d-md-block">My Account</h1>
 					<div class="view-profile__content">
-						<form action="" class="profile-info" method="post">
+						<form th:action="@{/user/update/profile}" class="profile-info" method="post" enctype="multipart/form-data">
 							<h2 class="form__section-heading">Customer Details</h2>
 							<!-- disable information-->
 							<div class="field rel__span">
@@ -110,7 +110,7 @@
 					</div>
 					<div class="field">
 						<label for="first-name" class="field__label">Your Name</label>
-						<input type="text" id="first-name" name="firstName" class="field__input mb__input"
+						<input type="text" id="first-name" name="fullName" class="field__input mb__input"
 							th:value="${user.getfullNameIfExistOrNot()}">
 					</div>
 					<!-- add date of birth-->
@@ -118,13 +118,13 @@
 						<label>Date of Birth</label>
 						<div class="dob_fields d-flex justify-content-between">
 							<div class="dob__inputs">
-								<select id="day" class="dropdown__entry"></select>
+								<select id="day" name="day" class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="month" class="dropdown__entry"></select>
+								<select id="month" name="month"  class="dropdown__entry"></select>
 							</div>
 							<div class="dob__inputs">
-								<select id="year" class="dropdown__entry"></select>
+								<select id="year" name="year" class="dropdown__entry"></select>
 							</div>
 
 						</div>
@@ -132,12 +132,12 @@
 					<div class="gender-option js-gender-option">
 						<label class="gender-option__label gender-option-trigger">
 							Female
-							<input name="gender" type="radio" class="gender-option__input" id="female" value="0">
+							<input name="gender" type="radio" class="gender-option__input" id="female"  value="0" th:checked = "${user.gender==false}">
 							<span class="gender-option__checkmark"></span>
 						</label>
 						<label class="gender-option__label gender-option-trigger">
-							Male
-							<input name="gender" type="radio" class="gender-option__input" id="male" value="1"> 
+							Male 
+							<input name="gender" type="radio" class="gender-option__input" id="male"  value="1" th:checked = "${user.gender==true}"> 
 							<span class="gender-option__checkmark"></span>
 						</label>
 					</div>
@@ -146,7 +146,7 @@
 							<span>Update profile</span>
 						</button>
 					</div>
-					</form>
+					
 				</div>
 			</main>
 			<!-- change user avatar-->
@@ -156,7 +156,8 @@
 						<img class="image__link" th:src="${user.getUriAvatar()}" alt="">
 						<!-- avatar co r thi lay tu database r hien vao day-->
 					</div>
-					<input type="file" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					<input type="file" name="avatar" title="typeImage" class="type__image" accept=".jpg,.jpeg,.png">
+					</form>
 					<button class="btn_avatar">Chọn ảnh</button>
 					<div class="avt__description">
 						<p>Định lượng file tối đa 1 MB</p>
@@ -164,6 +165,7 @@
 					</div>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 	<div th:insert="~{home :: footer}"></div>

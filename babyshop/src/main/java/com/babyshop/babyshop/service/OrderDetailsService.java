@@ -32,7 +32,7 @@ public class OrderDetailsService {
 		Collections.sort(odDetails, new Comparator<OrderDetails>() {
 			@Override
 			public int compare(OrderDetails o1, OrderDetails o2) {
-				return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+				return -o1.getCreatedAt().compareTo(o2.getCreatedAt());
 			}
 		});
 	}

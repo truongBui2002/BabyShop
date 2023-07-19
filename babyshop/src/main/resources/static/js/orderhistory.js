@@ -1,23 +1,4 @@
 
-
-/*$(".OFl2GI").each(function() {
-  $(this).click(function(e) {
-	e.preventDefault();
-	$.ajax({
-			url: '/',
-			method: 'GET',
-			success: function(response) {
-				// Xử lý dữ liệu nhận được từ máy chủ
-				//console.log(response);
-			},
-			error: function(xhr, status, error) {
-				// Xử lý lỗi nếu có
-				console.log(error);
-			}
-		});
-  });
-});
-*/
 var tabs = document.querySelectorAll('.OFl2GI'); //trả về list thẻ a
 tabs.forEach((tab, index) => {
 	tab.addEventListener('click', (e) => {

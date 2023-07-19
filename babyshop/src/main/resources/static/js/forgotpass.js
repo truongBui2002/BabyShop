@@ -17,13 +17,13 @@ async function sendata(url, data) {
 }
 
 const firebaseConfig = {
-	apiKey: "AIzaSyBk8Rd-TIwUuwUoxjtcEqpiz043pcZVikE",
-	authDomain: "localhost",
-	projectId: "otp-project-9efb7",
-	storageBucket: "otp-project-9efb7.appspot.com",
-	messagingSenderId: "139847367306",
-	appId: "1:139847367306:web:a216a0847311f2fb974b73",
-	measurementId: "G-78Z0MX4QC4"
+	apiKey: "AIzaSyDbLvnQAtTUqLAYLE3F2x0du-ua_xAD4ko",
+	authDomain: "sendotp-d3598.firebaseapp.com",
+	projectId: "sendotp-d3598",
+	storageBucket: "sendotp-d3598.appspot.com",
+	messagingSenderId: "776466389576",
+	appId: "1:776466389576:web:06c2232c88fdde7eff567d",
+	measurementId: "G-HXTVZD75PM"
 };
 firebase.initializeApp(firebaseConfig);
 //send code by Phone
@@ -69,11 +69,23 @@ function phoneAuth(phoneNumber, otpValue, acc) {
 function confirmOTP(otpValue) {
 	return confirmationResult.confirm(otpValue)
 		.then(function(result) {
+			sendTokenConfirm(result)
+			logOutUserFirebase();
 			return true;
 		})
 		.catch(function(error) {
 			return false;
 		});
+}
+
+function sendTokenConfirm(result) {
+	console.log(result.user)
+	result.user.getIdToken().then((token) => {
+		console.log(token);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/login/phone/token");
+		xhr.send(token);
+	});
 }
 
 var popUpPhone = document.querySelector('.popup-register-phone');

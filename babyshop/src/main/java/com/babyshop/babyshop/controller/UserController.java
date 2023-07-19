@@ -1,5 +1,8 @@
 package com.babyshop.babyshop.controller;
 
+import java.sql.Date;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +27,7 @@ import com.babyshop.babyshop.models.User;
 import com.babyshop.babyshop.service.CartItemService;
 import com.babyshop.babyshop.service.CartService;
 import com.babyshop.babyshop.service.CustomerService;
+import com.babyshop.babyshop.service.FirebaseService;
 import com.babyshop.babyshop.service.ImageService;
 import com.babyshop.babyshop.service.LocationService;
 import com.babyshop.babyshop.service.OrderDetailsService;
@@ -62,9 +67,12 @@ public class UserController {
 
 	@Autowired
 	LocationService locationService;
-	
+
 	@Autowired
 	OrderDetailsService orderDetailsService;
+
+	@Autowired
+	FirebaseService firebaseService;
 
 	@GetMapping("/login")
 	public String login(ModelMap modelMap) {
@@ -93,7 +101,7 @@ public class UserController {
 	@GetMapping("/user/viewprofile")
 	public String viewProfile(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-		
+
 		modelMap.addAttribute("color", "profile");
 		return "viewprofile";
 	}
@@ -110,50 +118,78 @@ public class UserController {
 		return "phone";
 	}
 
-	@GetMapping("/customer")
-	public String customer() {
-		return "test";
-	}
-
 	@PostMapping("/register/phone")
 	public String registerByPhone(@RequestParam(name = "phoneNumber", defaultValue = "") String phoneNumber,
 			@RequestParam(name = "p-password", defaultValue = "") String password, ModelMap modelMap,
 			@RequestBody String data) {
-		User user = new User();
-		System.out.println(data);
-		System.out.println("Phone Number: " + phoneNumber);
-		System.out.println("Password " + password);
-//		user.setPhoneNumber(phoneNumber);
-//		user.setPassword(password);
-//		userService.saveUser(user);
+		String tokenPhone = (String) session.getAttribute("tokenPhone");
+		if (tokenPhone != null) {
+			String phoneNumberByToken = firebaseService.getPhoneNumberByToken(tokenPhone);
+			if (phoneNumberByToken != null) {
+				String regexPhone = phoneNumber.replaceFirst("^0", "+84");
+				if (phoneNumberByToken.equals(regexPhone)) {
+					User user = new User();
+					user.setPhoneNumber(phoneNumber);
+					user.setPassword(password);
+					userService.saveUser(user);
+					return "redirect:/login?success";
+				}
 
-		return "redirect:/login?success";
+			}
+		}
+		return "redirect:/login?err";
+
 	}
+	
+	@PostMapping("/forgot/phone")
+	public String forgotByPhone(ModelMap modelMap ,
+			@RequestParam(name = "phoneNumber", defaultValue = "") String phoneNumber,
+			@RequestParam(name = "e-password", defaultValue = "") String password ,
+			@RequestBody String data) {
+		String tokenPhone = (String) session.getAttribute("tokenPhone");
+		if (tokenPhone != null) {
+			String phoneNumberByToken = firebaseService.getPhoneNumberByToken(tokenPhone);
+			if (phoneNumberByToken != null) {
+				String regexPhone = phoneNumber.replaceFirst("^0", "+84");
+				if (phoneNumberByToken.equals(regexPhone)) {
+					User user = userService.findByPhone(phoneNumber);
+					if(user!=null) {
+						user.setPhoneNumber(phoneNumber);
+						user.setPassword(password);
+						userService.updatePass(user);
+						return "redirect:/login?success";
+					}
+					
+				}
 
+			}
+		}
+		return "redirect:/login?err";
+
+	}
 	@PostMapping("/register/email")
-	public String registerByEmail(@RequestParam(name = "rgt-email", defaultValue = "") String email,
+	public String registerByEmail(@RequestParam(name = "emailHidden", defaultValue = "") String email,
 			@RequestParam(name = "e-password", defaultValue = "") String password, ModelMap modelMap,
 			@RequestBody String data) {
-		User user = new User();
-		System.out.println(data);
-		System.out.println("Phone Number: " + email);
-		System.out.println("Password " + password);
-		user.setEmail(email);
-		user.setPassword(password);
-		userService.saveUser(user);
-
+		String emailConfirm = (String) session.getAttribute("emailConfirm");
+		if(emailConfirm!=null) {
+			if(emailConfirm.equals(email)) {
+				User user = new User();
+				user.setEmail(email);
+				user.setPassword(password);
+				userService.saveUser(user);
+			}
+		}
 		return "redirect:/login?success";
 	}
 
 	@PostMapping("/user/update/profile")
 	public String updateProfile(@RequestParam(name = "avatar") MultipartFile avatar,
-			/*
-			 * @RequestParam(name = "day") String day, @RequestParam(name = "month") String
-			 * month,
-			 */
-			/* @RequestParam(name = "year") String year, */ @RequestParam(name = "firstName") String firstName,
-			@RequestParam(name = "address") String address, @RequestParam(name = "gender") String gender) {
+			@RequestParam(name = "day") String day, @RequestParam(name = "month") String month,
+			@RequestParam(name = "year") String year, @RequestParam(name = "fullName") String fullName,
+			@RequestParam(name = "gender") String gender) {
 		User user = (User) session.getAttribute("user");
+		user = userService.getUserById(user.getUserId());
 		if (!avatar.isEmpty()) {
 			String imgName = imageService.updateAvatar(avatar);
 			if (user.getImage() != null) {
@@ -163,22 +199,26 @@ public class UserController {
 				user.setImage(image);
 			}
 		}
-		/*
-		 * int newYear = Integer.parseInt(year); int newMonth = Integer.parseInt(month);
-		 * int newDay = Integer.parseInt(day);
-		 */
-		/*
-		 * Date date = new Date(newYear, newMonth, newDay); user.setDob(date);
-		 */
 
-		user.setFullName(firstName);
+		int newYear = Integer.parseInt(year);
+		int newMonth = Integer.parseInt(month);
+		int newDay = Integer.parseInt(day);
+		try {
+			LocalDate localDate = LocalDate.of(newYear, newMonth, newDay);
+			user.setDob(localDate);
+		} catch (DateTimeException e) {
+			e.printStackTrace();
+		}
+		user.setFullName(fullName);
 		if (gender.equals("1")) {
+			System.out.println("gender: " +gender);
 			user.setGender(true);
 		} else {
+			System.out.println("gender: " +gender);
 			user.setGender(false);
 		}
-		userService.saveUser(user);
-
+		userService.save(user);
+		session.setAttribute("user", user);
 		return "redirect:/user/viewprofile";
 	}
 
@@ -187,27 +227,6 @@ public class UserController {
 		loadDataController.loadData(modelMap);
 
 		return "email";
-	}
-
-	@GetMapping("/user/resetpass")
-	public String resetPass(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		return "resetpass";
-	}
-
-	@PostMapping("/user/update/password")
-	public String updatePass(ModelMap modelMap, @RequestParam(name = "password") String password,
-			@RequestParam(name = "repass") String repass) {
-		loadDataController.loadData(modelMap);
-		if (password.equals(repass)) {
-			User user = (User) session.getAttribute("user");
-			user.setPassword(password);
-			userService.saveUser(user);
-			return "redirect:/user/resetpass?success";
-		} else {
-			modelMap.addAttribute("err", true);
-			return "redirect:/user/resetpass?err";
-		}
 	}
 
 	@PostMapping("/fogotpass/email")
@@ -230,7 +249,7 @@ public class UserController {
 	@GetMapping("/user/purchase")
 	public String purchase(ModelMap modelMap, @RequestParam(name = "cartItemId") List<Integer> cartItemsId) {
 		loadDataController.loadData(modelMap);
-		User user = (User)session.getAttribute("user"); //để lại dòng này
+		User user = (User) session.getAttribute("user"); // để lại dòng này
 		user = userService.getUserById(user.getUserId());// user.getUserId()
 		Customer customer = user.getCustomer();
 		Cart cart = customer.getCart();
@@ -258,7 +277,7 @@ public class UserController {
 			@RequestParam(name = "cartItemId", defaultValue = "") List<Integer> cartItemsId,
 			@RequestParam(name = "locationId", defaultValue = "") String locationId) {
 		loadDataController.loadData(modelMap);
-		User user = (User)session.getAttribute("user"); //để lại dòng này
+		User user = (User) session.getAttribute("user"); // để lại dòng này
 		user = userService.getUserById(user.getUserId());// user.getUserId()
 		Customer customer = user.getCustomer();
 		Cart cart = customer.getCart();
@@ -298,7 +317,7 @@ public class UserController {
 	@GetMapping("/user/viewprofile/address")
 	public String changeAddress(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-		User user = (User)session.getAttribute("user"); //để lại dòng này
+		User user = (User) session.getAttribute("user"); // để lại dòng này
 		user = userService.getUserById(user.getUserId());// user.getUserId()
 
 		Customer customer = user.getCustomer();
@@ -313,7 +332,10 @@ public class UserController {
 				customer = user.getCustomer();
 			}
 		}
-		modelMap.addAttribute("customer", customer);
+		List<Location> locations = customer.getLocations();
+		locations = locations.stream().filter(location-> !location.getStatus().equals(Status.HIDDEN)).toList();
+		modelMap.addAttribute("customer", customer); 
+		modelMap.addAttribute("locations", locations);
 		modelMap.addAttribute("color", "address");
 		return "/profile/changeaddress";
 	}
@@ -325,8 +347,8 @@ public class UserController {
 		loadDataController.loadData(modelMap);
 		// System.out.println(data);
 
-		User user = (User)session.getAttribute("user"); //để lại dòng này
-		user = userService.getUserById(user.getUserId());// 
+		User user = (User) session.getAttribute("user"); // để lại dòng này
+		user = userService.getUserById(user.getUserId());//
 		Customer customer = user.getCustomer();
 		customer.setFullName(fullName);
 		List<Location> locations = customer.getLocations();
@@ -353,31 +375,31 @@ public class UserController {
 		return "redirect:/user/viewprofile/address";
 	}
 	
+
 	@GetMapping("/user/viewprofile/order/orderhistory")
 	public String orderhistory(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
 		List<OrderDetails> odDetails = new ArrayList<>();
-		User user = (User)session.getAttribute("user"); //để lại dòng này
-		user = userService.getUserById(user.getUserId());// 
+		User user = (User) session.getAttribute("user"); // để lại dòng này
+		user = userService.getUserById(user.getUserId());//
 		Customer customer = user.getCustomer();
-		if(customer!=null) {
+		if (customer != null) {
 			List<Order> orders = customer.getOrders();
 			for (Order order : orders) {
 				odDetails.addAll(order.getOrderDetails());
 			}
-			if(odDetails.size()!=0) {
+			if (odDetails.size() != 0) {
 				orderDetailsService.sortByTime(odDetails);
 			}
 		}
 		modelMap.addAttribute("odDetails", odDetails);
 		return "/order/orderhistory";
 	}
-	
 
 	@GetMapping("/user/viewprofile/changepass")
 	public String changepass(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-		
+
 		modelMap.addAttribute("color", "changepass");
 		return "/profile/changepass";
 	}
@@ -385,7 +407,7 @@ public class UserController {
 	@GetMapping("/user/viewprofile/payment")
 	public String proPayment(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-		
+
 		modelMap.addAttribute("color", "payment");
 		return "/profile/profilepayment";
 	}
@@ -396,5 +418,4 @@ public class UserController {
 		return "/profile/notification";
 	}
 
-	
 }

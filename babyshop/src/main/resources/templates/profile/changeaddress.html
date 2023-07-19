@@ -81,9 +81,9 @@
 										</div>
 									</div>
 								</div>
-								<div class="EHan+5" th:if = "${customer.locations.size()}!=0">
+								<div class="EHan+5" th:if = "${locations.size()}!=0">
 									<div class="GsuIol">Address</div>
-									<div class="RnMqRZ OIBd-J" th:each = "location : ${customer.locations}">
+									<div class="RnMqRZ OIBd-J" th:each = "location : ${locations}" th:data-location="${location.locationId}" th:if ="${location.status}!='HIDDEN'">
 										<div class="_70j3aj address-b">
 											<div role="heading" class="_7lC5y1 fVHv1Z">
 												<div

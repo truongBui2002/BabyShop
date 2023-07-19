@@ -13,4 +13,5 @@ public class LocationService {
 	public Location getById(int id) {
 		return locationRepository.findById(id).orElse(null);
 	}
+	
 }
