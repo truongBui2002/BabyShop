@@ -82,7 +82,7 @@
                         <h2 class="brands-list__heading" th:text = "${alphabet}">A</h2>
                         <ul class="brands-list__items">
                             <li class="brands-list__item"   th:each = "brand : ${brands}"
-                            th:if="${#strings.startsWith(brand.name, alphabet)}"><a th:href="@{'/brand/details/' + ${brand.brandId} }" class="brands-list__item_link link"
+                            th:if="${brand.name.substring(0, 1).equalsIgnoreCase(alphabet)}"><a th:href="@{'/brand/details/' + ${brand.brandId} }" class="brands-list__item_link link"
                              th:text ="${brand.name}">A Happy Brand</a>
                             </li>
                         </ul>

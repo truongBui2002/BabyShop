@@ -414,7 +414,7 @@ function comfirmAddToCart(variantId) {
 function addToCart(variantId) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
-		xhr.open("PUT", "/product/cart");
+		xhr.open("PUT", "/user/product/cart");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);// 

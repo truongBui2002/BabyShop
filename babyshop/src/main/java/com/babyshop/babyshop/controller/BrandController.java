@@ -37,7 +37,7 @@ public class BrandController {
 		for (int i = 65; i <= 90; i++) {
 			boolean checkExist = false;
 			for (Brand brand : brands) {
-				if(brand.getName().startsWith((char)(i) + "")) {
+				if(brand.getName().substring(0, 1).toUpperCase().startsWith((char)(i) + "")) {
 					checkExist = true;
 				}
 			}
@@ -60,4 +60,5 @@ public class BrandController {
 		modelMap.addAttribute("products", products);
 		return "detailbrand";
 	}
+	
 }

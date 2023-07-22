@@ -26,7 +26,9 @@
 		value="">
 </div>
 <div th:if="${odDetails.size()}!=0">
-	<div class="hiXKxx" th:each="odDetail : ${odDetails}">
+
+	<div class="hiXKxx" th:each="odDetail : ${odDetails}"
+		th:data-oddid="${odDetail.orderDetailsId}">
 		<div>
 			<div class="x0QT2k">
 				<div class="KrPQEI" th:if="${odDetail.status == 'WAIT'}">
@@ -147,7 +149,9 @@
 			<!-- Canceled by you -->
 			<div class="EOjXew">
 				<div class="PF0-AU">
-					<button class="stardust-button stardust-button--primary WgYvse">Cancel</button>
+					<button
+						class="stardust-button stardust-button--primary WgYvse btn-cancel-product"
+						th:data-oddid="${odDetail.orderDetailsId}">Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -158,20 +162,34 @@
 			<!-- Canceled by you -->
 			<div class="EOjXew">
 				<div class="PF0-AU">
-					<button class="stardust-button stardust-button--primary WgYvse">I
-						have received the goods</button>
+					<button
+						class="stardust-button stardust-button--primary WgYvse btn-receive"
+						th:data-oddid="${odDetail.orderDetailsId}">I have
+						received the goods</button>
 				</div>
 			</div>
 		</div>
 		<div class="AM4Cxf" th:if="${odDetail.status == 'COMPLETED'}">
 			<div class="qtUncs">
-				<span th:if="${odDetail.feedback==null}">No feedback</span> <span
-					th:if="${odDetail.feedback!=null}">Feedback</span>
+				<div class="EOjXew" th:if="${odDetail.feedback==null}">
+					<div class="PF0-AU p-btn-feedback">
+						<button type="button"
+							class="stardust-button stardust-button--primary WgYvse add-feedback"
+							data-bs-toggle="modal" data-bs-target="#myModal">Feedback</button>
+					</div>
+				</div>
+				<!-- <span th:if = "${odDetail.feedback==null}">No feedback</span> -->
+				<span th:if="${odDetail.feedback!=null}"> <a
+					th:href="@{'/product/details/'+${odDetail.product.productId}}">Your
+						Feedback</a>
+				</span>
 			</div>
 			<!-- Canceled by you -->
 			<div class="EOjXew">
 				<div class="PF0-AU">
-					<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
+						<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -182,7 +200,9 @@
 			<!-- Canceled by you -->
 			<div class="EOjXew">
 				<div class="PF0-AU">
-					<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
+						<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					</a>
 				</div>
 			</div>
 		</div>

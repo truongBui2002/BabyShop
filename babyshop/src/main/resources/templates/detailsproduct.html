@@ -129,8 +129,8 @@
                                                 style="cursor: default;"><!--average rate star from database-->
                                                 [[${avgStar}]]
                                             </span>
-                                <div class="shopee-rating-stars__star-wrapper">
-                                    <div class="shopee-rating-stars__lit" style="width: 100%;"><svg
+                                <div class="shopee-rating-stars__star-wrapper" th:each="i : ${starPercent}">
+                                    <div class="shopee-rating-stars__lit" th:style="${'width:' + i + '%;'}"><svg
                                             enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
                                             class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
                                             <polygon
@@ -145,71 +145,6 @@
                                         </polygon>
                                     </svg>
                                 </div> 
-                                <div class="shopee-rating-stars__star-wrapper">
-                                    <div class="shopee-rating-stars__lit" style="width: 100%;"><svg
-                                            enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
-                                            class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
-                                            <polygon
-                                                points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                            </polygon>
-                                        </svg></div><svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
-                                        y="0" class="shopee-svg-icon shopee-rating-stars__hollow-star icon-rating">
-                                        <polygon fill="none"
-                                            points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                        </polygon>
-                                    </svg>
-                                </div>
-                                <div class="shopee-rating-stars__star-wrapper">
-                                    <div class="shopee-rating-stars__lit" style="width: 100%;"><svg
-                                            enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
-                                            class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
-                                            <polygon
-                                                points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                            </polygon>
-                                        </svg></div><svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
-                                        y="0" class="shopee-svg-icon shopee-rating-stars__hollow-star icon-rating">
-                                        <polygon fill="none"
-                                            points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                        </polygon>
-                                    </svg>
-                                </div>
-                                <div class="shopee-rating-stars__star-wrapper">
-                                    <div class="shopee-rating-stars__lit" style="width: 100%;"><svg
-                                            enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
-                                            class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
-                                            <polygon
-                                                points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                            </polygon>
-                                        </svg></div><svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
-                                        y="0" class="shopee-svg-icon shopee-rating-stars__hollow-star icon-rating">
-                                        <polygon fill="none"
-                                            points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                        </polygon>
-                                    </svg>
-                                </div>
-                                <div class="shopee-rating-stars__star-wrapper">
-                                    <div class="shopee-rating-stars__lit" style="width: 100%;"><svg
-                                            enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
-                                            class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
-                                            <polygon
-                                                points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                            </polygon>
-                                        </svg></div><svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
-                                        y="0" class="shopee-svg-icon shopee-rating-stars__hollow-star icon-rating">
-                                        <polygon fill="none"
-                                            points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                                        </polygon>
-                                    </svg>
-                                </div>
-                                 
                             </div>
                             <div class="ps-3">
                                     <span>[[${totalSold}]]</span> <!-- statistic comment from database-->
@@ -233,7 +168,7 @@
                                 <span style="margin-left: .5rem;"></span>
                             </h2>
                             <div class="row row-cols-4 text-center size-switches" >
-                                <div class="col" th:each = "size : ${product.variant}">
+                                <div class="col" th:each = "size : ${product.variants}">
                                     <input type="radio" th:id="${size.variantId}" name="size" th:value="${size.name}" th:if = "${size.quantity} != 0" />
                                     <label class="size-btn-box" th:for="${size.variantId}"  th:if = "${size.quantity} != 0" th:text = "${size.name}">22 EU</label>
                                     
@@ -347,32 +282,26 @@
                 <div class="feedback-product-overview">
                     <div class="feedback-product-overview_sum">
                         <div class="product-rating-overview__score-wrapper"><span
-                                class="product-rating-overview__rating-score">4.6</span><span
+                                class="product-rating-overview__rating-score">[[${avgStar}]]</span><span
                                 class="product-rating-overview__rating-score-out-of"> over 5 </span></div>
-                        <div class="feedback-product-overview__star mt-3">
-                            <div class="product-rating__rating">
-							    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
-							      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-							        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
-							    </svg>
-							    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
-							      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-							        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
-							    </svg>
-							    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
-							      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-							        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
-							    </svg>
-							    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating-solid">
-							      <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-							        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
-							    </svg>
-							    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="svg-icon icon-rating">
-							      <polygon fill="none" points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-							        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></polygon>
-							    </svg>
-  							</div>
-                        </div>
+                            <div class="shopee-rating-stars__stars">
+                                <div class="shopee-rating-stars__star-wrapper" th:each="i : ${starPercent}">
+                                    <div class="shopee-rating-stars__lit" th:style="${'width:' + i + '%;'}"><svg
+                                            enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
+                                            class="shopee-svg-icon shopee-rating-stars__primary-star icon-rating-solid">
+                                            <polygon
+                                                points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+                                            </polygon>
+                                        </svg></div><svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
+                                        y="0" class="shopee-svg-icon shopee-rating-stars__hollow-star icon-rating">
+                                        <polygon fill="none"
+                                            points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+                                        </polygon>
+                                    </svg>
+                                </div> 
+                            </div>
                     </div>
                     <div class="product-rating-overview__filters">
                         <div class="product-rating-overview__filter  product-rating-overview__filter--active">All</div>

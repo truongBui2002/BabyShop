@@ -44,6 +44,9 @@ a:focus {
 img {
     object-fit: cover;
 }
+.brands {
+	object-fit: contain;
+}
 
 .color-hover:hover {
     color: #b4e1d8;

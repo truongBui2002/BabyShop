@@ -8,12 +8,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.babyshop.babyshop.models.Image;
 import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.service.BrandService;
+import com.babyshop.babyshop.service.ImageService;
 import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.SubcategoryService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(path = "")
@@ -29,6 +29,9 @@ public class HomeController {
 
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	ImageService imageService;
 
 	@GetMapping("/")
 	public String home(ModelMap modelMap) {
@@ -38,28 +41,26 @@ public class HomeController {
 
 	@GetMapping("/afterresetbyphone")
 	public String afterresetpass() {
-
+//		Product product = productService.getProductById(2);
+//		product.getImages().clear();
+//		List<Image> images = product.getImages();
+//		images.add(new Image("abc123"));
+//		images.add(new Image("abc456"));
+//		images.add(new Image("abc789"));
+//		
+//		product.setImages(images);
+//		
+//		productService.save(product);
+//		product = productService.getProductById(2);
+//		for (Image image : product.getImages()) {
+//			System.out.println(image.getName());
+//		}
 		return "afterresetbyphone";
 
-	}
-
-	@GetMapping("/purchase")
-	public String purchase(ModelMap modelMap) {
-		loadDataController.loadData(modelMap);
-		return "purchase";
 	}
 
 	@GetMapping("/error/e1")
 	public String errorE1() {
 		return "error/fourE";
 	}
-	
-	@RequestMapping("/xyz123")
-	public String yourMethod(HttpServletRequest request, ModelMap modelMap) {
-	    String referer = request.getHeader("Referer");
-	    System.out.println("referer: " + referer);
-	    loadDataController.loadData(modelMap);
-		return "home";
-	}
-	
 }

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import com.babyshop.babyshop.util.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +29,7 @@ public class OrderDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_details_id")
-	private int orderDeTailsId;
+	private int orderDetailsId;
 	
 	@Column(name = "price")
 	private double price;
@@ -54,7 +55,7 @@ public class OrderDetails {
 	@Column(name = "discount")
 	private double discount = 0;
 	
-	@OneToOne(mappedBy = "orderDetails")
+	@OneToOne(mappedBy = "orderDetails", cascade = CascadeType.ALL)
 	private Feedback feedback;
 	
 	@Column(name = "status")

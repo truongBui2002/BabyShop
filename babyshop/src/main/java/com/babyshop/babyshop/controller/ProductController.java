@@ -1,6 +1,8 @@
 package com.babyshop.babyshop.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,10 +158,21 @@ public class ProductController {
 			avgSt = ((double)feedbacks.stream().mapToInt(fb ->fb.getRateStar())
 												 .sum())/feedbacks.size();
 		}
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#.#");
 		String avgStar = df.format(avgSt);
-		//System.out.println((int)(avgSt*100%100));
 		
+		List<Integer> starPercent = new ArrayList<>();
+		for (int i = 1; i <=5; i++) {
+			if(avgSt >= 1) {
+				starPercent.add(100);
+			}
+			else if(avgSt > 0 &&avgSt <1) {
+				starPercent.add((int)(avgSt*100));
+			}else {
+				starPercent.add(0);
+			}
+			avgSt = avgSt -1;
+		}
 		int totalSold = orderDetailsService.getTotalProductSold(product);
 		
 		modelMap.addAttribute("product", product);
@@ -167,6 +180,7 @@ public class ProductController {
 		modelMap.addAttribute("productsSimilar", productsSimilar);
 		modelMap.addAttribute("avgStar", avgStar);
 		modelMap.addAttribute("totalSold", totalSold);
+		modelMap.addAttribute("starPercent", starPercent);
 		return "detailsproduct";
 	}
 

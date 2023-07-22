@@ -26,11 +26,18 @@ public class BrandService {
 	}
 	
 	public Brand getBrandById(int brandId) {
-		Optional<Brand> brand = brandsRepository.findById(brandId);
-		if(brand.isPresent()) {
-			return brand.get();
-		}
-		return null;
+		return brandsRepository.findById(brandId).orElse(null);
 	}
 	
+	public Brand getBranByIdExists(int id) {
+		return brandsRepository.findByIdExists(id);
+	}
+	
+	public List<Brand> getAllExists(){
+		return brandsRepository.findAllExists();
+	}
+	
+	public void save(Brand brand) {
+		brandsRepository.save(brand);
+	}
 }

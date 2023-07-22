@@ -482,8 +482,9 @@
                                     <img src="../assets/images/avatars/avtar_3.png" alt="User-Profile"
                                         class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
-                                        <h6 class="mb-0 caption-title">duy</h6>
-                                        <p class="mb-0 caption-sub-title">Administrator</p>
+                                        <h6 class="mb-0 caption-title" th:text = "${session.manager.getfullNameIfExistOrNot()}">duy</h6>
+                                        <p class="mb-0 caption-sub-title" th:each = "role : ${session.manager.roles}" th:text = "${role.name}">Administrator</p>
+                                        
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -541,22 +542,12 @@
                                 <div class="d-flex flex-wrap align-items-center">
                                     <div
                                         class="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
-                                        <img src="../../assets/images/avatars/01.png" alt="User-Profile"
+                                        <img th:src="${session.manager.getUriAvatar()}" alt="User-Profile"
                                             class="theme-color-default-img img-fluid rounded-pill avatar-100">
-                                        <img src="../../assets/images/avatars/avtar_1.png" alt="User-Profile"
-                                            class="theme-color-purple-img img-fluid rounded-pill avatar-100">
-                                        <img src="../../assets/images/avatars/avtar_2.png" alt="User-Profile"
-                                            class="theme-color-blue-img img-fluid rounded-pill avatar-100">
-                                        <img src="../../assets/images/avatars/avtar_4.png" alt="User-Profile"
-                                            class="theme-color-green-img img-fluid rounded-pill avatar-100">
-                                        <img src="../../assets/images/avatars/avtar_5.png" alt="User-Profile"
-                                            class="theme-color-yellow-img img-fluid rounded-pill avatar-100">
-                                        <img src="../../assets/images/avatars/avtar_3.png" alt="User-Profile"
-                                            class="theme-color-pink-img img-fluid rounded-pill avatar-100">
                                     </div>
                                     <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-                                        <h4 class="me-2 h4">duy</h4>
-                                        <span> - Administrator</span>
+                                        <h4 class="me-2 h4" th:text = "${session.manager.getfullNameIfExistOrNot()}">duy</h4>
+                                        <span th:each = "role : ${session.manager.roles}" th:text = "'- ' + ${role.name}"> - Administrator</span>
                                     </div>
                                 </div>
                             </div>
@@ -564,7 +555,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12">
+                <div class="col-lg-12" th:with = "manager = ${session.manager}">
                     <div class="profile-content tab-content">
                         <div id="profile-profile" class="tab-pane fade active show">
                             <div class="card">
@@ -574,26 +565,22 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="user-bio">
+                                    <!-- <div class="user-bio">
                                         <p>Cac cac cac</p>
-                                    </div>
+                                    </div> -->
                                     <div class="mt-2">
                                         <h6 class="mb-1">Joined:</h6>
-                                        <p>Feb 15, 2021</p>
-                                    </div>
-                                    <div class="mt-2">
-                                        <h6 class="mb-1">Lives:</h6>
-                                        <p>FPT rach</p>
+                                        <p th:text = "${manager.getCreatedAt()}">Feb 15, 2021</p>
                                     </div>
                                     <div class="mt-2">
                                         <h6 class="mb-1">Email:</h6>
-                                        <p><a href="#" class="text-body"> admin@gmail.com</a></p>
+                                        <p><a href="#" class="text-body" th:text = "${manager.email!=null?manager.email:'empty'}"> admin@gmail.com</a></p>
                                     </div>
 
                                     <div class="mt-2">
 
                                         <h6 class="mb-1">Contact:</h6>
-                                        <p><a href="#" class="text-body">(001) 4544 565 456</a></p>
+                                        <p><a href="#" class="text-body"  th:text = "${manager.phoneNumber!=null?manager.phoneNumber:'empty'}">(001) 4544 565 456</a></p>
                                     </div>
                                 </div>
                             </div>

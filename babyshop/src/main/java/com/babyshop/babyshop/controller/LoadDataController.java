@@ -178,6 +178,7 @@ public class LoadDataController {
 					}
 				}
 			}
+			return 0 +"";
 		}
 		return null;
 	}

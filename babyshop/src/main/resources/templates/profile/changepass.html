@@ -42,9 +42,10 @@
                                 </div>
 
                             </div>
-
-                            <form action="#" method="post" class="change-pass">
-                                <div class="field field_pass">
+                            <div th:if = "${param.success!=null}" th:text = "${param.success}" style="color: blue;">Successfull</div>
+							<div th:if = "${param.error!=null}" th:text = "${param.error}" style="color: red;">Error</div>
+                            <form th:action="@{${user.status=='NOT_PASSWORD'}?'/user/viewprofile/newpass':'/user/viewprofile/changepass'}" method="post" class="change-pass">
+                                <div class="field field_pass" th:if = "${user.status!='NOT_PASSWORD'}">
                                     <label for="password" class="field__label">Old Password</label>
                                     <input type="password" id="password" name="password"
                                         pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$" class="field__input"
@@ -64,7 +65,7 @@
                                 </div>
                                 <div class="field field_register">
                                     <button class="btn-login" type="submit">
-                                        <span>Change Password</span>
+                                        <span th:text = "${user.status=='NOT_PASSWORD'}?'New Password':'Change Password'">Change Password</span>
                                     </button>
                                 </div>
                             </form>
@@ -73,6 +74,7 @@
                 </div>
             </main>
         </div>
+     </div>
     <div th:insert="~{home :: footer}"></div>
     <script th:src="@{/js/change.js}"></script>
 </body>

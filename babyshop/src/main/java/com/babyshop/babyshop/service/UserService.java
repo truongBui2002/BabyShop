@@ -1,6 +1,7 @@
 package com.babyshop.babyshop.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,7 @@ public class UserService implements UserDetailsService{
     	userRepository.save(user); 
     } 
     
-    public void updatePass(User user) {
+    public void saveUserEncoder(User user) {
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	userRepository.save(user);
     }
@@ -91,5 +92,14 @@ public class UserService implements UserDetailsService{
     }
     public void save(User user) {
     	userRepository.save(user);
+    }
+    
+    public User getUserByIdExists(int userId) {
+    	User user = userRepository.findByUserExsist(userId);
+    	return user;
+    }
+    
+    public List<User> findAllUsers(){
+    	return userRepository.findAllUsers();
     }
 }
