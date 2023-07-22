@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.babyshop.babyshop.models.Image;
 import com.babyshop.babyshop.repositories.ImageRepository;
 
 @Service
@@ -96,7 +97,7 @@ public class ImageService {
 	public String randFileName() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
-	public String storeAvatar(UrlResource urlResource) {
+	public String saveAvatarUrl(UrlResource urlResource) {
 		String generatedFileName = randFileName();
 		generatedFileName = generatedFileName + ".png";
 		try {
@@ -116,7 +117,7 @@ public class ImageService {
 		}
 		return generatedFileName;
 	} 
-	public String updateAvatar(MultipartFile file) {
+	public String saveAvatar(MultipartFile file) {
 		String generatedFileName =randFileName();
 		try {
 		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -195,5 +196,70 @@ public class ImageService {
 			throw new RuntimeException("Could not read file: " + fileName, exception);
 		}
 	}
-
+	public String saveImageFeedback(MultipartFile file) {
+		String generatedFileName =randFileName();
+		try {
+		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		generatedFileName = generatedFileName + "." + fileExtension;
+		Path destinationFilePath = this.storageFolderFeedback.resolve(Paths.get(generatedFileName)).normalize()
+				.toAbsolutePath();
+		if (!destinationFilePath.getParent().equals(this.storageFolderFeedback.toAbsolutePath())) {
+			throw new RuntimeException("Cannot store file outside current directory");
+		}
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+		}
+		}catch (Exception e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+		return generatedFileName;
+		
+	}	
+	
+	public String saveImageBrand(MultipartFile file) {
+		String generatedFileName =randFileName();
+		try {
+		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		generatedFileName = generatedFileName + "." + fileExtension;
+		Path destinationFilePath = this.storageFolderBrand.resolve(Paths.get(generatedFileName)).normalize()
+				.toAbsolutePath();
+		if (!destinationFilePath.getParent().equals(this.storageFolderBrand.toAbsolutePath())) {
+			throw new RuntimeException("Cannot store file outside current directory");
+		}
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+		}
+		}catch (Exception e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+		return generatedFileName;
+		
+	}	
+	
+	public String saveImageProduct(MultipartFile file) {
+		String generatedFileName =randFileName();
+		try {
+		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+		
+		generatedFileName = generatedFileName + "." + fileExtension;
+		Path destinationFilePath = this.storageFolderProduct.resolve(Paths.get(generatedFileName)).normalize()
+				.toAbsolutePath();
+		if (!destinationFilePath.getParent().equals(this.storageFolderProduct.toAbsolutePath())) {
+			throw new RuntimeException("Cannot store file outside current directory");
+		}
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+		}
+		}catch (Exception e) {
+			throw new RuntimeException("Failed to store file", e);
+		}
+		return generatedFileName;
+		
+	}
+	
+	public void deleteById(Image image) {
+		imageRepository.delete(image);
+	}
 }

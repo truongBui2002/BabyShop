@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.babyshop.babyshop.controller.ImageController;
+import com.babyshop.babyshop.util.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,19 +40,19 @@ public class Feedback {
 	private int feedbackId;
 	
 	@Column(name = "rate_star")
-	private int rateStar;
+	private int rateStar = 0;
 	
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "like")
-	private int like;
+	@Column(name = "likes")
+	private int likes = 0;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_details_id")
 	private OrderDetails orderDetails;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
@@ -69,7 +70,7 @@ public class Feedback {
 	private List<Image> images;
 	
 	@Column(name = "status")
-	private String status;
+	private String status = Status.INACTIVE;
 	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new java.util.Date().getTime());

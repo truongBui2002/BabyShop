@@ -1,17 +1,16 @@
 package com.babyshop.babyshop.controller;
 
-import java.sql.Date;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,20 +18,24 @@ import org.springframework.web.multipart.MultipartFile;
 import com.babyshop.babyshop.models.Cart;
 import com.babyshop.babyshop.models.CartItem;
 import com.babyshop.babyshop.models.Customer;
+import com.babyshop.babyshop.models.Feedback;
 import com.babyshop.babyshop.models.Image;
 import com.babyshop.babyshop.models.Location;
 import com.babyshop.babyshop.models.Order;
 import com.babyshop.babyshop.models.OrderDetails;
 import com.babyshop.babyshop.models.User;
+import com.babyshop.babyshop.models.Variant;
 import com.babyshop.babyshop.service.CartItemService;
 import com.babyshop.babyshop.service.CartService;
 import com.babyshop.babyshop.service.CustomerService;
+import com.babyshop.babyshop.service.FeedbackService;
 import com.babyshop.babyshop.service.FirebaseService;
 import com.babyshop.babyshop.service.ImageService;
 import com.babyshop.babyshop.service.LocationService;
 import com.babyshop.babyshop.service.OrderDetailsService;
 import com.babyshop.babyshop.service.SendMailService;
 import com.babyshop.babyshop.service.UserService;
+import com.babyshop.babyshop.service.VariantService;
 import com.babyshop.babyshop.util.RandomKey;
 import com.babyshop.babyshop.util.Status;
 
@@ -74,6 +77,15 @@ public class UserController {
 	@Autowired
 	FirebaseService firebaseService;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	FeedbackService feedbackService;
+
+	@Autowired
+	VariantService variantService;
+
 	@GetMapping("/login")
 	public String login(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
@@ -101,9 +113,50 @@ public class UserController {
 	@GetMapping("/user/viewprofile")
 	public String viewProfile(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-
 		modelMap.addAttribute("color", "profile");
 		return "viewprofile";
+	}
+
+	@PostMapping("/user/viewprofile/newpass")
+	public String newPass(ModelMap modelMap, @RequestParam(name = "new-password") String pass,
+			@RequestParam(name = "re-new-password") String re_pass) {
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+			if (pass.equals(re_pass)) {
+				user.setPassword(pass);
+				user.setStatus(Status.UNLOCK);
+				userService.saveUserEncoder(user);
+				return "redirect:/user/viewprofile/changepass?success=Successfully generated new password";
+			} else {
+				return "redirect:/user/viewprofile/changepass?error=Re-enter password does not match";
+			}
+		} else {
+			return "redirect:/user/viewprofile/changepass?error=Not Found User";
+		}
+	}
+
+	@PostMapping("/user/viewprofile/changepass")
+	public String changePass(ModelMap modelMap, @RequestParam(name = "password") String pass,
+			@RequestParam(name = "new-password") String newPass,
+			@RequestParam(name = "re-new-password") String re_pass) {
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+
+			if (passwordEncoder.matches(pass, user.getPassword())) {
+				if (newPass.equals(re_pass)) {
+					user.setPassword(newPass);
+
+					userService.saveUserEncoder(user);
+					return "redirect:/user/viewprofile/changepass?success=Successfully generated new password";
+				} else {
+					return "redirect:/user/viewprofile/changepass?error=Re-enter password does not match";
+				}
+			} else {
+				return "redirect:/user/viewprofile/changepass?error=Old password is incorrect";
+			}
+		} else {
+			return "redirect:/user/viewprofile/changepass?error=Not Found User";
+		}
 	}
 
 	@GetMapping("/email")
@@ -140,12 +193,11 @@ public class UserController {
 		return "redirect:/login?err";
 
 	}
-	
+
 	@PostMapping("/forgot/phone")
-	public String forgotByPhone(ModelMap modelMap ,
+	public String forgotByPhone(ModelMap modelMap,
 			@RequestParam(name = "phoneNumber", defaultValue = "") String phoneNumber,
-			@RequestParam(name = "e-password", defaultValue = "") String password ,
-			@RequestBody String data) {
+			@RequestParam(name = "e-password", defaultValue = "") String password, @RequestBody String data) {
 		String tokenPhone = (String) session.getAttribute("tokenPhone");
 		if (tokenPhone != null) {
 			String phoneNumberByToken = firebaseService.getPhoneNumberByToken(tokenPhone);
@@ -153,27 +205,27 @@ public class UserController {
 				String regexPhone = phoneNumber.replaceFirst("^0", "+84");
 				if (phoneNumberByToken.equals(regexPhone)) {
 					User user = userService.findByPhone(phoneNumber);
-					if(user!=null) {
+					if (user != null) {
 						user.setPhoneNumber(phoneNumber);
 						user.setPassword(password);
-						userService.updatePass(user);
+						userService.saveUserEncoder(user);
 						return "redirect:/login?success";
 					}
-					
+
 				}
 
 			}
 		}
 		return "redirect:/login?err";
-
 	}
+
 	@PostMapping("/register/email")
 	public String registerByEmail(@RequestParam(name = "emailHidden", defaultValue = "") String email,
 			@RequestParam(name = "e-password", defaultValue = "") String password, ModelMap modelMap,
 			@RequestBody String data) {
 		String emailConfirm = (String) session.getAttribute("emailConfirm");
-		if(emailConfirm!=null) {
-			if(emailConfirm.equals(email)) {
+		if (emailConfirm != null) {
+			if (emailConfirm.equals(email)) {
 				User user = new User();
 				user.setEmail(email);
 				user.setPassword(password);
@@ -191,7 +243,7 @@ public class UserController {
 		User user = (User) session.getAttribute("user");
 		user = userService.getUserById(user.getUserId());
 		if (!avatar.isEmpty()) {
-			String imgName = imageService.updateAvatar(avatar);
+			String imgName = imageService.saveAvatar(avatar);
 			if (user.getImage() != null) {
 				user.getImage().setName(imgName);
 			} else {
@@ -210,14 +262,13 @@ public class UserController {
 			e.printStackTrace();
 		}
 		user.setFullName(fullName);
-		if (gender.equals("1")) {
-			System.out.println("gender: " +gender);
+		if (gender.equals("male")) {
 			user.setGender(true);
 		} else {
-			System.out.println("gender: " +gender);
 			user.setGender(false);
 		}
 		userService.save(user);
+		user = userService.getUserById(user.getUserId());
 		session.setAttribute("user", user);
 		return "redirect:/user/viewprofile";
 	}
@@ -225,7 +276,6 @@ public class UserController {
 	@GetMapping("/user/update/email")
 	public String updateEmail(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-
 		return "email";
 	}
 
@@ -238,7 +288,7 @@ public class UserController {
 			String pass = rd.getString(10);
 			sendMailService.sendNewPass(email, pass);
 			user.setPassword(pass);
-			userService.updatePass(user);
+			userService.saveUserEncoder(user);
 			modelMap.addAttribute("success", "Password sent to your email!!!");
 		} else {
 			modelMap.addAttribute("err", "Email does not exist!!!");
@@ -257,7 +307,7 @@ public class UserController {
 		List<CartItem> purchaseItem = new ArrayList<>();
 		for (CartItem cartItem : cartItems) {
 			for (Integer cartItemId : cartItemsId) {
-				if (cartItem.getCartItemId() == cartItemId) {
+				if (cartItem.getCartItemId() == cartItemId && cartItem.getVariant().getQuantity()>0) {
 					purchaseItem.add(cartItem);
 				}
 			}
@@ -267,7 +317,7 @@ public class UserController {
 			totalAmount += cartItem.getQuantity() * cartItem.getVariant().getProduct().getSalePrice();
 		}
 		modelMap.addAttribute("purchaseItem", purchaseItem);
-		modelMap.addAttribute("customer", customer);
+		modelMap.addAttribute("customer", customer); 
 		modelMap.addAttribute("totalAmount", totalAmount);
 		return "purchase";
 	}
@@ -303,12 +353,16 @@ public class UserController {
 					odDetails.setVariant(cartItem.getVariant());
 					odDetails.setQuantity(cartItem.getQuantity());
 					orderDetails.add(odDetails);
+
+					// Cập nhật lại số lượng sản phẩm trong kho, tổng trong kho - số lượng mua
+					Variant variant = variantService.getVariantById(cartItem.getVariant().getVariantId());
+					variant.setQuantity(variant.getQuantity() - cartItem.getQuantity());
+					variantService.save(variant);
 					cartItemService.deleteById(cartItemId);
 				}
 			}
 		}
 
-		// Xóa Item trong cart đã mua
 		customerService.save(customer);
 
 		return "redirect:/user/viewprofile/order/orderhistory";
@@ -333,8 +387,8 @@ public class UserController {
 			}
 		}
 		List<Location> locations = customer.getLocations();
-		locations = locations.stream().filter(location-> !location.getStatus().equals(Status.HIDDEN)).toList();
-		modelMap.addAttribute("customer", customer); 
+		locations = locations.stream().filter(location -> !location.getStatus().equals(Status.HIDDEN)).toList();
+		modelMap.addAttribute("customer", customer);
 		modelMap.addAttribute("locations", locations);
 		modelMap.addAttribute("color", "address");
 		return "/profile/changeaddress";
@@ -374,7 +428,6 @@ public class UserController {
 		modelMap.addAttribute("customer", customer);
 		return "redirect:/user/viewprofile/address";
 	}
-	
 
 	@GetMapping("/user/viewprofile/order/orderhistory")
 	public String orderhistory(ModelMap modelMap) {
@@ -399,7 +452,6 @@ public class UserController {
 	@GetMapping("/user/viewprofile/changepass")
 	public String changepass(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
-
 		modelMap.addAttribute("color", "changepass");
 		return "/profile/changepass";
 	}
@@ -416,6 +468,48 @@ public class UserController {
 	public String proNoti(ModelMap modelMap) {
 		loadDataController.loadData(modelMap);
 		return "/profile/notification";
+	}
+
+	@PostMapping("/user/feedback-product")
+	public String feedBackProduct(@RequestParam(name = "odDetailsId", defaultValue = "") String oddId,
+			@RequestParam(name = "rating", defaultValue = "") String rate,
+			@RequestParam(name = "feedback-image", defaultValue = "") List<MultipartFile> fileImages,
+			@RequestParam(name = "feedback-description", defaultValue = "") String description) {
+
+		int odDetailsId = Integer.parseInt(oddId);
+		int rateStar = Integer.parseInt(rate);
+		OrderDetails orderDetails = orderDetailsService.getById(odDetailsId);
+		List<Image> images = new ArrayList<>();
+		if (orderDetails != null) {
+			Feedback feedback = orderDetails.getFeedback();
+			if (feedback == null) {
+				feedback = new Feedback();
+				feedback.setOrderDetails(orderDetails);
+				feedback.setRateStar(rateStar);
+				feedback.setDescription(description);
+				feedback.setCustomer(orderDetails.getOrder().getCustomer());
+				feedback.setProduct(orderDetails.getProduct());
+				feedback.setLikes(orderDetails.getOrderDetailsId());
+				for (MultipartFile file : fileImages) {
+					String imageName = imageService.saveImageFeedback(file);
+					Image image = new Image();
+					image.setName(imageName);
+					images.add(image); 
+				}
+				if(images.size()!=0) {
+					feedback.setImages(images);
+				}
+				feedbackService.save(feedback);
+
+			}
+
+		}
+//		System.out.println("oddDetailsId: " + oddId);
+//		System.out.println("rate: " + rate);
+//		System.out.println("images: " + fileImages.size());
+//		System.out.println("description: " + description);
+
+		return "redirect:/user/viewprofile/order/orderhistory";
 	}
 
 }

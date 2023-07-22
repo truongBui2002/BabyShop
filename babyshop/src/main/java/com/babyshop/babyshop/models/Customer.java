@@ -66,3 +66,4 @@ public class Customer {
 	private Timestamp updateAt = new Timestamp(new java.util.Date().getTime());
 	
 }
+

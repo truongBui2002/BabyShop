@@ -160,7 +160,7 @@ public class ProductService {
 		// Loc ra những sản phẩm có sizes trong brandsFilter
 		List<Product> sizesFilter = brandsFilter.stream().filter(p -> {
 			if (sizesChecked.size() != 0) {
-				for (Variant var : p.getVariant()) {
+				for (Variant var : p.getVariants()) {
 					if (sizesChecked.contains(var.getName())) {
 						return true;
 					}
@@ -188,11 +188,10 @@ public class ProductService {
 
 	}
 
-//	public List<Product> getAll() {
-//		List<Product> products = productRepository.findAll();
-//		
-//		return products;
-//	}
+	public List<Product> getAllExists() {
+		List<Product> products = productRepository.findAllExists();
+		return products;
+	}
 
 	public Product getProductById(int productid) {
 		Optional<Product> product = productRepository.findById(productid);
@@ -215,4 +214,17 @@ public class ProductService {
 		}
 		return newList;
 	}
+	
+	public Product getByIdExists(int id) {
+		return productRepository.findByIdExists(id);
+	}
+	
+	public void save(Product product) {
+		productRepository.save(product);
+	}
 }
+
+
+
+
+

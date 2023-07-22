@@ -175,7 +175,7 @@ CREATE TABLE `feedback` (
   `customer_id` int,
   `product_id` int,
   `order_details_id` int,
-  `like` int,
+  `likes` int,
   `status` varchar(255),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -321,8 +321,8 @@ INSERT user(email, password, phone_number) VALUES("buivantruong16082000@gmail.co
 INSERT user(email, password, phone_number) VALUES("buivantruong16082003@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0387958478"); -- ROLE_CUSTOMER
 INSERT user(email, password, phone_number) VALUES("buivantruong16081001@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761609"); -- ROLE_STAFF
 INSERT user(email, password, phone_number) VALUES("buivantruong10012002@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0359654921"); -- ROLE_ADMIN
--- INSERT user(email, password, phone_number) VALUES("buivantruong16082004@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761617"); -- ROLE_CUSTOMER
--- INSERT user(email, password, phone_number) VALUES("buivantruong16082005@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761627"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082004@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761617"); -- ROLE_CUSTOMER
+INSERT user(email, password, phone_number) VALUES("buivantruong16082005@gmail.com", "$2a$10$9B0uI.dhioLrXEPg11M9/e.YTrLnUVgP.TORXBhF510yZKEgUKLcW", "0384761627"); -- ROLE_CUSTOMER
 
 -- INSERT USER
 INSERT role(name) VALUES("ROLE_CUSTOMER");
@@ -332,13 +332,14 @@ INSERT role(name) VALUES("ROLE_ADMIN");
 INSERT user_role(user_id, role_id) VALUES(1, 1);
 INSERT user_role(user_id, role_id) VALUES(2, 1);
 INSERT user_role(user_id, role_id) VALUES(3, 2); 
-INSERT user_role(user_id, role_id) VALUES(3, 3); 
+INSERT user_role(user_id, role_id) VALUES(4, 3); 
+INSERT user_role(user_id, role_id) VALUES(5, 1); 
+INSERT user_role(user_id, role_id) VALUES(6, 1); 
 
 -- INSERT CUSTOMER
 INSERT customer(user_id, full_name) VALUES (1, "Customer Truong 1");
 INSERT customer(user_id, full_name) VALUES (2, "Customer Truong 2");
 
-SELECT * FROM swp391_team3.customer;
 -- INSERT category
 INSERT category(name) VALUES ("Clothing");
 INSERT category(name) VALUES ("Footwear");
@@ -588,7 +589,7 @@ INSERT image_product(product_id, image_id) VALUES(6, 16);
 INSERT image_product(product_id, image_id) VALUES(6, 17);
 
 INSERT image(name) VALUES ("Kuling.jpg");
-INSERT image(name) VALUES ("MiniRodini.jpg");
+INSERT image(name) VALUES ("JOX.jpg");
 INSERT image(name) VALUES ("Wheat.jpg");
 INSERT image(name) VALUES ("Molo.jpg");
 INSERT image(name) VALUES ("Stokke.jpg");
@@ -607,7 +608,7 @@ INSERT variant(product_id, name, quantity) VALUES( 6, '92 cm', 0);
 INSERT variant(product_id, name, quantity) VALUES( 6, '98 cm', 2);
 
 INSERT brand(name, image_id, description) VALUES ("Kuling", 18, "Designed for active and adventurous kids, Swedish brand Kuling designs long-lasting apparel with signature Scandinavian style. Discover their colorful collection of kids’ and babies’ fashion such as UV clothing, ski jackets, footwear and rain gear. Check out the lates items from Kuling here!");
-INSERT brand(name, image_id, description) VALUES ("MiniRodini", 19, "Established in Sweden in 2006, Mini Rodini is an eco-conscious brand devoted to the playful personalities of children. Mini Rodini encourages kids to stand out from the crowd with fun prints, bright colors and bold characters.");
+INSERT brand(name, image_id, description) VALUES ("JOX", 19, "JOX is a Swedish interior brand aiming to provide stylish options for young children and their families, making it easy and fun to decorate the kid's room. Underpinned by detailed design, natural materials and high-quality durability, JOX offers a practical collection of classic staples, with eye-catching details. With JOX, you’ll find everything you need to turn the kid's room into a magical place. Find you favorites among colorful rugs, timeless pieces of furniture, smart storage, beautiful bedding, and trendy textiles.");
 INSERT brand(name, image_id, description) VALUES ("Wheat", 20, "Danish brand Wheat started in 2002 and has as its focus to reinterpret classic kids and baby clothes to put its own spin on the items. The brand does everything from coats and accessories to tops and dresses. Wheat has as part of its core to focus on sustainability and natural fibers in their products.");
 INSERT brand(name, image_id, description) VALUES ("Molo", 21, "Kidswear brand Molo started in Copenhagen in 2003 with the aim to bring color and vibrancy to clothes for kids and babies. The clothes are designed for real life and for kids to fully be themselves. Everything from dresses to sweaters feature the brand’s unique prints, vibrant colors, and its nod to Scandinavian design.");
 INSERT brand(name, image_id, description) VALUES ("Stokke", 22, "Stokke® is a Norwegian brand recognized worldwide for premium solutions for babies and children. All the products have a common purpose: to encourage child development and to strengthen bonding between parants and their children. Stokke® is focusing on timeless design, durable materials and functionality in the category: high chairs, nursery, strollers, travel and more. Here we grow™");
@@ -1521,11 +1522,11 @@ INSERT order_details(order_id, product_id, variant_id, quantity, price, profit, 
 -- INSERT FEEDBACK
 -- ACTIVE : hoạt động
 -- INACTIVE : Không hoạt động
-INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 1, "Very good, 9.5 point", 5, 1, 0, "ACTIVE");
-INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (3, 1, "Temporarily, in general, give 8 points :))", 4, 2, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `likes`, status) VALUES (2, 1, "Very good, 9.5 point", 5, 1, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `likes`, status) VALUES (3, 1, "Temporarily, in general, give 8 points :))", 4, 2, 0, "ACTIVE");
 
-INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 4, 7, 0, "ACTIVE");
-INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `like`, status) VALUES (4, 2, "The product is pretty bad.", 3, 8, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `likes`, status) VALUES (2, 2, "It seems to suit me quite well !!!", 4, 7, 0, "ACTIVE");
+INSERT feedback(product_id, customer_id, description, rate_star, order_details_id, `likes`, status) VALUES (4, 2, "The product is pretty bad.", 3, 8, 0, "ACTIVE");
 
 -- INSERT IMAGE FEEDBACK : start image-id: 161
 INSERT image(name) VALUES ("feedback12312412gdf.webp"); 
@@ -1554,6 +1555,8 @@ INSERT image(name) VALUES ("avatarwibu1.webp");
 INSERT image(name) VALUES ("avatarwibu2.jpg"); 
 UPDATE user SET image_id = 170 where user_id = 1;
 UPDATE user SET image_id = 171 where user_id = 1;
+
+SELECT * FROM swp391_team3.customer;
 SELECT * FROM swp391_team3.order_details;
 SELECT * FROM swp391_team3.variant;
 SELECT * FROM swp391_team3.product;

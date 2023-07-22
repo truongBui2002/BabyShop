@@ -13,86 +13,71 @@
 
 	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/viewprofile.css}">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/email.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/change.css}">
 	<!-- cdn fown awe some-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-	<!--email verify-->
-	<script src="https://smtpjs.com/v3/smtp.js"></script>
 	<title>Baby Shop</title>
 </head>
 
 <body>
 	<!-- nav - bar -->
-	<header th:insert="~{home :: navbar}"></header>
+	<div th:insert="~{home :: navbar}"></div>
+
 	<!--view profile-->
-	<div class="container">
+	<div class="container" th:with="user = ${session.user}">
 		<div class="row align-items-start gap-5">
-			<div class="sidebar_profile col-md-2">
-				<!--add image information-->
-				<nav class="profile-nav">
-					<ul class=" profile-nav__items">
-						<li class="profile-nav__item is-selected">
-							<a th:href="@{/user/viewprofile}" class="profile-nav__link">My Account</a>
-						</li>
-						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Order History</a>
-						</li>
-						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Return & Exchange</a>
-						</li>
-						<li class="profile-nav__item">
-							<a th:href="@{/user/resetpass}" class="profile-nav__link">Reset password</a>
-						</li>
-						<li class="profile-nav__item">
-							<a href="#" class="profile-nav__link">Newsletter</a>
-						</li>
-						<li class="profile-nav__item">
-							<a th:href="@{/logout}" class="profile-nav__link">Logout</a>
-						</li>
-					</ul>
-				</nav>
+			<div class="col-2" th:insert="~{viewprofile :: sidebar}">
 			</div>
-			<main class="view-profile col-md-6">
-				<div class="view-profile__infor">
-					<h1 class="view-profile__heading d-md-block">My Account</h1>
-					<div class="view-profile__content">
-						<form action="" class="profile-info" >
-							<h2 class="form__section-heading">Change Your Email</h2>
-							<!-- disable information-->
-							<div class="field rel__span">
-								<label for="cf_email" class="field__label">New email address</label>
-								<input type="email" id="cf_email" name="cf_email"
-									class="field__input field__input--email" required>
-								<span class="sendOTP" onclick="sendOTP()">Send OTP</span>
-							
-							</div>
-							
-							<!-- confirm OTP-->
-							<div id="confirmOTP" class="field">
-								<label for="otpEmail" class="field__label">OTP
-									verification code</label> <input type="text" id="otpEmail" name="otpEmail"
-									class="field__input" placeholder="Enter OTP" maxlength="6" disabled>
-									<span id="invalid_otp" class="field__span" style="color: red;">Invalid OTP</span>
+			<main class="view-profile col-md-8">
+				<!-- change here-->
+				<div class="Hvae38 mt" role="main">
+					<div style="display: contents;">
+						<div class="UWIOO4">
+							<div class="d2XTTX-h">
+								<div class="KxkIgA">
+									<div class="Df4Vny">Change Email</div>
+									<div class="VwAsdf"></div>
 								</div>
 
-
-
-							<div class="field">
-								<button type="submit" class="btn-login btn-viewprofile" id="otp_confirm">
-									<span>Update email</span>
-								</button>
 							</div>
-						</form>
+
+							<form action="#" method="post" class="auth_form js-auth-form mt-5">
+								<div class="field input_box">
+									<label for="email" class="field__label">New email address</label>
+									<input type="email" id="email" name="email" class="field__input" placeholder="Email"
+										required>
+									<div id="recaptcha-container"></div>
+									<span class="sendOTP js-otp">Send OTP</span>
+								</div>
+								<div class="field">
+									<label for="otpCode" class="field__label">OTP Code</label>
+									<input type="number" id="otpCode" name="otpCode" class="field__input"
+										placeholder="OTP Code" maxlength="6" required>
+								</div>
+								<div class="field">
+									<label for="email" class="field__label">Password</label>
+									<input type="password" id="email" name="email" class="field__input"
+										placeholder="Password" required>
+								</div>
+								<div class="field">
+									<button class="btn-login text-white" id="btn-forgot" type="submit">
+										<span>Change Email</span>
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</main>
 		</div>
-	</div>
-	<footer th:insert="~{home :: footer}"></footer>
-	<script th:src="@{/js/email.js}"></script>
+		<div th:insert="~{home :: footer}"></div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+		<script th:src="@{js/login.js}"></script>
+		<script th:src="@{/js/change.js}"></script>
 </body>
 
 </html>

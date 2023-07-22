@@ -1,7 +1,5 @@
 package com.babyshop.babyshop.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +12,15 @@ public class VariantService {
 	VariantRepository variantRepository;
 	
 	public Variant getVariantById(int variantId) {
-		Optional<Variant> variant = variantRepository.findById(variantId);
-		if(variant.isPresent()) return variant.get();
-		return null;
+		return variantRepository.findById(variantId).orElse(null);
 	}
 	
+	public void save (Variant variant) {
+		variantRepository.save(variant);
+	}
+	public void deleteById(int id) {
+		System.out.println("DA TOI XOA");
+		variantRepository.deleteById(id);
+		System.out.println("DA XOA");
+	}
 }

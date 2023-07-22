@@ -41,7 +41,7 @@ public class Brand {
 	private int brandId;
 	
 	@Column(name = "name")
-	private String name;
+	private String name ;
 	
 	@Column(name = "description")
 	private String description;

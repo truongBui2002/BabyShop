@@ -1,0 +1,9 @@
+#imageContainer {
+    margin-top: 30px;
+}
+
+#imageContainer img {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 5px;
+}

@@ -44,4 +44,8 @@ public class Variant {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
+	
+	public Variant(String name) {
+		this.name = name;
+	}
 }

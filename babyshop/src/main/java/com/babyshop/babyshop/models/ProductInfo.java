@@ -39,7 +39,7 @@ public class ProductInfo {
 	private String color;
 	
 	@Column(name = "style")
-	private String style;
+	private String style = "";
 	
 	@Column(name = "created_at")
 	private Timestamp createdAt = new Timestamp(new Date().getTime());

@@ -557,20 +557,20 @@
                                   </tr>
                                </thead>
                                <tbody>
-                                  <tr>
+                                  <tr th:each = "odDetails : ${orderDetails}" class="order-detatils" th:data-oddid = ${odDetails.orderDetailsId}>
                                      <td class="d-flex align-items-center">
                                         <img class="rounded img-fluid avatar-40 me-3 bg-soft-primary"
-                                        src="../../assets/images/shapes/03.png" alt="profile">
+                                        th:src="${odDetails.product.getUriImages().get(0)}" alt="profile" th:text = "${odDetails.product.name}">
                                         Tiger Nixon
                                     </td>
-                                     <td>Duy</td>
-                                     <td>30cm</td>
-                                     <td>2</td>
-                                     <td>200.000</td>
-                                     <td><div class="text-success">Completed</div></td>
+                                     <td th:text = "${odDetails.order.customer.fullName}">Duy</td>
+                                     <td th:text = "${odDetails.variant.name}">30cm</td>
+                                     <td th:text = "${odDetails.quantity}">2</td>
+                                     <td th:text = "${odDetails.price}">200.000</td>
+                                     <td><div class="text-success od-status" th:text = "${odDetails.status}">Completed</div></td>
                                      <td>
                                         <div class="flex align-items-center list-user-action">
-                                            <a class="btn btn-sm btn-icon btn-success"
+                                            <a class="btn btn-sm btn-icon btn-success btn-ship"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Add"
                                                 href="#">
                                                 <span class="btn-inner">
@@ -597,7 +597,7 @@
                                                     </svg>
                                                 </span>
                                             </a>
-                                            <a class="btn btn-sm btn-icon btn-warning"
+                                            <a class="btn btn-sm btn-icon btn-warning btn-complete"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="View" href="#">
                                                 <span class="btn-inner">
@@ -620,7 +620,7 @@
                                                     </svg>
                                                 </span>
                                             </a>
-                                            <a class="btn btn-sm btn-icon btn-danger"
+                                            <a class="btn btn-sm btn-icon btn-danger btn-cancel"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="Delete" href="#">
                                                 <span class="btn-inner">
@@ -655,6 +655,7 @@
                    </div>
                 </div>
              </div>
+        
         </div>
         <!-- Footer Section Start -->
         <footer class="footer">
@@ -949,7 +950,7 @@
             </div>
         </div>
     </div>
-
+	<script th:src="@{/assets/js/order-list.js}"></script>
     <!-- Library Bundle Script -->
     <script th:src="@{/assets/js/core/libs.min.js}"></script>
 
@@ -980,6 +981,8 @@
 
     <!-- App Script -->
     <script th:src="@{/assets/js/hope-ui.js}" defer></script>
+    
+     
 
 </body>
 

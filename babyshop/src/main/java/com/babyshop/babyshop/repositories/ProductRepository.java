@@ -16,4 +16,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	@Query("SELECT p FROM Product p WHERE p.name LIKE %:name%")
 	List<Product> findByNameContain(@Param("name") String name);
 	List<Product> findByBrand(Brand brand);
+	@Query(value = "SELECT * FROM product", nativeQuery = true)
+	List<Product> findAllExists();
+	
+	@Query(value = "SELECT * FROM product p Where p.product_id = :id", nativeQuery = true)
+	Product findByIdExists(@Param("id") int id);
+	
 }

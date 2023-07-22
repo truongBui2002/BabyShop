@@ -1,6 +1,5 @@
 // generic
-var a = document.querySelectorAll('.FEE-3D');
-console.log(a);
+var a = document.querySelectorAll('.FEE-3D');;
 a.forEach((e) => {
     e.addEventListener('click', () => {
         a.forEach((c) => {

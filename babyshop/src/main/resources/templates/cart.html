@@ -57,7 +57,7 @@
                 <div class="edit_product_cart">Edit</div>
             </div>
             <!-- list product in cart-->
-            <div class="product-added-cart" th:if = "${cartItems.size()}!=0" th:each = "item : ${cartItems}">
+            <div class="product-added-cart" th:if = "${cartItems.size()!=0 and item.variant.quantity>0}" th:each = "item : ${cartItems}">
             	<input type="hidden" th:id="${item.cartItemId}"/>
                 <div class="product-added-cart-info">
                     <div class="product-added-cart__info"> 
@@ -133,28 +133,31 @@
                 </div>
             </div>
             <!-- SẢN PHẨM CÒN TRONG GIỎ HÀNG NHƯNG ĐÃ BỊ BÁN HẾT  -->
-<!--             <div class="product-added-cart" th:if = "${cartItems.size()}!=0" style="display: none">
+           <div class="product-added-cart" th:if = "${cartItems.size()!=0 and item.variant.quantity==0}" th:each = "item : ${cartItems}" >
+           		<input type="hidden" th:id="${item.cartItemId}"/>
                 <div class="product-added-cart-info">
                     <div class="product-added-cart__info">
                         <div class="product-added_cart__info">
                             <div class="cart-checkbox">
-                                het hang thi xoa cho nay di
+                               <!--  het hang thi xoa cho nay di -->
                             </div>
                             <div class="product-added_cart-main">
                                 <div class="product-added_cart__main">
                                     <a title="Lót chuột cỡ lớn 80x30cm dày dặn 3mm chuyên game chống trơn trượt siêu bền siêu rẻ"
-                                        href="#">
-                                        image product
+                                        th:href="@{'/product/details/' + ${item.variant.product.productId}}">
+                                        <!-- image product -->
                                         <div class="product_cart_image">
-                                            <img src="../image/seele.jpg" alt="#" width="80" height="80">
+                                            <img th:src="${item.variant.product.getUriImages().get(0)}" alt="#" width="80" height="80">
                                         </div>
 
                                     </a>
                                     <div class="product_cart__des">
-                                        <div class="product_cart_des_brand"><a href="#">Kuling</a></div>
-                                        <a class="product_cart__des__link" title="#" href="#">
+                                        <div class="product_cart_des_brand"><a th:href="@{'/brand/details/' + ${item.variant.product.brand.brandId}}"
+                                        th:text="${item.variant.product.brand.name}">Kuling</a></div>
+                                        <a class="product_cart__des__link" title="#" th:href="@{'/product/details/' + ${item.variant.product.productId}}"
+                                        th:text = "${item.variant.product.name}">
                                             Livigno Recycled Wind Fleece Jacket Harvest Yellow</a>
-                                        <div class="product_cart_des_size">110cm</div>
+                                        <div class="product_cart_des_size" th:text ="${item.variant.name}">110cm</div>
                                         <div><span class="Jjmw4R">Out of stock</span></div>
                                     </div>
                                 </div>
@@ -185,7 +188,7 @@
                                         </svg>
                                     </button>
                                 </div>
-
+							<div class="OEPrn5 product-left" th:aria-valuemax="0" >0 product left</div>
                             </div>
                             <div class="product-cart_total_amount" aria-label="55000">
                                 <span>₫0</span>
@@ -204,7 +207,7 @@
                     </div>
                 </div>
 
-            </div> -->
+            </div>
 
             <!-- payment-->
             <div class="payment" th:if = "${cartItems.size()}!=0" >

@@ -17,11 +17,13 @@ import org.springframework.stereotype.Component;
 
 import com.babyshop.babyshop.models.CustomOidcUser;
 import com.babyshop.babyshop.models.Image;
+import com.babyshop.babyshop.models.Role;
 import com.babyshop.babyshop.models.User;
 import com.babyshop.babyshop.repositories.RoleRepository;
 import com.babyshop.babyshop.repositories.UserRepository;
 import com.babyshop.babyshop.service.ImageService;
 import com.babyshop.babyshop.service.UserService;
+import com.babyshop.babyshop.util.Permit;
 import com.babyshop.babyshop.util.RandomKey;
 import com.babyshop.babyshop.util.Status;
 
@@ -37,13 +39,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 	UserDetailsService userDetailsService;
 
 	@Autowired
-	UserRepository userRepo;
-
-	@Autowired
 	UserService userService;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -60,6 +56,8 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 		RandomKey randomKey = new RandomKey();
 		String redirectUrl = "/user/viewprofile";
 		String urlProductPre = (String) session.getAttribute("urlProductPre");
+		User user = null;
+
 		if (urlProductPre != null) {
 			redirectUrl = urlProductPre;
 		}
@@ -67,27 +65,38 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 			CustomOidcUser customOidcUser = (CustomOidcUser) authentication.getPrincipal();
 			String email = customOidcUser.getEmail();
 
-			if (userRepo.findByEmail(email) == null) {
-				User user = new User();
-				user.setEmail(email);
-				user.setFullName(customOidcUser.getFullName());
-				user.setPassword(randomKey.getString(32));
+			if (userService.findByEmail(email) == null) {
+				User newUser = new User();
+				newUser.setEmail(email);
+				newUser.setFullName(customOidcUser.getFullName());
+				newUser.setPassword(randomKey.getString(32));
 				UrlResource urlResource = new UrlResource(customOidcUser.getPicture());
-				String avatar = imageService.storeAvatar(urlResource);
-				user.setImage(new Image(avatar));
-				user.setStatus(Status.NOT_PASSWORD);
-				userService.saveUser(user);
+				String avatar = imageService.saveAvatarUrl(urlResource);
+				newUser.setImage(new Image(avatar));
+				newUser.setStatus(Status.NOT_PASSWORD);
+				userService.saveUser(newUser);
 			}
-			User user = userService.findByEmail(email);
-			if (user != null) {
-				session.setAttribute("user", user);
+			user = userService.findByEmail(email);
+		} else if (authentication.getPrincipal() instanceof UserDetails) {
+			user = (User) authentication.getPrincipal();
+		}
+		// kiểm tra role truy cập
+		boolean checkRole = false;
+		if (user != null) {
+			for (Role role : user.getRoles()) {
+				if (role.getName().equals(Permit.ADMIN) || role.getName().equals(Permit.ADMIN)) {
+					checkRole = true;
+				}
+			}
+			if (checkRole) {
+				redirectUrl = "/manager/dashboard";
+				session.setAttribute("manager", user);
 			} else {
-				redirectUrl = "/login";
+				session.setAttribute("user", user);
 			}
 
-		} else if (authentication.getPrincipal() instanceof UserDetails) {
-			User user = (User) authentication.getPrincipal();
-			session.setAttribute("user", user);
+		} else {
+			redirectUrl = "/login";
 		}
 
 //		List<SimpleGrantedAuthority> list = (List<SimpleGrantedAuthority>)authentication.getAuthorities();

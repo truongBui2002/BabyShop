@@ -36,4 +36,11 @@ public class OrderDetailsService {
 			}
 		});
 	}
+	public OrderDetails getById(int id) {
+		return orderDetailsRepository.findById(id).orElse(null);
+	}
+	
+	public List<OrderDetails> getAll(){
+		return orderDetailsRepository.findAllOrderDetails();
+	}
 }

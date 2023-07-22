@@ -1,7 +1,9 @@
 package com.babyshop.babyshop.models;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -114,6 +116,20 @@ public class User implements UserDetails {
 			return this.fullName;
 		}
 	}
+	public String getDateOfBirth() {
+	    if (this.dob != null) {
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d"); // "2023-6-20"
+	        String formattedDate = this.dob.format(formatter);
+	        return formattedDate;
+	    }
+	    return null;
+	}
+	
+	public String getCreatedAt() {
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d h:mm a");// "2023-6-20 2:33PM"
+	        String formattedDate = sdf.format(createdAt);
+	        return formattedDate;
+	}
 
 	@Override
 	public String getUsername() {
@@ -141,3 +157,4 @@ public class User implements UserDetails {
 		return true;
 	}
 }
+

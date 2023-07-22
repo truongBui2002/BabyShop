@@ -56,7 +56,7 @@ public class CartRestController {
 	@Autowired
 	CartItemService cartItemService;
 
-	@PutMapping("/product/cart")
+	@PutMapping("/user/product/cart")
 	public String addToCart(@RequestBody String vId) throws Exception {
 		//System.out.println("DATA: " + vId);
 		int variantId = Integer.parseInt(vId);
