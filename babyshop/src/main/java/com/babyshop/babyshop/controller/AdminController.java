@@ -329,13 +329,13 @@ public class AdminController {
 			pf.setColor(color);
 			product.setProductInfo(pf);
 			if (!imagesFile.get(0).getOriginalFilename().isEmpty()) {
-				List<Image> images = new ArrayList<>();
+				product.getImages().clear();
+				List<Image> images = product.getImages();
 				for (MultipartFile file : imagesFile) {
 					String fileName = imageService.saveImageProduct(file);
 					Image image = new Image(fileName);
 					images.add(image);
 				}
-				product.setImages(images);
 			}
 
 			productService.save(product);
