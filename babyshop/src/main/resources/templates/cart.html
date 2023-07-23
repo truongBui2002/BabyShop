@@ -57,7 +57,7 @@
                 <div class="edit_product_cart">Edit</div>
             </div>
             <!-- list product in cart-->
-            <div class="product-added-cart" th:if = "${cartItems.size()!=0 and item.variant.quantity>0}" th:each = "item : ${cartItems}">
+            <div class="product-added-cart" th:if = "${cartItems.size()!=0 and item.variant.quantity>0 && item.variant.product.status != 'LOCK'}" th:each = "item : ${cartItems}">
             	<input type="hidden" th:id="${item.cartItemId}"/>
                 <div class="product-added-cart-info">
                     <div class="product-added-cart__info"> 
@@ -133,7 +133,7 @@
                 </div>
             </div>
             <!-- SẢN PHẨM CÒN TRONG GIỎ HÀNG NHƯNG ĐÃ BỊ BÁN HẾT  -->
-           <div class="product-added-cart" th:if = "${cartItems.size()!=0 and item.variant.quantity==0}" th:each = "item : ${cartItems}" >
+           <div class="product-added-cart" th:if = "${(cartItems.size()!=0 and item.variant.quantity==0) || item.variant.product.status == 'LOCK'}" th:each = "item : ${cartItems}" >
            		<input type="hidden" th:id="${item.cartItemId}"/>
                 <div class="product-added-cart-info">
                     <div class="product-added-cart__info">
@@ -210,7 +210,7 @@
             </div>
 
             <!-- payment-->
-            <div class="payment" th:if = "${cartItems.size()}!=0" >
+            <div class="payment" th:if = "${cartItems.size()}!=0 " >
                 <div class="product-discount" > 
                     <div class="discount-code">
                         <form action="#" class="product-discount-form" >
