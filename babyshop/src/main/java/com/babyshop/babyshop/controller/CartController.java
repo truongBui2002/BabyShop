@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.babyshop.babyshop.models.Brand;
 import com.babyshop.babyshop.models.Cart;
 import com.babyshop.babyshop.models.CartItem;
 import com.babyshop.babyshop.models.Customer;
+import com.babyshop.babyshop.models.Product;
 import com.babyshop.babyshop.models.User;
+import com.babyshop.babyshop.service.BrandService;
+import com.babyshop.babyshop.service.ProductService;
 import com.babyshop.babyshop.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +32,12 @@ public class CartController {
 	@Autowired
 	HttpSession session;
 	
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
+	BrandService brandService;
+	
 	@GetMapping("/user/cart")
 	public String cart(ModelMap modelMap) {
 		loadDataController.loadData(modelMap); 
@@ -39,6 +49,12 @@ public class CartController {
 			Cart cart = customer.getCart();
 			if(cart!=null) {
 				cartItems = cart.getCartItem();
+				cartItems.forEach(item ->{
+					Product product = item.getVariant().getProduct();
+					product = productService.getByIdExists(product.getProductId());
+					Brand brand = product.getBrand();
+					brand = brandService.getBranByIdExists(brand.getBrandId());
+				});
 			} 
 		}
 		modelMap.addAttribute("cartItems", cartItems);
