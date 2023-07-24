@@ -88,6 +88,10 @@ public class AdminController {
 	@GetMapping("/manager/staff/order-list")
 	public String orderList(ModelMap modelMap) {
 		List<OrderDetails> orderDetails = orderDetailsService.getAll();
+		orderDetails.forEach(odd -> {
+			Product product = odd.getVariant().getProduct();
+			product = productService.getByIdExists(product.getProductId());
+		});
 		modelMap.addAttribute("orderDetails", orderDetails);
 		return "admin/order-list";
 	}
@@ -95,6 +99,10 @@ public class AdminController {
 	@GetMapping("/manager/staff/feedback-management")
 	public String feedback(ModelMap modelMap) {
 		List<Feedback> feedbacks = feedbackService.findAllFeedback();
+		feedbacks.forEach(fb ->{
+			Product product = fb.getProduct();
+			product = productService.getByIdExists(product.getProductId());
+		});
 		modelMap.addAttribute("feedbacks", feedbacks);
 		return "admin/feedback-management";
 	}

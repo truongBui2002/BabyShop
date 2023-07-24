@@ -18,6 +18,7 @@ tabs.forEach((tab, index) => {
 					content.innerHTML = result;
 					cancelItem();
 					confirmReceive();
+					sendFeedback();
 				});
 				break;
 			case 1:
@@ -42,6 +43,7 @@ tabs.forEach((tab, index) => {
 					content.innerHTML = result;
 					cancelItem();
 					confirmReceive();
+					sendFeedback();
 				});
 				break;
 			case 4:
@@ -123,22 +125,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // send feedback
-
-var list_product = document.querySelectorAll('.hiXKxx');
-list_product.forEach((product) => {
-	var openFeeback = product.querySelector('.add-feedback');
-	var oddid = product.dataset.oddid;
-	//console.log(oddid);
-	if (openFeeback !== null) {
-		openFeeback.addEventListener('click', () => {
-			var fbForm = document.querySelector('#form-feedback');
-			var inputOddId = fbForm.querySelector('#odDetailsId');
-			inputOddId.value = oddid;
-			//console.log(inputOddId)
-			//console.log("ONPEN FEEDBACK")
-		});
-	}
-})
+sendFeedback();
+function sendFeedback() {
+	var list_product = document.querySelectorAll('.hiXKxx');
+	list_product.forEach((product) => {
+		var openFeeback = product.querySelector('.add-feedback');
+		var oddid = product.dataset.oddid;
+		//console.log(oddid);
+		if (openFeeback !== null) {
+			openFeeback.addEventListener('click', () => {
+				var fbForm = document.querySelector('#form-feedback');
+				var inputOddId = fbForm.querySelector('#odDetailsId');
+				inputOddId.value = oddid;
+				//console.log(inputOddId)
+				//console.log("ONPEN FEEDBACK")
+			});
+		}
+	})
+}
 //hủy đơn
 cancelItem();
 confirmReceive();
