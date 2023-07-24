@@ -89,7 +89,7 @@ public class Product {
 	private List<Image> images = new ArrayList<>();
 
 	// fetch = FetchType.LAZY: được truy vấn khi gọi tới
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id") 
 	private Brand brand;
 
