@@ -85,10 +85,12 @@ boxImgs.forEach((e) => {
 
 
 const upTop = document.getElementById('up-top');
-upTop.addEventListener('click', () => {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-});
+if (upTop !== null) {
+  upTop.addEventListener('click', () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  });
+}
 
 window.onscroll = function () { scrollFunction() };
 
@@ -103,44 +105,55 @@ function scrollFunction() {
 
 /* fill heart */
 var addWishLists = document.querySelectorAll('.add-wishlist');
-addWishLists.forEach( (addWishList) => {
-	
-	var heartLight = addWishList.querySelector('.heart-light');
-	var heartTomato = addWishList.querySelector('.heart-tomato');
-	
-	//Lấy ra productId theo input hidden
-	var productId = addWishList.querySelector('input[type="hidden"]').value;
-//	console.log('productId: ' + productId)
-	
-	addWishList.addEventListener('click', (e) => {
-		addOrRemoveFavorite(productId);
-	
-		if(heartLight.classList.contains('fill-neutral-light') && heartTomato.classList.contains('fill-neutral-microwave')) {
-			heartLight.classList.add('fill-tomato-dark');
-			heartLight.classList.remove('fill-neutral-light');
-			heartTomato.classList.add('fill-tomato-dark');
-			heartTomato.classList.remove('fill-neutral-microwave');
-			addWishList.ariaLabel = 'add from wishlist';
-			
-		}else {
-			heartLight.classList.add('fill-neutral-light');
-			heartTomato.classList.add('fill-neutral-microwave');
-			addWishList.ariaLabel = 'remove from wishlist';
-		}
-	});
+addWishLists.forEach((addWishList) => {
+
+  var heartLight = addWishList.querySelector('.heart-light');
+  var heartTomato = addWishList.querySelector('.heart-tomato');
+
+  //Lấy ra productId theo input hidden
+  var productId = addWishList.querySelector('input[type="hidden"]').value;
+  //	console.log('productId: ' + productId)
+
+  addWishList.addEventListener('click', (e) => {
+    addOrRemoveFavorite(productId);
+
+    if (heartLight.classList.contains('fill-neutral-light') && heartTomato.classList.contains('fill-neutral-microwave')) {
+      heartLight.classList.add('fill-tomato-dark');
+      heartLight.classList.remove('fill-neutral-light');
+      heartTomato.classList.add('fill-tomato-dark');
+      heartTomato.classList.remove('fill-neutral-microwave');
+      addWishList.ariaLabel = 'add from wishlist';
+
+    } else {
+      heartLight.classList.add('fill-neutral-light');
+      heartTomato.classList.add('fill-neutral-microwave');
+      addWishList.ariaLabel = 'remove from wishlist';
+    }
+  });
 });
 var ariaWishList = document.querySelectorAll('[aria-label="remove from wishlist"]');
 
 function addedWishlist() {
-	var ariaWishList = document.querySelectorAll('[aria-label]');
+  var ariaWishList = document.querySelectorAll('[aria-label]');
 }
 
 // click heart
 
-function addOrRemoveFavorite(productId){
-	//console.log("Đã bấm vào favorite: " + productId );
-	//Thêm request ở đây
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/product/favorite/" + productId);
-	xhr.send();
+function addOrRemoveFavorite(productId) {
+  //console.log("Đã bấm vào favorite: " + productId );
+  //Thêm request ở đây
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", "/product/favorite/" + productId);
+  xhr.send();
+}
+
+
+//responsive
+
+var sliderItem = document.querySelectorAll(".slider-items-list1");
+if (sliderItem.length < 10) {
+  var paginationNav = document.querySelector(".pagination-nav");
+  if (paginationNav !== null) {
+    paginationNav.style.display = "none";
+  }
 }

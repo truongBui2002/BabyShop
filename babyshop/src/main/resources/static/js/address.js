@@ -50,6 +50,7 @@ popupAddress.addEventListener('click', () => {
 		overlay.classList.add('overlay__popup');
 		popAddress.appendChild(overlay);
 		popAddress.classList.add('overlay__popup')
+		btnConfirm.setAttribute("disabled", "true");
 	}
 });
 
@@ -58,6 +59,7 @@ btnCancel.addEventListener('click', () => {
 	GrPVC.style.display = "none";
 	targetElement.style.display = "none";
 	popAddress.classList.remove('overlay__popup');
+	btnConfirm.removeAttribute("disabled");
 })
 btnConfirm.addEventListener('click', () => {
 
@@ -80,8 +82,8 @@ locations.forEach((loca, index) => {
 		console.log(locationId);
 	})
 	var removeLocation = loca.querySelector('.btn-r');
-	removeLocation.addEventListener('click', ()=>{
-		removeAdress(locationId).then(result=>{
+	removeLocation.addEventListener('click', () => {
+		removeAdress(locationId).then(result => {
 			location.reload();
 		});
 		console.log("remove");
@@ -97,16 +99,90 @@ function removeAdress(locationId) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
 		xhr.open("PUT", "/user/viewprofile/address/address-remove");
-		xhr.onreadystatechange = function() {
+		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			reject(xhr.statusText);// xảy ra nếu lỗi
-		}; 
+		};
 		xhr.send(locationId);
 	});
 }
 
 
+
+var nameF = document.getElementById("name");
+
+var phoneF = document.getElementById("phone-number");
+
+var addF = document.getElementById("address");
+
+nameF.addEventListener("blur", function () {
+	var nameFV = nameF.value.trim();
+	var namePattern = /^[A-Za-z]+(\s[A-Za-z]+)+$/;
+	if (nameFV === "" || !namePattern.test(nameFV)) {
+		btnConfirm.setAttribute("disabled", "true");
+	} else {
+		var formCTR = document.querySelectorAll(".form-control");
+		formCTR.forEach((r) => {
+			var rV = r.value.trim();
+			if (rV === "") {
+				btnConfirm.setAttribute("disabled", "true");
+			} else {
+				btnConfirm.removeAttribute("disabled");
+			}
+
+		})
+	}
+})
+
+
+phoneF.addEventListener("blur", function () {
+	var nameFV = addF.value.trim();
+	
+	if (nameFV === "" || !validatePhoneNumber(nameFV)) {
+		btnConfirm.setAttribute("disabled", "true");
+	} else {
+		var formCTR = document.querySelectorAll(".form-control");
+		formCTR.forEach((r) => {
+			var rV = r.value.trim();
+			if (rV === "") {
+				btnConfirm.setAttribute("disabled", "true");
+			} else {
+				btnConfirm.removeAttribute("disabled");
+			}
+
+		})
+	}
+})
+
+addF.addEventListener("blur", function () {
+	var nameFV = addF.value.trim();
+	if (nameFV === "") {
+		btnConfirm.setAttribute("disabled", "true");
+	} else {
+		var formCTR = document.querySelectorAll(".form-control");
+		formCTR.forEach((r) => {
+			var rV = r.value.trim();
+			if (rV === "") {
+				btnConfirm.setAttribute("disabled", "true");
+			} else {
+				btnConfirm.removeAttribute("disabled");
+			}
+
+		})
+	}
+})
+
+function validatePhoneNumber(phoneNumber) {
+	var pattern = /^0\d{9}$/;
+	var cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+	if (cleanPhoneNumber.match(pattern)) {
+		return true;
+	} else {
+		return false;
+	}
+}

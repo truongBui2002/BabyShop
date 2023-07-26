@@ -289,7 +289,7 @@ function validationFormRegister(e) {
 							disabledIn(otpValue);
 							rgtHiddenInput.value = account.value;
 							if (!(rgtPass.disabled && rgtRePass.disabled)) {
-								rgtRePass.addEventListener('blur', function() {
+								rgtRePass.addEventListener('input', function() {
 									if (validateRePassword(rgtPass.value, rgtRePass.value)) {
 										console.log('true pass');
 										enableIn(rgtBtn);
@@ -336,6 +336,7 @@ function validationFormRegister(e) {
 				} else {
 
 					otpBtn.removeEventListener('click', handleClickPhone);
+					enableIn(account);
 					account.classList.add('invalid-form')
 					account.classList.remove('valid-form')
 					//if (account.value.length === 10) {
@@ -432,6 +433,7 @@ function validateRePassword(password, rePassword) {
 // var mArlet = arlet.querySelector('.alert-primary');
 // console.log(mArlet);
 function showAlert(message, type, targetElementId) {
+	console.log(message);
 	var targetElement = document.getElementById(targetElementId);
 
 
@@ -452,7 +454,7 @@ function showAlert(message, type, targetElementId) {
 		setTimeout(function() {
 			alertElement.remove();
 		}, 300);
-	}, 1000);
+	}, 3000);
 }
 
 

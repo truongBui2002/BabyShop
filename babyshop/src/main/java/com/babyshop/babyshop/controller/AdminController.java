@@ -39,7 +39,6 @@ import com.babyshop.babyshop.service.VariantService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
-import lombok.experimental.var;
 
 @Controller
 public class AdminController {

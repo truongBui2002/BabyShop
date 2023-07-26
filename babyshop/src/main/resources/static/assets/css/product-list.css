@@ -29,17 +29,29 @@
 }
 
 .a {
-	width: 50%;
-}
-
-.checkboxe {
 	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	overflow-y: auto;
 }
 
-.checkboxe > div.form-check {
-	width: 20%;
+.checkbox-size {
+	width: 100%;
 }
+label > input {
+	margin-right: 10px;
+}
+
+.size1 {
+	padding: 10px;
+}
+.size1 label {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 10px;
+}
+
+.size1 input[name=size] {
+	margin-left: 10px;
+	padding: 5px;
+	line-height: 1.125rem;
+	font-size: .875rem;
+}
+

@@ -1,0 +1,11 @@
+svg:not(:root) {
+    overflow: hidden;
+}
+
+.MS9XQD {
+    color: #fff;
+    stroke: currentColor;
+    fill: currentColor;
+    width: 1.25rem;
+    height: .9375rem;
+}

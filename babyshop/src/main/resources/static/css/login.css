@@ -288,3 +288,16 @@ body {
 	display: flex;
 }
 
+@media (max-width: 1199px) {
+	.login-form {
+		width: 450px;
+		max-width: 450px;
+	}
+}
+
+@media (max-width: 672px) {
+	.login-form {
+		width: 80%;
+		max-width: 80%;
+	}
+}

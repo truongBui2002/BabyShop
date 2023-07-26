@@ -134,7 +134,7 @@ var selectedYear = document.getElementById("y").innerHTML;
 
 day.selectedIndex = selectedDay - 1;
 month.selectedIndex = selectedMonth - 1;
-year.selectedIndex = year.options[0] - selectedYear;
+year.selectedIndex = year.options[0].textContent - selectedYear;
 
 // gửi thêm data khi submit form
 var profileForm = document.querySelector(".profile-info");

@@ -2,29 +2,25 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- cdn boostrap-->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-<!--login css-->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- cdn boostrap-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<!--login css-->
 
-<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/viewprofile.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/change.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/orders.css}">
-<!-- cdn fown awe some-->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<title>Baby Shop</title>
-<!--  jquery -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/viewprofile.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/change.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/orders.css}">
+	<!-- cdn fown awe some-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>Baby Shop</title>
+	<!--  jquery -->
 
 
 
@@ -47,14 +43,13 @@
 						<div class="--tO6n">
 							<div></div>
 							<div class="VYJdTQ">
-								<a class="OFl2GI gAImis" title="All Orders" href="#"> <span
-									class="_20hgQK">All orders</span>
+								<a class="OFl2GI gAImis" title="All Orders" href="#"> <span class="_20hgQK">All
+										orders</span>
 								</a> <a class="OFl2GI" title="Wait for confirmation" href="#"> <span
-									class="_20hgQK">Wait for confirmation</span>
+										class="_20hgQK">Wait for confirmation</span>
 								</a> <a class="OFl2GI" title="Wait for confirmation" href="#"> <span
-									class="_20hgQK">Shipping</span>
-								</a> <a class="OFl2GI" title="Complete" href="#"> <span
-									class="_20hgQK">Completed</span>
+										class="_20hgQK">Shipping</span>
+								</a> <a class="OFl2GI" title="Complete" href="#"> <span class="_20hgQK">Completed</span>
 								</a> <a class="OFl2GI" title="Cancelled" href="/">Cancelled</span>
 								</a>
 							</div>
@@ -68,29 +63,24 @@
 								</div>
 								<div class="VrgkXA" th:if="${odDetails.size()}!=0">
 									<svg width="19px" height="19px" viewBox="0 0 19 19">
-                                    <g id="Search-New" stroke-width="1"
-											fill="none" fill-rule="evenodd">
-                                        <g id="my-purchase-copy-27"
-											transform="translate(-399.000000, -221.000000)"
-											stroke-width="2">
-                                            <g id="Group-32"
-											transform="translate(400.000000, 222.000000)">
-                                                <circle id="Oval-27"
-											cx="7" cy="7" r="7"></circle>
-                                                <path
-											d="M12,12 L16.9799555,16.919354" id="Path-184"
-											stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
+										<g id="Search-New" stroke-width="1" fill="none" fill-rule="evenodd">
+											<g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)"
+												stroke-width="2">
+												<g id="Group-32" transform="translate(400.000000, 222.000000)">
+													<circle id="Oval-27" cx="7" cy="7" r="7"></circle>
+													<path d="M12,12 L16.9799555,16.919354" id="Path-184"
+														stroke-linecap="round" stroke-linejoin="round"></path>
+												</g>
+											</g>
+										</g>
+									</svg>
 									<input autocomplete="off"
-										placeholder="You can search by Shop name, Order ID or Product Name"
-										value="">
+										placeholder="You can search by Shop name, Order ID or Product Name" value="">
 								</div>
 								<div th:if="${odDetails.size()}!=0">
 
-									<div class="hiXKxx" th:each="odDetail : ${odDetails}" th:data-oddid = "${odDetail.orderDetailsId}">
+									<div class="hiXKxx" th:each="odDetail : ${odDetails}"
+										th:data-oddid="${odDetail.orderDetailsId}">
 										<div>
 											<div class="x0QT2k">
 												<div class="KrPQEI" th:if="${odDetail.status == 'WAIT'}">
@@ -103,21 +93,18 @@
 														<div class="V+w7Xs">Shipping</div>
 													</div>
 												</div>
-												<div class="KrPQEI"
-													th:if="${odDetail.status == 'COMPLETED'}">
+												<div class="KrPQEI" th:if="${odDetail.status == 'COMPLETED'}">
 													<div class="EQko8g">
 														<div class="V+w7Xs">Completed</div>
 													</div>
 												</div>
-												<div class="KrPQEI"
-													th:if="${odDetail.status == 'CANCELLED'}">
+												<div class="KrPQEI" th:if="${odDetail.status == 'CANCELLED'}">
 													<div class="EQko8g">
 														<div class="V+w7Xs">Cancelled</div>
 													</div>
 												</div>
 												<div class="FycaKn"></div>
-												<a
-													th:href="@{'/product/details/'+${odDetail.product.productId}}">
+												<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
 													<div class="_0OiaZ-">
 														<div class="FbLutl">
 															<div>
@@ -130,43 +117,56 @@
 																					<svg enable-background="new 0 0 15 15"
 																						viewBox="0 0 15 15" x="0" y="0"
 																						class="shopee-svg-icon icon-loading-image">
-                                                                                    <g>
-                                                                                        <rect
-																							fill="none" height="8" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							width="10" x="1" y="4.5">
-                                                                                        </rect>
-                                                                                        <line
-																							fill="none" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							x1="1" x2="11" y1="6.5" y2="6.5"></line>
-                                                                                        <rect
-																							fill="none" height="3" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							width="3" x="11" y="6.5">
-                                                                                        </rect>
-                                                                                        <line
-																							fill="none" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							x1="1" x2="11" y1="14.5" y2="14.5"></line>
-                                                                                        <line
-																							fill="none" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							x1="6" x2="6" y1=".5" y2="3"></line>
-                                                                                        <line
-																							fill="none" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							x1="3.5" x2="3.5" y1="1" y2="3"></line>
-                                                                                        <line
-																							fill="none" stroke-linecap="round"
-																							stroke-linejoin="round" stroke-miterlimit="10"
-																							x1="8.5" x2="8.5" y1="1" y2="3"></line>
-                                                                                    </g>
-                                                                                </svg>
+																						<g>
+																							<rect fill="none" height="8"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								width="10" x="1"
+																								y="4.5">
+																							</rect>
+																							<line fill="none"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								x1="1" x2="11" y1="6.5"
+																								y2="6.5"></line>
+																							<rect fill="none" height="3"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								width="3" x="11"
+																								y="6.5">
+																							</rect>
+																							<line fill="none"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								x1="1" x2="11" y1="14.5"
+																								y2="14.5"></line>
+																							<line fill="none"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								x1="6" x2="6" y1=".5"
+																								y2="3"></line>
+																							<line fill="none"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								x1="3.5" x2="3.5" y1="1"
+																								y2="3"></line>
+																							<line fill="none"
+																								stroke-linecap="round"
+																								stroke-linejoin="round"
+																								stroke-miterlimit="10"
+																								x1="8.5" x2="8.5" y1="1"
+																								y2="3"></line>
+																						</g>
+																					</svg>
 																				</div>
 																				<div class="shopee-image__content">
-																					<img
-																						th:src="${odDetail.product.getUriImages().get(0)}"
+																					<img th:src="${odDetail.product.getUriImages().get(0)}"
 																						alt="#">
 																				</div>
 																			</div>
@@ -180,10 +180,12 @@
 																			</div>
 																			<div>
 																				<div class="vb0b-P"
-																					th:text="${odDetail.variant.name}">Size:
+																					th:text="${odDetail.variant.name}">
+																					Size:
 																					110cm</div>
 																				<div class="_3F1-5M"
-																					th:text="${'x'+ odDetail.quantity}">x1</div>
+																					th:text="${'x'+ odDetail.quantity}">
+																					x1</div>
 																			</div>
 																		</div>
 																	</div>
@@ -209,7 +211,8 @@
 											<div class="-78s2g">
 												<div class="_0NMXyN">Total Amount:</div>
 												<div class="DeWpya"
-													th:text="${'₫' + odDetail.price * odDetail.quantity + '00VND'}">₫55.000</div>
+													th:text="${'₫' + odDetail.price * odDetail.quantity + '00VND'}">
+													₫55.000</div>
 											</div>
 										</div>
 										<div class="AM4Cxf" th:if="${odDetail.status == 'WAIT'}">
@@ -220,7 +223,8 @@
 											<div class="EOjXew">
 												<div class="PF0-AU">
 													<button
-														class="stardust-button stardust-button--primary WgYvse btn-cancel-product" th:data-oddid = "${odDetail.orderDetailsId}">Cancel</button>
+														class="stardust-button stardust-button--primary WgYvse btn-cancel-product"
+														th:data-oddid="${odDetail.orderDetailsId}">Cancel</button>
 												</div>
 											</div>
 										</div>
@@ -232,30 +236,32 @@
 											<div class="EOjXew">
 												<div class="PF0-AU">
 													<button
-														class="stardust-button stardust-button--primary WgYvse btn-receive" th:data-oddid = "${odDetail.orderDetailsId}">I
+														class="stardust-button stardust-button--primary WgYvse btn-receive"
+														th:data-oddid="${odDetail.orderDetailsId}">I
 														have received the goods</button>
 												</div>
 											</div>
 										</div>
 										<div class="AM4Cxf" th:if="${odDetail.status == 'COMPLETED'}">
 											<div class="qtUncs">
-												<div class="EOjXew" th:if = "${odDetail.feedback==null}">
+												<div class="EOjXew" th:if="${odDetail.feedback==null}">
 													<div class="PF0-AU p-btn-feedback">
 														<button type="button"
 															class="stardust-button stardust-button--primary WgYvse add-feedback"
-															data-bs-toggle="modal" data-bs-target="#myModal">Feedback</button>
+															data-bs-toggle="modal"
+															data-bs-target="#myModal">Feedback</button>
 													</div>
 												</div>
 												<!-- <span th:if = "${odDetail.feedback==null}">No feedback</span> -->
-                                        <span th:if = "${odDetail.feedback!=null}">
-                                        <a th:href="@{'/product/details/'+${odDetail.product.productId}}">Your Feedback</a>
-                                        </span>
+												<span th:if="${odDetail.feedback!=null}">
+													<a th:href="@{'/product/details/'+${odDetail.product.productId}}">Your
+														Feedback</a>
+												</span>
 											</div>
 											<!-- Canceled by you -->
 											<div class="EOjXew">
 												<div class="PF0-AU">
-													<a
-														th:href="@{'/product/details/'+${odDetail.product.productId}}">
+													<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
 														<button
 															class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
 													</a>
@@ -269,8 +275,7 @@
 											<!-- Canceled by you -->
 											<div class="EOjXew">
 												<div class="PF0-AU">
-													<a
-														th:href="@{'/product/details/'+${odDetail.product.productId}}">
+													<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
 														<button
 															class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
 													</a>
@@ -287,7 +292,7 @@
 			</main>
 		</div>
 	</div>
-	<div class="modal" id="myModal">
+	<div class="modal fade" id="myModal" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="p-3 mx-2 mb-solid">
@@ -301,41 +306,34 @@
 											<div class="rGP9Yd">
 												<div class="image__wrapper">
 													<div class="shopee-image__place-holder">
-														<svg enable-background="new 0 0 15 15" viewBox="0 0 15 15"
-															x="0" y="0" class="shopee-svg-icon icon-loading-image">
-                                                            <g>
-                                                                <rect
-																fill="none" height="8" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10"
-																width="10" x="1" y="4.5">
-                                                                </rect>
-                                                                <line
-																fill="none" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" x1="1"
-																x2="11" y1="6.5" y2="6.5"></line>
-                                                                <rect
-																fill="none" height="3" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" width="3"
-																x="11" y="6.5">
-                                                                </rect>
-                                                                <line
-																fill="none" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" x1="1"
-																x2="11" y1="14.5" y2="14.5"></line>
-                                                                <line
-																fill="none" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" x1="6"
-																x2="6" y1=".5" y2="3"></line>
-                                                                <line
-																fill="none" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" x1="3.5"
-																x2="3.5" y1="1" y2="3"></line>
-                                                                <line
-																fill="none" stroke-linecap="round"
-																stroke-linejoin="round" stroke-miterlimit="10" x1="8.5"
-																x2="8.5" y1="1" y2="3"></line>
-                                                            </g>
-                                                        </svg>
+														<svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0"
+															y="0" class="shopee-svg-icon icon-loading-image">
+															<g>
+																<rect fill="none" height="8" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	width="10" x="1" y="4.5">
+																</rect>
+																<line fill="none" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	x1="1" x2="11" y1="6.5" y2="6.5"></line>
+																<rect fill="none" height="3" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	width="3" x="11" y="6.5">
+																</rect>
+																<line fill="none" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	x1="1" x2="11" y1="14.5" y2="14.5"></line>
+																<line fill="none" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	x1="6" x2="6" y1=".5" y2="3"></line>
+																<line fill="none" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	x1="3.5" x2="3.5" y1="1" y2="3"></line>
+																<line fill="none" stroke-linecap="round"
+																	stroke-linejoin="round" stroke-miterlimit="10"
+																	x1="8.5" x2="8.5" y1="1" y2="3"></line>
+															</g>
+														</svg>
 													</div>
 													<div class="shopee-image__content">
 														<img th:src="@{/image/seele.jpg}" alt="#">
@@ -360,20 +358,21 @@
 						</div>
 					</a>
 				</div>
-				<form th:action="@{/user/feedback-product}" class="p-3" method="post" enctype="multipart/form-data" id = "form-feedback">
+				<form th:action="@{/user/feedback-product}" class="p-3" method="post" enctype="multipart/form-data"
+					id="form-feedback">
 					<p>Rate star:</p>
-					<input type="hidden" name="odDetailsId" id="odDetailsId"/>
+					<input type="hidden" name="odDetailsId" id="odDetailsId" />
 					<div class="star-rating">
-						<input type="radio" id="star5" name="rating" value="1" /><label
-							for="star5"><i class="rating__star far fa-star"></i></label> <input
-							type="radio" id="star4" name="rating" value="2" /><label
-							for="star4"><i class="rating__star far fa-star"></i></label> <input
-							type="radio" id="star3" name="rating" value="3" /><label
-							for="star3"><i class="rating__star far fa-star"></i></label> <input
-							type="radio" id="star2" name="rating" value="4" /><label
-							for="star2"><i class="rating__star far fa-star"></i></label> <input
-							type="radio" id="star1" name="rating" value="5" /><label
-							for="star1"><i class="rating__star far fa-star"></i></label>
+						<input type="radio" id="star5" name="rating" value="1" /><label for="star5"><i
+								class="rating__star far fa-star"></i></label> <input type="radio" id="star4"
+							name="rating" value="2" /><label for="star4"><i
+								class="rating__star far fa-star"></i></label> <input type="radio" id="star3"
+							name="rating" value="3" /><label for="star3"><i
+								class="rating__star far fa-star"></i></label> <input type="radio" id="star2"
+							name="rating" value="4" /><label for="star2"><i
+								class="rating__star far fa-star"></i></label>
+						<input type="radio" id="star1" name="rating" value="5" />
+						<label for="star1"><i class="rating__star far fa-star"></i></label>
 					</div>
 					<br>
 					<div>
@@ -383,10 +382,10 @@
 					</div>
 					<label class="py-3 " for="feedback">Give your opinion about
 						this product:</label> <br>
-					<textarea id="feedback" class="feedback-textarea p-2"
-						placeholder="Enter your feedback here..." name="feedback-description"></textarea>
+					<textarea id="feedback" class="feedback-textarea p-2" placeholder="Enter your feedback here..."
+						name="feedback-description" required></textarea>
 					<br>
-<!-- 					<div class="image-preview">
+					<!-- 					<div class="image-preview">
 						<div class="image-placeholder">
 							<div class="image__placehoder">
 								<img class="img-feedback" src="#" alt="">
@@ -422,10 +421,8 @@
 					</div> -->
 					<!-- Modal footer -->
 					<div class="modal-footer ">
-						<button type="submit" class="btn btn-success"
-							data-bs-dismiss="modal">Send</button>
-						<button type="button" class="btn btn-danger"
-							data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-success">Send</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 					</div>
 				</form>
 			</div>
