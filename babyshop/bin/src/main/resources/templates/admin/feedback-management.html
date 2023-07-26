@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" dir="ltr" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Baby Shop | Feedback </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/images/favicon.ico}" />
+
+    <!-- Library / Plugin Css Build -->
+    <link rel="stylesheet" th:href="@{/assets/css/core/libs.min.css}" />
+
+    <!-- Aos Animation Css -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/aos/dist/aos.css}" />
+
+    <!-- Hope Ui Design System Css -->
+    <link rel="stylesheet" th:href="@{/assets/css/hope-ui.min.css?v=2.0.0}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.min.css?v=2.0.0}" />
+
+    <!-- Dark Css -->
+    <link rel="stylesheet" th:href="@{/assets/css/dark.min.css}" />
+
+    <!-- Customizer Css -->
+    <link rel="stylesheet" th:href="@{/assets/css/customizer.min.css}" />
+
+    <!-- RTL Css -->
+    <link rel="stylesheet" th:href="@{/assets/css/rtl.min.css}" />
+    
+    <link rel="stylesheet" th:href="@{/assets/css/feedback.css}" />
+
+
+</head>
+
+<body class="  ">
+    <!-- loader Start -->
+    <div th:insert="~{admin/dashboard :: loadingFrag}"></div>
+    <!-- loader END -->
+    <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all">
+        <div th:insert="~{admin/dashboard :: asideNav}"></div>
+    </aside>
+    <!-- loader END -->
+
+
+    <main class="main-content">
+        <div th:insert="~{admin/dashboard :: iqBanner}"></div>
+
+        <div class="conatiner-fluid content-inner mt-n5 py-0">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Feedback</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>List Feedback</p>
+                            <div class="table-responsive">
+                                <table id="datatable" class="table table-striped tb-c" data-toggle="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>User</th>
+                                            <th>Rate Star</th>
+                                            <th>Content</th>
+                                            <th>Images</th>
+                                            <th>Feedback date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="feedback : ${feedbacks}" class="product-details"
+                                            th:data-feedbackid="${feedback.feedbackId}">
+                                            <td class="d-flex align-items-center">
+                                                <img class="rounded img-fluid avatar-40 me-3 bg-soft-primary"
+                                                    th:src="${feedback.product.getUriImages().get(0)}" alt="profile"
+                                                    th:text="${feedback.product.name}">
+                                                Tiger Nixon
+                                            </td>
+                                            <td th:text="${feedback.customer.fullName}">Junior Technical Author</td>
+                                            <td th:text="${feedback.rateStar} + ' Star'">5 Star</td>
+                                            <td th:text="${feedback.description}">San Francisco</td>
+                                            <td class="d-flex align-items-center">
+                                                <img class="rounded img-fluid avatar-40 me-3 bg-soft-primary"
+                                                    alt="profile" th:each="image :${feedback.getUriImages()}"
+                                                    th:src="${image}">
+                                            </td>
+                                            <td th:text="${feedback.getTime()}">2009/01/12</td>
+                                            <td>
+                                                <div class="text-info feedback-status" th:text="${feedback.status}">
+                                                    Pending</div>
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center list-user-action change-status">
+                                                    <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Change Status" href="#">
+                                                        <span class="btn-inner">
+                                                            <svg class="icon-32" width="32" viewBox="0 0 24 24"
+                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                    d="M8.09756 12C8.09756 14.1333 9.8439 15.8691 12 15.8691C14.1463 15.8691 15.8927 14.1333 15.8927 12C15.8927 9.85697 14.1463 8.12121 12 8.12121C9.8439 8.12121 8.09756 9.85697 8.09756 12ZM17.7366 6.04606C19.4439 7.36485 20.8976 9.29455 21.9415 11.7091C22.0195 11.8933 22.0195 12.1067 21.9415 12.2812C19.8537 17.1103 16.1366 20 12 20H11.9902C7.86341 20 4.14634 17.1103 2.05854 12.2812C1.98049 12.1067 1.98049 11.8933 2.05854 11.7091C4.14634 6.88 7.86341 4 11.9902 4H12C14.0683 4 16.0293 4.71758 17.7366 6.04606ZM12.0012 14.4124C13.3378 14.4124 14.4304 13.3264 14.4304 11.9979C14.4304 10.6597 13.3378 9.57362 12.0012 9.57362C11.8841 9.57362 11.767 9.58332 11.6597 9.60272C11.6207 10.6694 10.7426 11.5227 9.65971 11.5227H9.61093C9.58166 11.6779 9.56215 11.833 9.56215 11.9979C9.56215 13.3264 10.6548 14.4124 12.0012 14.4124Z"
+                                                                    fill="currentColor"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer Section Start -->
+        <footer class="footer">
+            <div class="footer-body">
+                <ul class="left-panel list-inline mb-0 p-0">
+                    <li class="list-inline-item"><a href="#">Privacy Policy</a>
+                    </li>
+                    <li class="list-inline-item"><a href="#">Terms of Use</a>
+                    </li>
+                </ul>
+
+            </div>
+        </footer>
+        <!-- Footer Section End -->
+    </main>
+
+
+    <script th:src="@{/assets/js/feedback.js}" defer></script>
+    <!-- Library Bundle Script -->
+    <script th:src="@{/assets/js/core/libs.min.js}"></script>
+
+    <!-- External Library Bundle Script -->
+    <script th:src="@{/assets/js/core/external.min.js}"></script>
+
+    <!-- Widgetchart Script -->
+    <script th:src="@{/assets/js/charts/widgetcharts.js}"></script>
+
+    <!-- mapchart Script -->
+    <script th:src="@{/assets/js/charts/vectore-chart.js}"></script>
+    <script th:src="@{/assets/js/charts/dashboard.js}"></script>
+
+    <!-- fslightbox Script -->
+    <script th:src="@{/assets/js/plugins/fslightbox.js}"></script>
+
+    <!-- Settings Script -->
+    <script th:src="@{/assets/js/plugins/setting.js}"></script>
+
+    <!-- Slider-tab Script -->
+    <script th:src="@{/assets/js/plugins/slider-tabs.js}"></script>
+
+    <!-- Form Wizard Script -->
+    <script th:src="@{/assets/js/plugins/form-wizard.js}"></script>
+
+    <!-- AOS Animation Plugin-->
+    <script th:src="@{/assets/vendor/aos/dist/aos.js}"></script>
+
+    <!-- App Script -->
+    <script th:src="@{/assets/js/hope-ui.js}" defer></script>
+
+
+
+</body>
+
+</html>

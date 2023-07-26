@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" dir="ltr" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Baby Shop | Add User</title>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" th:href="@{/assets/images/favicon.ico}" />
+
+	<!-- Library / Plugin Css Build -->
+	<link rel="stylesheet" th:href="@{/assets/css/core/libs.min.css}" />
+
+	<!-- Aos Animation Css -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/aos/dist/aos.css}" />
+
+	<!-- Hope Ui Design System Css -->
+	<link rel="stylesheet" th:href="@{/assets/css/hope-ui.min.css?v=2.0.0}" />
+
+	<!-- Custom Css -->
+	<link rel="stylesheet" th:href="@{/assets/css/custom.min.css?v=2.0.0}" />
+
+	<!-- Dark Css -->
+	<link rel="stylesheet" th:href="@{/assets/css/dark.min.css}" />
+
+	<!-- Customizer Css -->
+	<link rel="stylesheet" th:href="@{/assets/css/customizer.min.css}" />
+
+	<!-- RTL Css -->
+	<link rel="stylesheet" th:href="@{/assets/css/rtl.min.css}" />
+
+	<link rel="stylesheet" th:href="@{/assets/css/add-user.css}" />
+
+
+</head>
+
+<body class="  ">
+	<!-- loader Start -->
+	<div th:insert="~{admin/dashboard :: loadingFrag}"></div>
+	<!-- notification -->
+	<!-- loader END -->
+	<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all">
+		<div th:insert="~{admin/dashboard :: asideNav}"></div>
+	</aside>
+
+
+	<main class="main-content">
+		<div th:insert="~{admin/dashboard :: iqBanner}"></div>
+
+		<div class="conatiner-fluid content-inner mt-n5 py-0">
+			<div class="row">
+				<div class="col-xl-3 col-lg-4">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between">
+							<div class="header-title">
+								<h4 class="card-title">Add New User</h4>
+							</div>
+						</div>
+						<div class="card-body">
+							<form id="form-image">
+								<div class="form-group">
+									<div class="profile-img-edit d-flex flex-column">
+
+										<div id="imageContainer">
+											<img src="../../assets/images/avatars/01.png" alt="profile-pic"
+												class="theme-color-default-img profile-pic rounded avatar-100">
+										</div>
+										<div class="mt-3">
+
+											<input type="file" id="imageInput" name="file-image" accept="image/*">
+										</div>
+									</div>
+									<div class="img-extension mt-3">
+										<div class="d-inline-block align-items-center">
+											<span>Only</span> <a href="javascript:void();">.jpg</a> <a
+												href="javascript:void();">.png</a> <a
+												href="javascript:void();">.jpeg</a> <span>allowed</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="form-label">User Role:</label> <select name="role"
+										class="selectpicker form-control selected-role" data-style="py-0">
+										<option value="ROLE_ADMIN">Admin</option>
+										<option value="ROLE_STAFF">Staff</option>
+									</select>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-9 col-lg-8">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between">
+							<div class="header-title">
+								<h4 class="card-title">New User Information</h4>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="new-user-info">
+								<form th:action="@{/manager/admin/add-user}" method="post" enctype="multipart/form-data"
+									id="form-add-user">
+									<div class="row">
+										<div class="form-group col-md-6">
+											<label class="form-label" for="fname">Name:</label>
+											<input type="text" class="form-control" id="fname" name="fullName"
+												placeholder="First Name" required>
+										</div>
+
+										<div class="form-group col-md-6">
+											<label class="form-label" for="add1">Date of birth:</label>
+											<input type="date" class="form-control" id="add1" name="dob"
+												placeholder="Street Address 1" required>
+										</div>
+
+										<div class="form-group col-md-6">
+											<label class="form-label" for="mobno">Mobile Number:</label>
+											<input type="text" class="form-control" id="mobno" name="phoneNumber"
+												placeholder="Mobile Number" required>
+										</div>
+
+										<div class="form-group col-md-6">
+											<label class="form-label" for="email">Email:</label> <input type="email"
+												class="form-control" id="email" name="email" placeholder="Email"
+												required>
+										</div>
+
+
+									</div>
+									<hr>
+									<h5 class="mb-3">Security</h5>
+									<div class="row">
+
+										<div class="form-group col-md-6">
+											<label class="form-label" for="pass">Password:</label> <input
+												type="password" class="form-control" id="pass" name="password"
+												placeholder="Password" required>
+										</div>
+										<div class="form-group col-md-6">
+											<label class="form-label" for="rpass">Repeat
+												Password:</label> <input type="password" class="form-control"
+												name="re-pass" id="rpass" placeholder="Repeat Password " required>
+											<div id="error-p" style="color: red;"></div>
+										</div>
+									</div>
+
+									<button type="submit" class="btn btn-primary">Add New
+										User</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer Section Start -->
+		<footer class="footer">
+			<div class="footer-body">
+				<ul class="left-panel list-inline mb-0 p-0">
+					<li class="list-inline-item"><a href="#">Privacy Policy</a>
+					</li>
+					<li class="list-inline-item"><a href="#">Terms of Use</a>
+					</li>
+				</ul>
+
+			</div>
+		</footer>
+		<!-- Footer Section End -->
+	</main>
+
+
+	<!-- Library Bundle Script -->
+	<script th:src="@{/assets/js/core/libs.min.js}"></script>
+
+	<!-- External Library Bundle Script -->
+	<script th:src="@{/assets/js/core/external.min.js}"></script>
+
+	<!-- Widgetchart Script -->
+	<script th:src="@{/assets/js/charts/widgetcharts.js}"></script>
+
+	<!-- mapchart Script -->
+	<script th:src="@{/assets/js/charts/vectore-chart.js}"></script>
+	<script th:src="@{/assets/js/charts/dashboard.js}"></script>
+
+	<!-- fslightbox Script -->
+	<script th:src="@{/assets/js/plugins/fslightbox.js}"></script>
+
+	<!-- Settings Script -->
+	<script th:src="@{/assets/js/plugins/setting.js}"></script>
+
+	<!-- Slider-tab Script -->
+	<script th:src="@{/assets/js/plugins/slider-tabs.js}"></script>
+
+	<!-- Form Wizard Script -->
+	<script th:src="@{/assets/js/plugins/form-wizard.js}"></script>
+
+	<!-- AOS Animation Plugin-->
+	<script th:src="@{/assets/vendor/aos/dist/aos.js}"></script>
+
+	<!-- App Script -->
+	<script th:src="@{/assets/js/hope-ui.js}" defer></script>
+
+	<script th:src="@{/assets/js/add-user.js}" defer></script>
+
+</body>
+
+</html>

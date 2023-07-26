@@ -140,6 +140,7 @@ public class UserController {
 			@RequestParam(name = "new-password") String newPass,
 			@RequestParam(name = "re-new-password") String re_pass) {
 		User user = (User) session.getAttribute("user");
+		user = userService.getUserById(user.getUserId());
 		if (user != null) {
 
 			if (passwordEncoder.matches(pass, user.getPassword())) {
@@ -307,7 +308,7 @@ public class UserController {
 		List<CartItem> purchaseItem = new ArrayList<>();
 		for (CartItem cartItem : cartItems) {
 			for (Integer cartItemId : cartItemsId) {
-				if (cartItem.getCartItemId() == cartItemId && cartItem.getVariant().getQuantity()>0) {
+				if (cartItem.getCartItemId() == cartItemId && cartItem.getVariant().getQuantity() > 0) {
 					purchaseItem.add(cartItem);
 				}
 			}
@@ -317,7 +318,7 @@ public class UserController {
 			totalAmount += cartItem.getQuantity() * cartItem.getVariant().getProduct().getSalePrice();
 		}
 		modelMap.addAttribute("purchaseItem", purchaseItem);
-		modelMap.addAttribute("customer", customer); 
+		modelMap.addAttribute("customer", customer);
 		modelMap.addAttribute("totalAmount", totalAmount);
 		return "purchase";
 	}
@@ -490,13 +491,15 @@ public class UserController {
 				feedback.setCustomer(orderDetails.getOrder().getCustomer());
 				feedback.setProduct(orderDetails.getProduct());
 				feedback.setLikes(orderDetails.getOrderDetailsId());
-				for (MultipartFile file : fileImages) {
-					String imageName = imageService.saveImageFeedback(file);
-					Image image = new Image();
-					image.setName(imageName);
-					images.add(image); 
+				if (fileImages.get(0).isEmpty()) {
+					for (MultipartFile file : fileImages) {
+						String imageName = imageService.saveImageFeedback(file);
+						Image image = new Image();
+						image.setName(imageName);
+						images.add(image);
+					}
 				}
-				if(images.size()!=0) {
+				if (images.size() != 0) {
 					feedback.setImages(images);
 				}
 				feedbackService.save(feedback);

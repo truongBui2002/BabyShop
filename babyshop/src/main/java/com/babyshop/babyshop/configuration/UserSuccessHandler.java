@@ -84,7 +84,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 		boolean checkRole = false;
 		if (user != null) {
 			for (Role role : user.getRoles()) {
-				if (role.getName().equals(Permit.ADMIN) || role.getName().equals(Permit.ADMIN)) {
+				if (role.getName().equals(Permit.ADMIN) || role.getName().equals(Permit.STAFF)) {
 					checkRole = true;
 				}
 			}

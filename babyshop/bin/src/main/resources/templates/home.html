@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- cdn boostrap-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<!-- cdn fown awe some-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- fonts-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<title>Baby Shop</title>
+</head>
+
+<body>
+	<!-- nav - bar -->
+	<header>
+		<div th:fragment="navbar">
+			<div class="pt-3 header">
+				<div class="container mx-auto">
+					<!-- new nav bar-->
+					<nav class="navbar navbar-expand-lg navbar-light">
+						<div class="container-fluid">
+							<a class="navbar-brand" href="/"><img class="header-logo" th:src="@{/image/newlogo.png}"
+									alt="Logo"></a>
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+								data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+								aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+
+
+								<!---->
+								<form th:action="@{/search/product}" class="search-form">
+									<div class="search-group">
+										<label style="display: none;" for="search-input">Search</label>
+										<input type="search" id="search-input" class="input-search-field"
+											placeholder="Search" autocomplete="off" name="productName">
+										<button class="btn-search" type="submit" title="btn-search">
+											<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+										</button>
+									</div>
+								</form>
+
+
+
+
+								<ul class="navbar-nav mb-2 mb-lg-0 gap-3">
+
+									<li class="nav-item">
+										<a class="header_link header_lang color-hover nav-link" href="#">VN/EN</a>
+									</li>
+									<li class="nav-item">
+										<a class="header_link header_help color-hover nav-link" href="#">Help</a>
+									</li>
+									<li class="nav-item login_box">
+										<a class="header_link header_account color-hover nav-link hv-account"
+											th:if="${session.user==null}" th:href="@{/login}">Account</a>
+
+											<ul class="nav-link dropdown-menu hidden_dropdown_nav" th:if="${session.user==null}">
+												<li><a th:href="@{/login}" class="link nav-link dropdown-item">Login</a></li>
+												<li><a th:href="@{/login}" class="link nav-link dropdown-item">Register</a></li>
+												<li><a th:href="@{/forgotpassword}" class="link nav-link dropdown-item">Forgot
+														Password?</a>
+												</li>
+											</ul>
+											<a class="header_link header_account color-hover nav-link"
+												th:if="${session.user != null}"
+												th:href="@{/user/viewprofile}">Account</a>
+											<ul class="dropdown-menu hidden_dropdown_nav" th:if="${session.user!=null}">
+												<li><a th:href="@{/user/viewprofile}" class="link nav-link dropdown-item">View
+														Profile</a></li>
+												<li><a th:href="@{/home}" class="link nav-link dropdown-item">My Cart</a></li>
+												<li><a th:href="@{/logout}" class="link nav-link dropdown-item">Logout</a></li>
+											</ul>
+									
+									</li>
+									<li class="nav-item">
+										<a class="header_link header_favorites color-hover nav-link "
+											th:href="@{/product/favorite}">Favorites</a>
+									</li>
+									<li class="nav-item cart-relative">
+										<div class="top_menu_unseen fhs_center_center" style="visibility: visible;"
+											th:if="${sizeCart}!=null"> <!-- th:if="${session.user!=null} -->
+											<span class="cartmini_qty" style="visibility: visible;"
+												th:text="${sizeCart}">1</span>
+										</div>
+										<a class="header_link header_cart color-hover nav-link"
+											th:href="@{/user/cart}">Cart</a>
+									</li>
+									
+								</ul>
+
+							</div>
+						</div>
+					</nav>
+
+
+					<!-- end new nav bar-->
+					<div class="navigation d-flex">
+						<div class=" text-center flex-fill">
+							<!--hover it-->
+							<a class=" color-hover nav__links" th:href="@{/brand}">Brands</a>
+
+						</div>
+
+						<div class="text-center flex-fill hover-nav" th:each="category : ${categories}"
+							th:if="${category.subcategories.size() != 0}">
+							<a class="color-hover nav__links" th:href="@{'/categories/' + ${category.categoryId}}"
+								th:text="${category.name}">Clothing</a>
+							<div class="hidden-nav">
+								<div class="hidden-element">
+									<a th:href="@{'/subcategories/' + ${subcategory.subcategoryId}}"
+										th:each="subcategory: ${category.subcategories}"
+										th:text="${subcategory.name}">Clothing</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="discount">
+				<div class="d-flex">
+					<a class="flex-fill banner-top" href="#">20-50% off selected
+						Everyday wear <span>SHOP HERE</span>
+					</a>
+					<a class="flex-fill banner-top" href="#">Splash into summer - Up
+						to 50%<span>SHOP HERE</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--page content-->
+	<div id="content" class="content container">
+		<div class="slideshow mb-5 mt-5">
+			<div class="slides">
+				<a aria-label="Summer-fashion-up-to-70" class="slide-link" href="#">
+					<img th:src="@{/image/BS_BB_HERO_SUMMER_FASHION_JUN_23.jpg}" alt="" loading="lazy"
+						class="slide___image">
+					<div class="slide-info">
+						<div class="slide__info">
+							<div class="slide__info_description">
+								<h2>
+									Up to 70% - Further Reductions
+								</h2>
+								<h3>Summer Fashion</h3>
+								<div class="slide__info_span">
+									<span class="bg-neutral-smoke slide__info__span">SHOP HERE</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="slider product-slider js-product-list">
+			<div class="mb-12 list-product-slider">
+				<div class="product_header">
+					<h3 class="product_header_heading">Selected Everyday Wear - UP TO 50%</h3>
+					<button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M5.83 8.4a.6.6 0 0 1 0-.84l3.49-3.48a.6.6 0 0 1 .84.84L7.1 7.98l3.06 3.06a.6.6 0 0 1-.84.85L5.83 8.41Z">
+							</path>
+						</svg>
+					</button>
+					<button aria-label="scroll carousel right" class="scroll_carousel scroll_carousel_right">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M10.17 7.6a.6.6 0 0 1 0 .84l-3.49 3.49a.6.6 0 0 1-.84-.85L8.9 8.02 5.84 4.96a.6.6 0 0 1 .84-.85l3.49 3.48Z">
+							</path>
+						</svg>
+					</button>
+				</div>
+				<div class="slider___items1">
+					<div th:each="product : ${productsSale}" class="slider-items-list1">
+						<div class="product-card">
+							<a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
+								<div class="image_block">
+									<img th:src="${product.getUriImages().get(0)}" loading="lazy">
+									<!--  <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac" loading="lazy"> -->
+								</div>
+							</a>
+							<h3 th:text="${product.brand.name}" class="card_title">
+							</h3>
+							<a th:href="'/product/details/' + ${product.productId}" class="product_card_name">
+								<h2 th:text="${product.name}"></h2>
+							</a>
+							<div class="mt-auto">
+								<div class="product-price">
+									<span class="discount_price" th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
+									<span class="n_discount_price" th:text="${product.price + '.000VNĐ'}"></span>
+								</div>
+							</div>
+							<div class="product_discount_label" th:text="${product.discount + '%'}"></div>
+							<div aria-label="remove from wishlist" class="add-wishlist">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/newinproduct.jpg"
+							alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">New In</h2>
+							<p class="campaign__description">Discover the lastest item</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/outdoorfun.webp"
+							alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">Outdoor Fun</h2>
+							<p class="campaign__description">Discover the lastest item</p>
+						</div>
+					</a>
+				</div>
+			</div>
+
+
+			<div class="campaigns home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/blurb_medium.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/blurb_medium1.webp" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Upgrade Kid's Room - Up to 50%</h2>
+							<p class="campaign__description">TOYS, INTERIOR & MORE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/blurb_medium2.webp" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Liewood</h2>
+							<p class="campaign__description">LONGING FOR SUMMER</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/blurb_medium3.webp" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Konges Slojd</h2>
+							<p class="campaign__description">DREAMY DANISH DESIGN</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="mb-12 list-product-slider">
+				<div class="product_header">
+					<a class="product_header_heading" href="#">
+						<h3 class="product_header_heading">Brands</h3>
+					</a>
+					<button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M5.83 8.4a.6.6 0 0 1 0-.84l3.49-3.48a.6.6 0 0 1 .84.84L7.1 7.98l3.06 3.06a.6.6 0 0 1-.84.85L5.83 8.41Z">
+							</path>
+						</svg>
+					</button>
+					<button aria-label="scroll carousel right" class="scroll_carousel scroll_carousel_right">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M10.17 7.6a.6.6 0 0 1 0 .84l-3.49 3.49a.6.6 0 0 1-.84-.85L8.9 8.02 5.84 4.96a.6.6 0 0 1 .84-.85l3.49 3.48Z">
+							</path>
+						</svg>
+					</button>
+				</div>
+				<div class="slider___items1">
+					<div th:each="brand : ${brands}" class="slider-items-list1">
+						<div class="product-card">
+							<a th:href="'/brand/details/' + ${brand.brandId}" class="product_image_link">
+								<div class="image_block">
+									<img th:src="${brand.getUriImage()}" class="brands" alt="#">
+									<!--<img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/new_member.jpg"
+							alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">Newborn Essentials</h2>
+							<p class="campaign__description">for the youngest family
+								member</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/cozy.jpg" alt="Campaign 1">
+						<div class="campaign__content">
+							<h2 class="campaign_title">Voski</h2>
+							<p class="campaign__description">Cozy & Comfy</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<!-- new -->
+			<div class="mb-12 list-product-slider" th:with="dress = ${subcategoryR1}">
+				<div class="product_header">
+					<a class="product_header_heading" href="#">
+						<h3 class="product_header_heading" th:text="${dress.name}"></h3>
+					</a>
+					<button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M5.83 8.4a.6.6 0 0 1 0-.84l3.49-3.48a.6.6 0 0 1 .84.84L7.1 7.98l3.06 3.06a.6.6 0 0 1-.84.85L5.83 8.41Z">
+							</path>
+						</svg>
+					</button>
+					<button aria-label="scroll carousel right" class="scroll_carousel scroll_carousel_right">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M10.17 7.6a.6.6 0 0 1 0 .84l-3.49 3.49a.6.6 0 0 1-.84-.85L8.9 8.02 5.84 4.96a.6.6 0 0 1 .84-.85l3.49 3.48Z">
+							</path>
+						</svg>
+					</button>
+				</div>
+				<div class="slider___items1">
+					<div th:each="product : ${dress.products}" class="slider-items-list1">
+						<div class="product-card">
+							<a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
+								<div class="image_block">
+									<img th:src="${product.getUriImages().get(0)}">
+									<!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
+								</div>
+							</a>
+							<h3 th:text="${product.brand.name}" class="card_title">
+							</h3>
+							<a th:href="@{'/product/details/' + ${product.productId}}" class="product_card_name">
+								<h2 th:text="${product.name}">
+								</h2>
+							</a>
+							<div class="mt-auto">
+								<div class="product-price">
+									<span class="discount_price" th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
+									<span class="n_discount_price" th:if="${product.discount!=100}"
+										th:text="${product.price + '.000VNĐ'}"></span>
+								</div>
+							</div>
+							<div class="product_discount_label" th:if="${product.discount!=100}"
+								th:text="${product.discount + '%'}"></div>
+							<div aria-label="remove from wishlist" class="add-wishlist">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="campaigns home-teaser row mb-5">
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/blurb_medium1.webp" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/stylesandtrends.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/lateststyle.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+				<div class="campaign col">
+					<a class="campaign__link" href="#"> <img src="../image/product-image/inspirations.jpg" alt="">
+						<div class="campaign__content teaser__content">
+							<h2 class="campaign_title">Baby Arrivals 10-50%</h2>
+							<p class="campaign__description">PREP FOR A LITTLE ONE</p>
+						</div>
+					</a>
+				</div>
+			</div>
+
+			<!-- old-->
+			<!-- new -->
+			<div class="mb-12 list-product-slider" th:with="dress = ${subcategoryR2}">
+				<div class="product_header">
+					<a class="product_header_heading" href="#">
+						<h3 class="product_header_heading" th:text="${dress.name}"></h3>
+					</a>
+					<button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M5.83 8.4a.6.6 0 0 1 0-.84l3.49-3.48a.6.6 0 0 1 .84.84L7.1 7.98l3.06 3.06a.6.6 0 0 1-.84.85L5.83 8.41Z">
+							</path>
+						</svg>
+					</button>
+					<button aria-label="scroll carousel right" class="scroll_carousel scroll_carousel_right">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M10.17 7.6a.6.6 0 0 1 0 .84l-3.49 3.49a.6.6 0 0 1-.84-.85L8.9 8.02 5.84 4.96a.6.6 0 0 1 .84-.85l3.49 3.48Z">
+							</path>
+						</svg>
+					</button>
+				</div>
+				<div class="slider___items1">
+					<div th:each="product : ${dress.products}" class="slider-items-list1">
+						<div class="product-card">
+							<a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
+								<div class="image_block">
+									<img th:src="${product.getUriImages().get(0)}">
+									<!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
+								</div>
+							</a>
+							<h3 th:text="${product.brand.name}" class="card_title">
+							</h3>
+							<a th:href="@{'/product/details/' + ${product.productId}}" class="product_card_name">
+								<h2 th:text="${product.name}">
+								</h2>
+							</a>
+							<div class="mt-auto">
+								<div class="product-price">
+									<span class="discount_price" th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
+									<span class="n_discount_price" th:if="${product.discount!=100}"
+										th:text="${product.price + '.000VNĐ'}"></span>
+								</div>
+							</div>
+							<div class="product_discount_label" th:if="${product.discount!=100}"
+								th:text="${product.discount + '%'}"></div>
+							<div aria-label="remove from wishlist" class="add-wishlist">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+									<!--  border -->
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
+										<path fill-rule="evenodd"
+											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
+										</path>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--footer-->
+	<footer>
+		<section th:fragment="footer" class="footer_container footer_container_pink">
+			<div class="container row footer__content mx-auto pt-5">
+				<div class="footer__right col-3">
+					<h3 class="footer__heading">Babyshop - for premium children's
+						clothes</h3>
+					<p class="footer__footer-text read-more">
+						Babyshop was founded in 2006 with vision of building the best
+						online store in the Nordics for children clothing. We want to
+						inspire by offering an exclusive shopping experience and
+						excellent customer service with the best mixture of high-quality
+						brands. Here you'll find baby and children's clothes, shoes,
+						toys, strollers, car seats, maternity clothes, accessories and
+						more for children 0-10 years. <a href="#">Read more</a>.
+					</p>
+					<h3 class="footer__heading" style="margin-top: 0.5rem;">Language</h3>
+					<a style="font-size: 12px; text-decoration: underline" href="#">VN</a>
+					| <a style="font-size: 12px; text-decoration: underline;" href="#">EN</a>
+					<p></p>
+				</div>
+				<div class="footer__left col-9">
+					<nav class="footer__campaign">
+						<h3 class="footer-campaign-list__heading">Information</h3>
+						<div class="footer-campaign-list__list">
+							<ul>
+								<li><a href="#" target="_blank">About Babyshop</a></li>
+								<li><a href="#" target="_blank">Sustainability</a></li>
+								<li><a href="#" target="_blank">Career</a></li>
+								<li><a href="#" target="_blank">Delivery Terms</a></li>
+								<li><a href="#" target="_blank">Register Return Online</a></li>
+								<li><a href="#" target="_blank">Cookies</a></li>
+								<li><a href="#" target="_blank">Integrity Policy</a></li>
+								<li><a href="#" target="_blank">Terms
+										&amp;&nbsp;Conditions</a></li>
+							</ul>
+						</div>
+					</nav>
+					<nav class="footer__campaign">
+						<h3 class="footer-campaign-list__heading">Customer Service</h3>
+						<div class="footer-campaign-list__list">
+							<ul>
+								<li><a href="#" target="_blank">Returns &amp; Exchange</a></li>
+								<li><a href="#" target="_blank">FAQ</a></li>
+								<li><a href="#" target="_blank">Payment Methods</a></li>
+								<li><a href="#" target="_blank">Contact Us</a></li>
+							</ul>
+						</div>
+						<address class="footer__address">Customer service: Hehehe</address>
+					</nav>
+					<div class="footer__newsletter">
+						<form method="post" class="emarsys js-emarsys " action="#" novalidate="true"
+							data-validation="true">
+							<h3 id="emarsys-description-footer" class="emarsys__heading">Enter
+								your email to get info on new arrivals and 10% off your first
+								order from Babyshop.com (T&amp;C's apply)</h3>
+							<p class="emarsys__unregister-description">
+								You can unsubscribe at any time. By signing up to our
+								newsletter you are agreeing to our <a href="#" target="_blank">privacy
+									policy</a>.
+							</p>
+							<input type="hidden" name="data[country]" value="VN"> <input type="hidden"
+								name="data[language]" value="EN"> <input type="hidden" name="data[optinEmail]"
+								value="true">
+							<div class="emarsys__field-group field-group">
+								<div class="emarsys__field field">
+									<input type="email" id="emarsys-email-footer" name="emailAddress"
+										class="emarsys__input field__input" value=""
+										aria-describedby="emarsys-description-footer" placeholder="example@email.com"
+										required="">
+									<button type="submit" class="emarsys__button" style="text-transform: uppercase;">
+										<span>ok</span>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col footer__social"></div>
+				<div class="col footer__credit"></div>
+			</div>
+		</section>
+		<section class="footer_container"></section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+	</footer>
+	<div th:fragment="uptop">
+		<div id="up-top">
+			<i class="fa-solid fa-chevron-up"></i>
+		</div>
+	</div>
+</body>
+<script th:src="@{/js/script.js}"></script>
+
+</html>

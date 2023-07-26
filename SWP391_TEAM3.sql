@@ -2,14 +2,6 @@ create database swp391_team3;
 
 use swp391_team3;
 ALTER DATABASE swp391_team3 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
- 
-CREATE TABLE `slide` (
-  `slide_id` int AUTO_INCREMENT,
-  `title` varchar(255),
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(slide_id)
-);
 
 CREATE TABLE `role` (
   `role_id` int  AUTO_INCREMENT,
@@ -182,19 +174,6 @@ CREATE TABLE `feedback` (
    PRIMARY KEY(feedback_id)
 );
 
-CREATE TABLE `tip_page` (
-  `tip_page_id` int AUTO_INCREMENT,
-  `user_id` int,
-  `title` varchar(255),
-  `description` longtext,
-  `content` longtext,
-  `is_hidden` boolean,
-  `img_link` varchar(255),
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY(tip_page_id)
-);
-
 CREATE TABLE `image` (
   `image_id` int AUTO_INCREMENT,
   `name` varchar(255),
@@ -210,15 +189,6 @@ CREATE TABLE `image_product` (
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(image_product_id)
-);
-
-CREATE TABLE `image_slide` (
-  `image_slide_id` int AUTO_INCREMENT,
-  `slide_id` int,
-  `image_id` int,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(image_slide_id)
 );
 
 CREATE TABLE `image_feedback` (
@@ -284,15 +254,9 @@ ALTER TABLE `feedback` ADD FOREIGN KEY (`customer_id`) REFERENCES `customer` (`c
 
 ALTER TABLE `feedback` ADD FOREIGN KEY (`order_details_id`) REFERENCES `order_details` (`order_details_id`);
 
-ALTER TABLE `tip_page` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
 ALTER TABLE `image_product` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
  ALTER TABLE `image_product` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
-
-ALTER TABLE `image_slide` ADD FOREIGN KEY (`slide_id`) REFERENCES `slide` (`slide_id`);
-
-ALTER TABLE `image_slide` ADD FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 ALTER TABLE `customer` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 

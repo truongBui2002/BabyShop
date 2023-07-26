@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/forgotpass.css}">
+    <!--login css-->
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+    <!-- cdn fown awe some-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Baby Shop</title>
+</head>
+
+<body>
+    <!-- nav - bar -->
+    <header th:insert="~{home :: navbar}"></header>
+    <!-- login form-->
+    <!--notification -->
+    <div id="notice-container"></div>
+    <div class="container mx-auto login-form">
+        <main class="auth">
+            <div class="tabs">
+                <section id="1" class="tabs__panel"><!--forgot password -->
+                    <main class="auth-login">
+                        <h3 class="auth__title">Forgot your password?</h3>
+                        <p class="sub_auth__title">Select the type of account you want to reset</p>
+                        <form action="/login/submit" method="post" class="auth_form js-auth-form">
+                            <div class="field">
+                                <div>
+                                    <a class="forgot_box" href="forgotbyemail">Email</a>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div>
+                                    <a class="forgot_box" href="forgotbyphone">Phone number</a>
+                                </div>
+                            </div>
+                    </main>
+                </section>
+            </div>
+        </main> 
+    </div>
+    <footer th:insert="~{home :: footer}"></footer>
+
+
+</body>
+
+</html>

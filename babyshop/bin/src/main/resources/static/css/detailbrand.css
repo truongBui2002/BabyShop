@@ -1,0 +1,133 @@
+.bread-crumbs {
+    text-transform: uppercase;
+    padding: 10px 0 15px 0;
+    font-size: .75rem;
+    line-height: 1rem;
+    letter-spacing: .05rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hv-underline:hover {
+    text-decoration: underline;
+}
+
+.text-neutral-microwave {
+    --tw-text-op: 1;
+    color: rgb(122 122 122 / var(--tw-text-op));
+}
+
+@media (min-width: 768px) {
+    #breadcrumb-container {
+        width: 100%;
+        margin: 0 auto 16px auto;
+        display: block;
+    }
+}
+
+ul.breadcrumb {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+ul.breadcrumb li:first-child {
+    font-weight: 700;
+}
+
+.brand-heading {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .brand-heading {
+        font-size: 3rem;
+        line-height: 1;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+
+    }
+}
+
+.brand-description-box {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    color: #374151;
+    max-width: 80ch;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    display: none;
+}
+
+.brand-description-box p {
+
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .brand-description-box {
+        display: block;
+    }
+}
+
+.total-product {
+
+    border-top: 1px solid rgba(196, 196, 196, 0.3);
+    border-bottom: 1px solid rgba(196, 196, 196, 0.3);
+}
+
+.total-product p,
+.total-product span {
+    display: inline-block;
+    font-weight: 300;
+    padding: .875rem 0;
+    margin: 0;
+    opacity: .8;
+}
+
+.slider___item {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.slider-items-list1 {
+    margin-bottom: 2.5rem;
+}
+
+/* pagination nav */
+.pagination-nav {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: row;
+    margin: 2.5rem 0;
+
+}
+
+.pagi-btn {
+    padding: .5rem;
+    border-radius: .375rem;
+
+}
+
+.number-of-pages {
+    margin: 0 1.5rem;
+    padding: .625rem 0;
+}
+
+.pagi-btn:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(236 234 229 / var(--tw-bg-opacity));
+}
+
+/* end pagination */

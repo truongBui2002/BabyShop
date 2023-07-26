@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/brand.css}">
+    <!-- cdn fown awe some-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Premium Brands | For newborns, infants, & kids - Babyshop.com</title>
+</head>
+
+<body>
+    <!-- nav - bar -->
+	<header th:insert="~{home :: navbar}"></header>
+    <!--page content-->
+    <div id="content" class="content container">
+        <div class="bread-crumbs">
+                <a aria-label="homepage" href="/" class="cursor-pointer hv-underline">Home</a>
+                <span class="mx-3">/</span>
+                <a aria-label="footwear" href="#" class="cursor-pointer whitespace-nowrap text-neutral-black hv-underline ">Brands</a>
+               
+            </div>
+        <!-- main brand-->
+        <main class="search-list product-slider mb-4">
+            <div class="search-list_header">
+                <h1 class="search-list__heading">Brands</h1>
+            </div>
+            <div class="slider product-slider js-product-list mb-5">
+                <div class="mb-12 list-product-slider">
+				<div class="product_header">
+					<a class="product_header_heading" href="#">
+						<h3 class="product_header_heading">Hot Brands</h3>
+					</a>
+					<button aria-label="scroll carousel left" class="scroll_carousel scroll_carousel_left">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M5.83 8.4a.6.6 0 0 1 0-.84l3.49-3.48a.6.6 0 0 1 .84.84L7.1 7.98l3.06 3.06a.6.6 0 0 1-.84.85L5.83 8.41Z">
+							</path>
+						</svg>
+					</button>
+					<button aria-label="scroll carousel right" class="scroll_carousel scroll_carousel_right">
+						<svg class="fill-black stroke-none fill-neutral-black" viewBox="0 0 16 16" width="16"
+							height="16">
+							<path fill-rule="evenodd"
+								d="M10.17 7.6a.6.6 0 0 1 0 .84l-3.49 3.49a.6.6 0 0 1-.84-.85L8.9 8.02 5.84 4.96a.6.6 0 0 1 .84-.85l3.49 3.48Z">
+							</path>
+						</svg>
+					</button>
+				</div>
+				<div class="slider___items1">
+					<div th:each="brand : ${brands}" class="slider-items-list1">
+						<div class="product-card">
+							<a th:href="'/brand/details/' + ${brand.brandId}" class="product_image_link">
+								<div class="image_block">
+									<img th:src="${brand.getUriImage()}" alt="#">
+									<!--<img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+            </div>
+            
+ <!--            <div th:if="${#strings.startsWith(string, ${firstChar})}">
+    Chuỗi bắt đầu bằng ký tự [[${firstChar}]]
+</div> -->
+            <div class="js-brands">
+                <div id="brands-letter">
+                </div>
+                <div class="brands-list" th:each = "alphabet : ${alphabet}">
+                    <section id="group-A" class="brands-list_group">
+                        <h2 class="brands-list__heading" th:text = "${alphabet}">A</h2>
+                        <ul class="brands-list__items">
+                            <li class="brands-list__item"   th:each = "brand : ${brands}"
+                            th:if="${brand.name.substring(0, 1).equalsIgnoreCase(alphabet)}"><a th:href="@{'/brand/details/' + ${brand.brandId} }" class="brands-list__item_link link"
+                             th:text ="${brand.name}">A Happy Brand</a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+    </div>
+    <!--footer-->
+    <footer th:insert="~{home :: footer}"></footer>
+</body>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/brand.js}"></script>
+
+</html>

@@ -54,7 +54,10 @@ public class WebSecurityConfig {
         http.csrf().disable()//Tắt tính năng bảo mật mặc đinh
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/**").hasRole("CUSTOMER")
-                        //.requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/manager/dashboard").hasAnyRole("ADMIN", "STAFF")
+                        .requestMatchers("/manager/user-profile").hasAnyRole("ADMIN", "STAFF")
+                        .requestMatchers("/manager/staff/**").hasRole("STAFF")
+                        .requestMatchers("/manager/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form
@@ -86,7 +89,7 @@ public class WebSecurityConfig {
                 		.logoutSuccessUrl("/login")
                 		.permitAll())
                 //Nếu truy cập đường dẫn không có đủ quyền thì truy cập tới 
-                .exceptionHandling().accessDeniedPage("/access-denied");
+                .exceptionHandling().accessDeniedPage("/error/e1");
         return http.build();
     }
     

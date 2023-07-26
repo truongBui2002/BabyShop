@@ -1,0 +1,210 @@
+<div class="vFPgNG" th:if="${odDetails.size()}==0">
+	<div class="FK6kaK">
+		<div class="bi4dk5"></div>
+		<div class="dYtuu1">Empty Orders</div>
+	</div>
+</div>
+<div class="VrgkXA" th:if="${odDetails.size()}!=0">
+	<svg width="19px" height="19px" viewBox="0 0 19 19">
+                                    <g id="Search-New" stroke-width="1"
+			fill="none" fill-rule="evenodd">
+                                        <g id="my-purchase-copy-27"
+			transform="translate(-399.000000, -221.000000)" stroke-width="2">
+                                            <g id="Group-32"
+			transform="translate(400.000000, 222.000000)">
+                                                <circle id="Oval-27"
+			cx="7" cy="7" r="7"></circle>
+                                                <path
+			d="M12,12 L16.9799555,16.919354" id="Path-184" stroke-linecap="round"
+			stroke-linejoin="round"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+	<input autocomplete="off"
+		placeholder="You can search by Shop name, Order ID or Product Name"
+		value="">
+</div>
+<div th:if="${odDetails.size()}!=0">
+
+	<div class="hiXKxx" th:each="odDetail : ${odDetails}"
+		th:data-oddid="${odDetail.orderDetailsId}">
+		<div>
+			<div class="x0QT2k">
+				<div class="KrPQEI" th:if="${odDetail.status == 'WAIT'}">
+					<div class="EQko8g">
+						<div class="V+w7Xs">Wait for confirmaiton</div>
+					</div>
+				</div>
+				<div class="KrPQEI" th:if="${odDetail.status == 'SHIP'}">
+					<div class="EQko8g">
+						<div class="V+w7Xs">Shipping</div>
+					</div>
+				</div>
+				<div class="KrPQEI" th:if="${odDetail.status == 'COMPLETED'}">
+					<div class="EQko8g">
+						<div class="V+w7Xs">Completed</div>
+					</div>
+				</div>
+				<div class="KrPQEI" th:if="${odDetail.status == 'CANCELLED'}">
+					<div class="EQko8g">
+						<div class="V+w7Xs">Cancelled</div>
+					</div>
+				</div>
+				<div class="FycaKn"></div>
+				<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
+					<div class="_0OiaZ-">
+						<div class="FbLutl">
+							<div>
+								<span class="x7nENX">
+									<div></div>
+									<div class="aybVBK">
+										<div class="rGP9Yd">
+											<div class="image__wrapper">
+												<div class="shopee-image__place-holder">
+													<svg enable-background="new 0 0 15 15" viewBox="0 0 15 15"
+														x="0" y="0" class="shopee-svg-icon icon-loading-image">
+                                                                                    <g>
+                                                                                        <rect
+															fill="none" height="8" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" width="10"
+															x="1" y="4.5">
+                                                                                        </rect>
+                                                                                        <line
+															fill="none" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" x1="1"
+															x2="11" y1="6.5" y2="6.5"></line>
+                                                                                        <rect
+															fill="none" height="3" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" width="3"
+															x="11" y="6.5">
+                                                                                        </rect>
+                                                                                        <line
+															fill="none" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" x1="1"
+															x2="11" y1="14.5" y2="14.5"></line>
+                                                                                        <line
+															fill="none" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" x1="6"
+															x2="6" y1=".5" y2="3"></line>
+                                                                                        <line
+															fill="none" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" x1="3.5"
+															x2="3.5" y1="1" y2="3"></line>
+                                                                                        <line
+															fill="none" stroke-linecap="round"
+															stroke-linejoin="round" stroke-miterlimit="10" x1="8.5"
+															x2="8.5" y1="1" y2="3"></line>
+                                                                                    </g>
+                                                                                </svg>
+												</div>
+												<div class="shopee-image__content">
+													<img th:src="${odDetail.product.getUriImages().get(0)}"
+														alt="#">
+												</div>
+											</div>
+										</div>
+										<div class="_7uZf6Q">
+											<div>
+												<div class="iJlxsT">
+													<span class="x5GTyN" th:text="${odDetail.product.name}">Hehehehehehehehehehe</span>
+												</div>
+											</div>
+											<div>
+												<div class="vb0b-P" th:text="${odDetail.variant.name}">Size:
+													110cm</div>
+												<div class="_3F1-5M" th:text="${'x'+ odDetail.quantity}">x1</div>
+											</div>
+										</div>
+									</div>
+									<div class="_9UJGhr">
+										<div class="rjqzk1">
+											<!-- <span class="j2En5+" >₫55.000</span> -->
+											<span class="-x3Dqh OkfGBc"
+												th:text="${'₫' + odDetail.price + '00VND'}">₫55.000</span>
+										</div>
+									</div>
+								</span>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="O2KPzo">
+			<div class="mn7INg xFSVYg"></div>
+			<div class="mn7INg EfbgJE"></div>
+		</div>
+		<div class="kvXy0c">
+			<div class="-78s2g">
+				<div class="_0NMXyN">Total Amount:</div>
+				<div class="DeWpya"
+					th:text="${'₫' + odDetail.price * odDetail.quantity + '00VND'}">₫55.000</div>
+			</div>
+		</div>
+		<div class="AM4Cxf" th:if="${odDetail.status == 'WAIT'}">
+			<div class="qtUncs">
+				<span>Wait</span>
+			</div>
+			<!-- Canceled by you -->
+			<div class="EOjXew">
+				<div class="PF0-AU">
+					<button
+						class="stardust-button stardust-button--primary WgYvse btn-cancel-product"
+						th:data-oddid="${odDetail.orderDetailsId}">Cancel</button>
+				</div>
+			</div>
+		</div>
+		<div class="AM4Cxf" th:if="${odDetail.status == 'SHIP'}">
+			<div class="qtUncs">
+				<span>Shipping</span>
+			</div>
+			<!-- Canceled by you -->
+			<div class="EOjXew">
+				<div class="PF0-AU">
+					<button
+						class="stardust-button stardust-button--primary WgYvse btn-receive"
+						th:data-oddid="${odDetail.orderDetailsId}">I have
+						received the goods</button>
+				</div>
+			</div>
+		</div>
+		<div class="AM4Cxf" th:if="${odDetail.status == 'COMPLETED'}">
+			<div class="qtUncs">
+				<div class="EOjXew" th:if="${odDetail.feedback==null}">
+					<div class="PF0-AU p-btn-feedback">
+						<button type="button"
+							class="stardust-button stardust-button--primary WgYvse add-feedback"
+							data-bs-toggle="modal" data-bs-target="#myModal">Feedback</button>
+					</div>
+				</div>
+				<!-- <span th:if = "${odDetail.feedback==null}">No feedback</span> -->
+				<span th:if="${odDetail.feedback!=null}"> <a
+					th:href="@{'/product/details/'+${odDetail.product.productId}}">Your
+						Feedback</a>
+				</span>
+			</div>
+			<!-- Canceled by you -->
+			<div class="EOjXew">
+				<div class="PF0-AU">
+					<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
+						<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="AM4Cxf" th:if="${odDetail.status == 'CANCELLED'}">
+			<div class="qtUncs">
+				<span>Cancelled</span>
+			</div>
+			<!-- Canceled by you -->
+			<div class="EOjXew">
+				<div class="PF0-AU">
+					<a th:href="@{'/product/details/'+${odDetail.product.productId}}">
+						<button class="stardust-button stardust-button--primary WgYvse">Rebuy</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
