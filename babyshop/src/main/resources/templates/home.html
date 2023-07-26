@@ -26,59 +26,86 @@
 		<div th:fragment="navbar">
 			<div class="pt-3 header">
 				<div class="container mx-auto">
-					<div class="d-flex justify-content-between header__nav">
-						<a href="/"><img class="header-logo" th:src="@{/image/newlogo.png}" alt="Logo"></a>
-						<form th:action="@{/search/product}" class="search-form">
-							<div class="search-group">
-								<label style="display: none;" for="search-input">Search</label> <input type="search"
-									id="search-input" class="input-search-field" placeholder="Search"
-									autocomplete="off" name="productName">
-								<button class="btn-search" type="submit" title="btn-search">
-									<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-								</button>
-							</div>
-						</form>
-						<!-- header link-->
-						<div class="header-links row">
-							<div class="header__links col">
+					<!-- new nav bar-->
+					<nav class="navbar navbar-expand-lg navbar-light">
+						<div class="container-fluid">
+							<a class="navbar-brand" href="/"><img class="header-logo" th:src="@{/image/newlogo.png}"
+									alt="Logo"></a>
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+								data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+								aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 
-								<a class="header_link header_lang color-hover " href="#">VN/EN</a>
-							</div>
-							<div class="header__links col">
-								<a class="header_link header_help color-hover " href="#">Help</a>
-							</div>
-							<div id="bf_login" class="header__links col login_box">
-								<a class="header_link header_account color-hover " th:if="${session.user==null}"
-									th:href="@{/login}">Account</a>
-								<ul class="hidden_dropdown_nav" th:if="${session.user==null}">
-									<li><a th:href="@{/login}" class="link">Login</a></li>
-									<li><a th:href="@{/login}" class="link">Register</a></li>
-									<li><a th:href="@{/forgotpassword}" class="link">Forgot Password?</a></li>
+
+								<!---->
+								<form th:action="@{/search/product}" class="search-form">
+									<div class="search-group">
+										<label style="display: none;" for="search-input">Search</label>
+										<input type="search" id="search-input" class="input-search-field"
+											placeholder="Search" autocomplete="off" name="productName">
+										<button class="btn-search" type="submit" title="btn-search">
+											<i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+										</button>
+									</div>
+								</form>
+
+
+
+
+								<ul class="navbar-nav mb-2 mb-lg-0 gap-3">
+
+									<li class="nav-item">
+										<a class="header_link header_lang color-hover nav-link" href="#">VN/EN</a>
+									</li>
+									<li class="nav-item">
+										<a class="header_link header_help color-hover nav-link" href="#">Help</a>
+									</li>
+									<li class="nav-item login_box">
+										<a class="header_link header_account color-hover nav-link hv-account"
+											th:if="${session.user==null}" th:href="@{/login}">Account</a>
+
+											<ul class="nav-link dropdown-menu hidden_dropdown_nav" th:if="${session.user==null}">
+												<li><a th:href="@{/login}" class="link nav-link dropdown-item">Login</a></li>
+												<li><a th:href="@{/login}" class="link nav-link dropdown-item">Register</a></li>
+												<li><a th:href="@{/forgotpassword}" class="link nav-link dropdown-item">Forgot
+														Password?</a>
+												</li>
+											</ul>
+											<a class="header_link header_account color-hover nav-link"
+												th:if="${session.user != null}"
+												th:href="@{/user/viewprofile}">Account</a>
+											<ul class="dropdown-menu hidden_dropdown_nav" th:if="${session.user!=null}">
+												<li><a th:href="@{/user/viewprofile}" class="link nav-link dropdown-item">View
+														Profile</a></li>
+												<li><a th:href="@{/home}" class="link nav-link dropdown-item">My Cart</a></li>
+												<li><a th:href="@{/logout}" class="link nav-link dropdown-item">Logout</a></li>
+											</ul>
+									
+									</li>
+									<li class="nav-item">
+										<a class="header_link header_favorites color-hover nav-link "
+											th:href="@{/product/favorite}">Favorites</a>
+									</li>
+									<li class="nav-item cart-relative">
+										<div class="top_menu_unseen fhs_center_center" style="visibility: visible;"
+											th:if="${sizeCart}!=null"> <!-- th:if="${session.user!=null} -->
+											<span class="cartmini_qty" style="visibility: visible;"
+												th:text="${sizeCart}">1</span>
+										</div>
+										<a class="header_link header_cart color-hover nav-link"
+											th:href="@{/user/cart}">Cart</a>
+									</li>
+									
 								</ul>
-								<a class="header_link header_account color-hover " th:if="${session.user != null}"
-									th:href="@{/user/viewprofile}">Account</a>
-								<ul class="hidden_dropdown_nav" th:if="${session.user!=null}">
-									<li><a th:href="@{/user/viewprofile}" class="link">View Profile</a></li>
-									<li><a th:href="@{/home}" class="link">My Cart</a></li>
-									<li><a th:href="@{/logout}" class="link">Logout</a></li>
-								</ul>
-							</div>
-							<!-- <div class="header__links col">
-						<a class="header_link header_account color-hover " th:if="${session.user!=null}"
-							href="/viewprofile">Account</a>
-					</div> -->
-							<div class="header__links col">
-								<a class="header_link header_favorites color-hover " th:href="@{/product/favorite}">Favorites</a>
-							</div>
-							<div class="header__links col cart_h">
-								<div class="top_menu_unseen fhs_center_center" style="visibility: visible;" th:if = "${sizeCart}!=null"> <!-- th:if="${session.user!=null} -->
-									<span class="cartmini_qty" style="visibility: visible;" th:text = "${sizeCart}">1</span>
-								</div>
-								<a class="header_link header_cart color-hover " th:href="@{/user/cart}">Shopping
-									Bag</a>
+
 							</div>
 						</div>
-					</div>
+					</nav>
+
+
+					<!-- end new nav bar-->
 					<div class="navigation d-flex">
 						<div class=" text-center flex-fill">
 							<!--hover it-->
@@ -86,8 +113,10 @@
 
 						</div>
 
-						<div class="text-center flex-fill hover-nav" th:each="category : ${categories}"  th:if="${category.subcategories.size() != 0}">
-							<a class="color-hover nav__links" th:href="@{'/categories/' + ${category.categoryId}}" th:text="${category.name}">Clothing</a>
+						<div class="text-center flex-fill hover-nav" th:each="category : ${categories}"
+							th:if="${category.subcategories.size() != 0}">
+							<a class="color-hover nav__links" th:href="@{'/categories/' + ${category.categoryId}}"
+								th:text="${category.name}">Clothing</a>
 							<div class="hidden-nav">
 								<div class="hidden-element">
 									<a th:href="@{'/subcategories/' + ${subcategory.subcategoryId}}"
@@ -116,7 +145,8 @@
 		<div class="slideshow mb-5 mt-5">
 			<div class="slides">
 				<a aria-label="Summer-fashion-up-to-70" class="slide-link" href="#">
-					<img th:src="@{/image/BS_BB_HERO_SUMMER_FASHION_JUN_23.jpg}" alt="" loading="lazy" class="slide___image">
+					<img th:src="@{/image/BS_BB_HERO_SUMMER_FASHION_JUN_23.jpg}" alt="" loading="lazy"
+						class="slide___image">
 					<div class="slide-info">
 						<div class="slide__info">
 							<div class="slide__info_description">
@@ -166,9 +196,7 @@
 							<h3 th:text="${product.brand.name}" class="card_title">
 							</h3>
 							<a th:href="'/product/details/' + ${product.productId}" class="product_card_name">
-								<h2 th:text="${product.name}">
-
-								</h2>
+								<h2 th:text="${product.name}"></h2>
 							</a>
 							<div class="mt-auto">
 								<div class="product-price">
@@ -178,30 +206,36 @@
 							</div>
 							<div class="product_discount_label" th:text="${product.discount + '%'}"></div>
 							<div aria-label="remove from wishlist" class="add-wishlist">
-							<input type="hidden" th:value = "${product.productId}"/>
-                        <!--  Không đỏ -->
-								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
-									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-								</div> 
-						<!-- Đỏ -->
-								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
-								<!--  content -->
-									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
 									<!--  border -->
-									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
@@ -352,7 +386,7 @@
 						<div class="product-card">
 							<a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
 								<div class="image_block">
-									<img th:src="${product.getUriImages().get(0)}" > 
+									<img th:src="${product.getUriImages().get(0)}">
 									<!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
 								</div>
 							</a>
@@ -365,35 +399,43 @@
 							<div class="mt-auto">
 								<div class="product-price">
 									<span class="discount_price" th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
-									<span class="n_discount_price" th:if ="${product.discount!=100}"  th:text="${product.price + '.000VNĐ'}"></span>
+									<span class="n_discount_price" th:if="${product.discount!=100}"
+										th:text="${product.price + '.000VNĐ'}"></span>
 								</div>
 							</div>
-							<div class="product_discount_label" th:if ="${product.discount!=100}" th:text="${product.discount + '%'}"></div>
+							<div class="product_discount_label" th:if="${product.discount!=100}"
+								th:text="${product.discount + '%'}"></div>
 							<div aria-label="remove from wishlist" class="add-wishlist">
-							<input type="hidden" th:value = "${product.productId}"/>
-                        <!--  Không đỏ -->
-								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
-									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-								</div> 
-						<!-- Đỏ -->
-								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
-								<!--  content -->
-									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
 									<!--  border -->
-									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
@@ -468,7 +510,7 @@
 						<div class="product-card">
 							<a th:href="'/product/details/' + ${product.productId}" class="product_image_link">
 								<div class="image_block">
-									<img th:src="${product.getUriImages().get(0)}" > 
+									<img th:src="${product.getUriImages().get(0)}">
 									<!-- <img src="../image/13e8f0c750983330bc3f349563951dab.jpg" alt="cac"> -->
 								</div>
 							</a>
@@ -481,35 +523,43 @@
 							<div class="mt-auto">
 								<div class="product-price">
 									<span class="discount_price" th:text="${product.getSalePrice() + '.000VNĐ'}"></span>
-									<span class="n_discount_price" th:if ="${product.discount!=100}" th:text="${product.price + '.000VNĐ'}"></span>
+									<span class="n_discount_price" th:if="${product.discount!=100}"
+										th:text="${product.price + '.000VNĐ'}"></span>
 								</div>
 							</div>
-							<div class="product_discount_label" th:if ="${product.discount!=100}" th:text="${product.discount + '%'}"></div>
+							<div class="product_discount_label" th:if="${product.discount!=100}"
+								th:text="${product.discount + '%'}"></div>
 							<div aria-label="remove from wishlist" class="add-wishlist">
-							<input type="hidden" th:value = "${product.productId}"/>
-                        <!--  Không đỏ -->
-								<div class="add-wishlist-child" th:if = "${!#lists.contains(favorites, product.productId + '')}">
-									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24" height="24">
+								<input type="hidden" th:value="${product.productId}" />
+								<!--  Không đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${!#lists.contains(favorites, product.productId + '')}">
+									<svg class="heart-light fill-neutral-light" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-neutral-microwave" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
-								</div> 
-						<!-- Đỏ -->
-								<div class="add-wishlist-child" th:if = "${#lists.contains(favorites, product.productId + '')}">
-								<!--  content -->
-									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+								</div>
+								<!-- Đỏ -->
+								<div class="add-wishlist-child"
+									th:if="${#lists.contains(favorites, product.productId + '')}">
+									<!--  content -->
+									<svg class="heart-light fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="m12 20.25-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
 									</svg>
 									<!--  border -->
-									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24" height="24">
+									<svg class="heart-tomato fill-tomato-dark" viewBox="0 0 24 24" width="24"
+										height="24">
 										<path fill-rule="evenodd"
 											d="M9.44 4.99a4.12 4.12 0 0 0-6.06 3.63c0 2.85 2.11 5.56 4.44 7.65a28.85 28.85 0 0 0 4.18 3.1h.01a28.85 28.85 0 0 0 4.18-3.1c2.32-2.1 4.43-4.8 4.43-7.65a4.12 4.12 0 0 0-7.93-1.58.75.75 0 0 1-1.38 0 4.12 4.12 0 0 0-1.87-2.05ZM12 20.25l-.37.66-.03-.02a14.24 14.24 0 0 1-.4-.24 30.35 30.35 0 0 1-4.39-3.26c-2.37-2.13-4.94-5.23-4.94-8.77A5.63 5.63 0 0 1 12 5.25a5.63 5.63 0 0 1 10.13 3.38c0 3.53-2.57 6.63-4.94 8.76a30.34 30.34 0 0 1-4.79 3.5l-.02.01h-.01l-.37-.65Zm0 0 .37.66a.75.75 0 0 1-.74 0l.37-.66Z">
 										</path>
@@ -605,6 +655,7 @@
 			</div>
 		</section>
 		<section class="footer_container"></section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 	</footer>
 	<div th:fragment="uptop">
 		<div id="up-top">

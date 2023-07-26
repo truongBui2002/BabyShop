@@ -11,15 +11,15 @@ sortBtn.innerHTML = subCateName.textContent;
 sortBody.style.display = 'none';
 
 //outside
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
 	var target = event.target;
 	if (!sortBtn.contains(target)) {
 		sortBody.style.display = 'none';
-		
+
 	}
 });
 //inside
-sortBtn.addEventListener('click', function() {
+sortBtn.addEventListener('click', function () {
 	console.log(sortBody.style.display === 'none');
 	if (sortBody.style.display === 'none') {
 		sortBody.style.display = 'block';
@@ -34,7 +34,7 @@ var filterBtn = document.getElementById('filter-btn');
 var filterHidden = document.getElementById('filter-hidden');
 filterHidden.style.display = 'none';
 
-filterBtn.addEventListener('click', function() {
+filterBtn.addEventListener('click', function () {
 	if (filterHidden.style.display === 'none') {
 		filterHidden.style.display = 'block';
 		console.log(filterHidden.style.display);
@@ -56,8 +56,8 @@ tabsTab[0].setAttribute('aria-selected', 'true');
 tabPanels[0].removeAttribute('aria-hidden');
 
 
-tabsTab.forEach(function(tab) {
-	tab.addEventListener('click', function() {
+tabsTab.forEach(function (tab) {
+	tab.addEventListener('click', function () {
 		console.log('tab', tab);
 		tabsTab.forEach((e) => {
 			e.removeAttribute('araria-selected');
@@ -83,7 +83,7 @@ tabsTab.forEach(function(tab) {
 var form = document.getElementById('form-search-product')
 var inputs = form.querySelectorAll("input");
 
-inputs.forEach(function(input) {
+inputs.forEach(function (input) {
 	input.addEventListener("click", update);
 });
 
@@ -98,7 +98,7 @@ function update() {
 	//pageMax.setAttribute('data-maxpage')
 
 	xhr.open("POST", "/search/product/filter?" + para, true);
-	xhr.onreadystatechange = function() {
+	xhr.onreadystatechange = function () {
 
 		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 			document.getElementById("search-product").innerHTML = xhr.responseText;
@@ -120,9 +120,9 @@ function update() {
 		setTimeout(wishListInSearch, 60);
 		var subCateName = document.querySelector('.sort__option:checked ~ .sub-categories__name1');
 		sortBtn.innerHTML = subCateName.textContent;
-		
-		
-		history.replaceState(null, null, '/search/product?page=1' + '&productName=' + productName + '&'+para)
+
+
+		history.replaceState(null, null, '/search/product?page=1' + '&productName=' + productName + '&' + para)
 		nextPage(para, 1);
 
 	};
@@ -159,7 +159,7 @@ function wishListInSearch() {
 
 		addWishList.addEventListener('click', (e) => {
 			addOrRemoveFavorite(productId);
-			
+
 			if (heartLight.classList.contains('fill-neutral-light') && heartTomato.classList.contains('fill-neutral-microwave')) {
 				heartLight.classList.add('fill-tomato-dark');
 				heartLight.classList.remove('fill-neutral-light');
@@ -192,9 +192,10 @@ function wishListInSearch() {
 // next page
 var param = getListInputChecked();
 var pageLink = document.getElementsByClassName("pagi-btn");
-	var pageDataElement = document.getElementById("page-data");
-	var pageNum = pageDataElement.dataset.page;
-	
+var pageDataElement = document.getElementById("page-data");
+
+var pageNum = pageDataElement.dataset.page;
+
 var pageDataMax = document.getElementById("page-dataMax");
 var pageMax = pageDataMax.dataset.maxpage;
 nextPage(param, pageNum);
@@ -207,6 +208,23 @@ function nextPage(para, pageNum) {
 /*window.addEventListener('popstate', function(event) {
   location.reload();
 });*/
+console.log(pageLink[1]);
+if (pageLink[1] !== null) {
+	pageLink[1].addEventListener("click", function () {
+	
+	});
+}
 
+var numOfPages = document.querySelectorAll(".number-of-pages > span");
+if (numOfPages !== null) {
+	var num1 = parseInt(numOfPages[0].textContent);
+	var num2 = parseInt(numOfPages[1].textContent);
+
+	if (num1 > num2) {
+		num1 = num2;
+		numOfPages[0].textContent = num1;
+	}
+
+}
 
 

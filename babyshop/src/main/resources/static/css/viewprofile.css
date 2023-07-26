@@ -371,3 +371,15 @@ input[type="radio"]:before {
 input[type="radio"]:checked:before {
     opacity: 1;
 }
+
+@media (max-width: 1200px) {
+    .avatar {
+        justify-content: center;
+    }
+    .avt_description {
+        display: none;
+    }
+
+}
+
+

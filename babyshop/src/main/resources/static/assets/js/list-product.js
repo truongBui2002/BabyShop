@@ -25,9 +25,9 @@ const sizes = generateSizesArray();
 
 
 function geneInputCheckbox() {
-	console.log(sizes);
+
 	const checkboxSize = document.querySelector(".checkbox-size");
-	console.log(checkboxSize);
+
 	for (var i = 0; i < sizes.length; i++) {
 		const size = sizes[i];
 		const lbS = document.createElement("label");
@@ -70,6 +70,9 @@ function selectAge() {
 
 	const selectE = document.createElement("select");
 
+	selectE.classList.add("form-select");
+	selectE.setAttribute("aria-label", "Default select example");
+
 	selectE.name = "age";
 
 	agesArray.forEach((age, index) => {
@@ -80,7 +83,8 @@ function selectAge() {
 
 
 		if (index === 0) {
-			option.setAttribute("selected", "selected");
+			option.setAttribute("selected", "selected")
+			option.textContent = "Choose Age"
 		}
 		selectE.appendChild(option);
 	});
@@ -102,7 +106,11 @@ function selectColors() {
 
 	const selectE = document.createElement("select");
 
+	selectE.classList.add("form-select");
+	selectE.setAttribute("aria-label", "Default select example");
+
 	selectE.name = "color";
+
 
 	colorsArray.forEach((color, index) => {
 		const option = document.createElement("option");
@@ -111,7 +119,8 @@ function selectColors() {
 		option.text = colorValid;
 		selectE.appendChild(option);
 		if (index === 0) {
-			option.setAttribute("selected", "selected");
+			option.setAttribute("selected", "selected")
+			option.textContent = "Choose Color"
 		}
 	});
 	selectAges.appendChild(selectE);
@@ -125,13 +134,16 @@ function loadGenders() {
 	return genders;
 }
 
-// Call the function to load genders into an array
+
 const gendersArray = loadGenders();
 
 function selectGenders() {
 	const selectAges = document.querySelector(".checkbox-size2");
 
 	const selectE = document.createElement("select");
+
+	selectE.classList.add("form-select");
+	selectE.setAttribute("aria-label", "Default select example");
 
 	selectE.name = "gender";
 
@@ -141,9 +153,9 @@ function selectGenders() {
 		option.value = genderVaid;
 		option.text = genderVaid;
 
-
 		if (index === 0) {
-			option.setAttribute("selected", "selected");
+			option.setAttribute("selected", "selected")
+			option.textContent = "Choose Gender"
 		}
 		selectE.appendChild(option);
 	});
@@ -152,18 +164,18 @@ function selectGenders() {
 selectGenders();
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 	const imageInput = document.getElementById('imageInput');
 	const imageContainer = document.getElementById('imageContainer');
 
-	imageInput.addEventListener('change', function() {
+	imageInput.addEventListener('change', function () {
 		imageContainer.innerHTML = ''; // Clear existing images
 
 		for (const file of imageInput.files) {
 			const reader = new FileReader();
 			const imgElement = document.createElement('img');
 
-			reader.addEventListener('load', function() {
+			reader.addEventListener('load', function () {
 				imgElement.setAttribute('src', reader.result);
 			});
 
@@ -196,13 +208,13 @@ function statusChange(productId) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
 		xhr.open("PUT", "/manager/staff/list-product/change-status");
-		xhr.onreadystatechange = function() {
+		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);
-				//console.log(xhr.response);
+
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			reject(xhr.statusText);// xảy ra nếu lỗi
 		};
 		xhr.send(productId);
@@ -219,7 +231,7 @@ modalB1.style.display = "block";
 const e = document.querySelectorAll('.cc');
 if (e !== null) {
 	e.forEach((f) => {
-		f.addEventListener("click", function(p) {
+		f.addEventListener("click", function (p) {
 			modalB.style.display = "block";
 			modalB1.style.display = "none";
 			p.preventDefault();
@@ -227,7 +239,7 @@ if (e !== null) {
 
 			var tdI = b.querySelectorAll("td");
 			tdI.forEach((td) => {
-				console.log(td.textContent);
+
 			});
 
 
@@ -238,20 +250,20 @@ if (e !== null) {
 			var typeNum = modalBody.querySelectorAll("input[type=number]");
 			var typeCheck = modalBody.querySelectorAll("input[type=checkbox]");
 			var opSelected = modalBody.querySelectorAll("select option[selected]");
-			console.log(opSelected);
+
 			var select = modalBody.querySelectorAll("select");
 
 
 			var idcac = b.dataset.productid;
 			id.setAttribute("value", idcac);
-			console.log(idcac);
+
 
 			typeText[0].setAttribute("value", tdI[0].textContent.trim()); // name product
 			typeText[1].setAttribute("value", tdI[2].textContent.trim()); // description
 			typeText[2].setAttribute("value", tdI[3].textContent.trim()); // specifications.
 
 
-			typeNum[0].setAttribute("value", parseInt(tdI[1].textContent.trim() + "000"));
+			typeNum[0].setAttribute("value", parseInt(tdI[1].textContent.trim()));
 
 			var discount = tdI[6].textContent.trim();
 			var newD = discount.replace("%", "").trim();
@@ -271,6 +283,41 @@ if (e !== null) {
 				j.checked = false;
 			})
 
+			document.getElementById("imageForm").removeEventListener("submit", function (event) {
+				event.preventDefault();
+				console.log("ACascascasc");
+				const imageInput = document.getElementById("imageInput");
+				const messageElement = document.getElementById("message");
+
+
+				if (imageInput.files.length === 0) {
+					messageElement.textContent = "Please select an image.";
+					return;
+				}
+
+
+				const file = imageInput.files[0];
+				const fileType = file.type;
+				const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+
+				if (!allowedTypes.includes(fileType)) {
+					messageElement.textContent = "Only JPEG, PNG, and GIF images are allowed.";
+					return;
+				}
+
+				const maxSizeMB = 5;
+				const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+				if (file.size > maxSizeBytes) {
+					messageElement.textContent = `File size should be less than ${maxSizeMB}MB.`;
+					return;
+				}
+
+				// If all validation passes, you can proceed to upload the image here.
+				// For demonstration purposes, we're just showing a success message.
+				messageElement.textContent = "Image added successfully!";
+				event.currentTarget.submit();
+			});
 
 		})
 	})
@@ -279,7 +326,7 @@ if (e !== null) {
 const x = document.querySelectorAll(".xx");
 if (x !== null) {
 	x.forEach((r) => {
-		r.addEventListener("click", function(p) {
+		r.addEventListener("click", function (p) {
 			modalB1.style.display = "block";
 			modalB.style.display = "none";
 
@@ -296,7 +343,7 @@ if (x !== null) {
 
 
 			inputSize.forEach((i) => {
-				console.log(i.value);
+
 			})
 			var idcac = b.dataset.productid;
 			sizeID.setAttribute("value", idcac);
@@ -322,10 +369,6 @@ if (x !== null) {
 				sizeForm.appendChild(cbRemove);
 			}
 
-
-
-
-
 		})
 	})
 }
@@ -334,10 +377,13 @@ if (x !== null) {
 const cl = document.querySelectorAll(".cl");
 
 function closeModal() {
-	console.log("cac");
+
 	var modalBody1 = document.querySelector(".modal-body1");
 	var sizeForm = modalBody1.querySelector(".size1");
 	sizeForm.innerHTML = "";
+	console.log("aaa");
+	var selectedImagesDiv = document.getElementById('imageContainer');
+	selectedImagesDiv.innerHTML = '';
 }
 cl.forEach((k) => {
 	k.addEventListener("click", closeModal);
@@ -348,7 +394,7 @@ cl.forEach((k) => {
 //reset form 
 var resetF = document.querySelector(".resetF");
 if (resetF !== null) {
-	resetF.addEventListener("click", function() {
+	resetF.addEventListener("click", function () {
 		modalB.style.display = "block";
 		modalB1.style.display = "none";
 		var modalBody = document.querySelector(".modal-body");
@@ -359,6 +405,8 @@ if (resetF !== null) {
 		var typeCheck = modalBody.querySelectorAll("input[type=checkbox]");
 		var opSelected = modalBody.querySelectorAll("select option[selected]");
 		var select = modalBody.querySelectorAll("select");
+
+		var inFormControl = document.querySelectorAll("input.form-control");
 
 
 		id.removeAttribute("value");
@@ -378,27 +426,122 @@ if (resetF !== null) {
 
 		select[0].options[0].textContent = "Sub Category";
 		select[1].options[0].textContent = "Brand";
-		select[2].options[0].textContent = "Age Range";
-		select[3].options[0].textContent = "Gender";
+		select[2].options[0].textContent = "0-3 months";
+		select[3].options[0].textContent = "Boys";
 		select[4].options[0].textContent = "Color";
 		for (var i = 0; i < 5; i++) {
-			//console.log(select[i].option[0].value);
 
 			select[i].selectedIndex = 0;
-			
+			if (select[i].selectedIndex === 0) {
+				var btnSuccess = document.querySelector("button.btn-success");
+				inFormControl.forEach((i) => {
+					var iV = i.value.trim();
+					if (iV === "") {
+						btnSuccess.setAttribute("disabled", "true");
+					} else {
+						btnSuccess.removeAttribute("disabled");
+					}
+				})
+			} else {
+				btnSuccess.removeAttribute("disabled");
+			}
 		}
-
-
-
 		typeCheck.forEach((j) => {
 			j.checked = false;
 		})
 
+		document.getElementById("imageForm").addEventListener("submit", function (event) {
+			event.preventDefault();
+			const imageInput = document.getElementById("imageInput");
+			const messageElement = document.getElementById("message");
+
+
+
+			if (imageInput.files.length === 0) {
+				messageElement.textContent = "Please select an image.";
+				return;
+			}
+
+
+			const file = imageInput.files[0];
+			const fileType = file.type;
+			const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+
+			if (!allowedTypes.includes(fileType)) {
+				messageElement.textContent = "Only JPEG, PNG, and GIF images are allowed.";
+				return;
+			}
+
+			const maxSizeMB = 5;
+			const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+			if (file.size > maxSizeBytes) {
+				messageElement.textContent = `File size should be less than ${maxSizeMB}MB.`;
+				return;
+			}
+
+			// If all validation passes, you can proceed to upload the image here.
+			// For demonstration purposes, we're just showing a success message.
+			messageElement.textContent = "Image added successfully!";
+
+			if (select[0].options[select[0].selectedIndex].value === "Sub Category" || select[1].options[select[1].selectedIndex].value === "Brand") {
+				messageElement.textContent = `select brand and sub category`;
+			} else {
+
+				event.currentTarget.submit();
+
+			}
+		});
 
 
 	})
 }
 
+
+var inputTs = document.querySelectorAll(".form-control");
+if (inputTs !== null) {
+
+	inputTs.forEach((inputT) => {
+
+		inputT.addEventListener("blur", function () {
+			var btnSuccess = document.querySelector("button.btn-success");
+			var inputTValue = inputT.value.trim();
+
+
+			if (inputTValue === "") {
+				btnSuccess.setAttribute("disabled", "true");
+			} else {
+				inputTs.forEach((i) => {
+					var iV = i.value.trim();
+					if (iV === "") {
+						btnSuccess.setAttribute("disabled", "true");
+					} else {
+						btnSuccess.removeAttribute("disabled");
+					}
+				})
+			}
+
+		})
+	})
+}
+var selects = document.querySelectorAll("select.form-select");
+if (selects !== null) {
+
+	inputTs.forEach((select) => {
+
+		select.addEventListener("click", function () {
+			var btnSuccess = document.querySelector("button.btn-success");
+			var selectValue = select.selectedIndex;
+
+			if (selectValue === 0) {
+				btnSuccess.setAttribute("disabled", "true");
+
+			} else {
+				btnSuccess.removeAttribute("disabled");
+			}
+		})
+	})
+}
 
 
 

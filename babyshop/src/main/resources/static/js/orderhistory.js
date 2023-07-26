@@ -64,13 +64,13 @@ function getData(url) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", url);
-		xhr.onreadystatechange = function() {
+		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);// 
 				//console.log(xhr.response);
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			reject(xhr.statusText);// xảy ra nếu lỗi
 		};
 		xhr.send();
@@ -100,18 +100,18 @@ function executeRating(stars) {
 }
 executeRating(ratingStars);
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 	const imageInput = document.getElementById('imageInput');
 	const imageContainer = document.getElementById('imageContainer');
 
-	imageInput.addEventListener('change', function() {
+	imageInput.addEventListener('change', function () {
 		imageContainer.innerHTML = ''; // Clear existing images
 
 		for (const file of imageInput.files) {
 			const reader = new FileReader();
 			const imgElement = document.createElement('img');
 
-			reader.addEventListener('load', function() {
+			reader.addEventListener('load', function () {
 				imgElement.setAttribute('src', reader.result);
 			});
 
@@ -182,13 +182,13 @@ function cancel(oddid) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
 		xhr.open("PUT", "/user/viewprofile/order/orderhistory/cancel");
-		xhr.onreadystatechange = function() {
+		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);// 
 				//console.log(xhr.response);
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			reject(xhr.statusText);// xảy ra nếu lỗi
 		};
 		xhr.send(oddid);
@@ -199,15 +199,62 @@ function receive(oddid) {
 	return new Promise((resolve, reject) => {
 		var xhr = new XMLHttpRequest();
 		xhr.open("PUT", "/user/viewprofile/order/orderhistory/confirm-recive");
-		xhr.onreadystatechange = function() {
+		xhr.onreadystatechange = function () {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 				resolve(xhr.response);// 
 				//console.log(xhr.response);
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			reject(xhr.statusText);// xảy ra nếu lỗi
 		};
 		xhr.send(oddid);
 	});
 }
+var btnS = document.querySelector(".btn-success");
+btnS.setAttribute("disabled", "true");
+var btnFeedback = document.querySelector(".add-feedback");
+var rateStarRation = document.querySelectorAll("input[type=radio]");
+
+var feedbackI = document.getElementById("feedback");
+console.log(feedbackI);
+if (btnFeedback !== null) {
+	btnFeedback.addEventListener("click", function () {
+
+
+		rateStarRation.forEach((e) => {
+			if (e.checked) {
+				btnS.setAttribute("disabled", "true");
+			} else {
+				btnS.removeAttribute("disabled");
+			}
+		})
+	})
+}
+rateStarRation.forEach((u) => [
+	u.addEventListener('click', function () {
+		btnS.removeAttribute("disabled");
+	})
+])
+
+feedbackI.addEventListener("input", function () {
+	var fV = feedbackI.value.trim();
+
+	if (fV === "") {
+		btnS.setAttribute("disabled", "true");
+	} else {
+		rateStarRation.forEach((e) => {
+			if (e.checked) {
+				btnS.removeAttribute("disabled");
+			} else {
+				btnS.setAttribute("disabled", "true");
+			}
+		})
+	}
+
+})
+
+
+
+
+
