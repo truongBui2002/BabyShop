@@ -151,14 +151,6 @@ CREATE TABLE `order_details` (
    PRIMARY KEY(order_details_id)
 );
 
-CREATE TABLE `session` (
-  `session_id` int AUTO_INCREMENT,
-  `user_id` int,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY(session_id)
-);
-
 
 CREATE TABLE `feedback` (
   `feedback_id` int AUTO_INCREMENT,
@@ -245,8 +237,6 @@ ALTER TABLE `order_details` ADD FOREIGN KEY (`product_id`) REFERENCES `product` 
 ALTER TABLE `order_details` ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 ALTER TABLE `order_details` ADD FOREIGN KEY (`variant_id`) REFERENCES `variant` (`variant_id`);
-
-ALTER TABLE `session` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 ALTER TABLE `feedback` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 

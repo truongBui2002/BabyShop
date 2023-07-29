@@ -491,7 +491,7 @@ public class UserController {
 				feedback.setCustomer(orderDetails.getOrder().getCustomer());
 				feedback.setProduct(orderDetails.getProduct());
 				feedback.setLikes(orderDetails.getOrderDetailsId());
-				if (fileImages.get(0).isEmpty()) {
+				if (!fileImages.get(0).isEmpty()) {
 					for (MultipartFile file : fileImages) {
 						String imageName = imageService.saveImageFeedback(file);
 						Image image = new Image();
